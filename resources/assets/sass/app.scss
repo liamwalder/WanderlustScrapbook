@@ -1,0 +1,376 @@
+// Leaflet
+@import "~leaflet/dist/leaflet.css";
+
+body,
+#app,
+.container {
+  height: 100vh;
+}
+
+body {
+  margin: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Lato', sans-serif !important;
+
+  h1, h2, h3, h4, h5, h6, label {
+    font-family: 'Montserrat', sans-serif !important;
+  }
+
+  .navbar {
+    background-color: white !important;
+    border-bottom: 1px solid #f5f5f5;
+  }
+
+  .location-add {
+    display: flex;
+    width: 100%;
+    ::-webkit-input-placeholder {
+      color: #e3e3e3;
+    }
+    :-moz-placeholder {
+      color: #e3e3e3;
+    }
+    ::-moz-placeholder {
+      color: #e3e3e3;
+    }
+    :-ms-input-placeholder {
+      color: #e3e3e3;
+    }
+    input {
+      border: none;
+    }
+    .location {
+      width: 400px;
+    }
+    .datepicker {
+      width: 110px;
+    }
+    .add-to-trip {
+      display: flex;
+      align-items: flex-end;
+      span {
+        border: none;
+        color: grey;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+    .location,
+    .datepicker {
+      display: flex;
+      flex-direction: column;
+      label {
+        margin-bottom: 0;
+        font-size: 16px;
+        font-weight: 700;
+      }
+    }
+    .mx-calendar-month > a.current,
+    .mx-calendar-table td.current,
+    .mx-calendar-year>a.current {
+      background-color: #f5f5f5;
+    }
+    .mx-datepicker {
+      font-family: 'Montserrat', sans-serif !important;
+      width: auto !important;
+      margin-top: 3px;
+      min-width: 1px !important;
+      input {
+        padding: 0;
+        font-size: 16px;
+        box-shadow: none;
+        height: auto !important;
+      }
+      .mx-input-icon {
+        display: none;
+      }
+    }
+  }
+
+  a {
+    color: grey !important;
+    cursor: pointer;
+    font-weight: 700;
+    &:hover {
+      text-decoration: underline !important;
+    }
+  }
+  .container-fluid {
+    padding: 0;
+    .no-padding-right {
+      padding-right: 0;
+    }
+    .no-padding-left {
+      padding-left: 0;
+    }
+
+  }
+  .sidebar {
+    .content {
+      padding: 20px;
+      height: 100vh;
+      overflow: scroll;
+      padding-bottom: 100px;
+    }
+    .divider {
+      background-color: #f5f5f5;
+      padding-right: 0;
+    }
+    .off-canvas-content {
+      padding: 5px;
+    }
+  }
+
+  .content-location {
+    .location-name {
+      margin-bottom: 0;
+    }
+    .date {
+      color: grey;
+    }
+  }
+
+  .add-entry {
+    padding-right: 0;
+    .notice {
+      color: gray;
+      font-weight: 700;
+      font-size: 12px;
+    }
+    .markers {
+      display: flex;
+      .marker {
+        display: flex;
+        align-items: baseline;
+        margin-right: 10px;
+        .remove {
+          i {
+            cursor: pointer;
+            color: #e74c3c;
+            margin-left: -5px;
+          }
+        }
+      }
+    }
+    .header {
+      display: flex;
+      h3 {
+        flex: 1;
+      }
+    }
+    .save-entry {
+      text-align: right;
+      button {
+        border: none;
+        color: grey;
+        font-weight: 700;
+        cursor: pointer;
+      }
+    }
+    textarea {
+      font-size: 13px;
+    }
+    .vue-dropzone.form-control {
+      border: 1px solid #ced4da;
+      background: none;
+      font-family: 'Montserrat', sans-serif !important;
+    }
+  }
+
+  .locations {
+    .location {
+      cursor: move;
+      margin-bottom: 20px;
+      .col {
+        padding-right: 0;
+        display: flex;
+        align-items: center;
+        .arrow {
+          float: right;
+          flex: 1;
+          .arrow-left {
+            width: 0;
+            height: 0;
+            border-top: 15px solid transparent;
+            border-bottom: 15px solid transparent;
+            border-right:15px solid white;
+          }
+        }
+      }
+      h5 {
+        margin-bottom: 0;
+        &:hover {
+          cursor: pointer;
+        }
+      }
+      span {
+        font-size: 14px;
+        color: grey;
+      }
+    }
+  }
+
+  .content-sidebar {
+
+    .sub-menu {
+      display: flex;
+      margin-bottom: 10px;
+      a {
+        color: grey !important;
+        font-weight: 700;
+        font-size: 14px;
+      }
+      .separator {
+        color: #f5f5f5;
+        margin-left: 2px;
+        margin-right: 2px;
+      }
+    }
+
+    h5 {
+      margin-bottom: 10px;
+    }
+
+    .view-all {
+      text-align: center;
+      width: 100%;
+      a {
+        font-weight: 700;
+        font-size: 14px;
+        color: grey !important;
+      }
+    }
+
+    .single-entry {
+      .entry-images {
+        width: 100%;
+        margin-top: 10px;
+        margin-bottom: 10px;
+      }
+      h3 {
+        margin-bottom: 0;
+      }
+      .date {
+        font-size: 12px;
+        float: right;
+        margin-top: 5px;
+        color: grey;
+        width: 100%;
+        font-weight: 700;
+        margin-bottom: 10px;
+      }
+      p {
+        font-size: 14px;
+        margin-top: 10px;
+        display: inline-block;
+        width: 100%;
+        white-space: pre-line;
+      }
+    }
+
+    .entries {
+      .entry {
+        .entry-title {
+          cursor: pointer;
+          margin-bottom: 0;
+        }
+        .entry-content {
+          font-size: 14px;
+          margin-bottom: 0;
+          .read-more {
+            &:hover {
+              cursor: pointer;
+            }
+          }
+        }
+        .entry-footer {
+          display: inline-block;
+          width: 100%;
+          border-top: 1px solid #f5f5f5;
+          margin-top: 5px;
+          p {
+            font-size: 12px;
+            float: right;
+            margin-top: 5px;
+            color: grey;
+            width: 100%;
+          }
+        }
+      }
+    }
+
+    .location-images,
+    .entry-images {
+      display: flex;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      width: 100%;
+      h5 {
+        display: inline-block;
+        width: 100%;
+      }
+      a {
+        display: inline-block;
+        width: 100%;
+        margin-top: 20px;
+      }
+      .image {
+        width: 23%;
+        padding-top: 23%;
+        margin: 1%;
+        background-size: cover;
+        cursor: pointer;
+      }
+    }
+
+  }
+
+  .map {
+    padding-left: 0;
+  }
+
+
+}
+
+.slideout-menu {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  width: 256px;
+  height: 100vh;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  z-index: 0;
+  display: none;
+  background-color: #1D1F20;
+  color: white;
+}
+
+.slideout-menu-left {
+  left: 0;
+}
+
+.slideout-menu-right {
+  right: 0;
+}
+
+.slideout-panel {
+  background-color: #4B5;
+  color: white;
+  position: relative;
+  z-index: 1;
+  will-change: transform;
+  min-height: 100vh;
+}
+
+.slideout-open,
+.slideout-open body,
+.slideout-open .slideout-panel {
+  overflow: hidden;
+}
+
+.slideout-open .slideout-menu {
+  display: block;
+}

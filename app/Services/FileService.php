@@ -1,0 +1,44 @@
+<?php
+
+namespace App\Services;
+
+use App\Entry;
+use App\Location;
+use App\Repositories\FileRepository;
+
+/**
+ * Class FileService
+ * @package App\Services
+ */
+class FileService {
+
+    /**
+     * @var
+     */
+    public $fileRepository;
+
+    /**
+     * ImageService constructor.
+     * @param FileRepository $fileRepository
+     */
+    public function __construct(FileRepository $fileRepository)
+    {
+        $this->fileRepository = $fileRepository;
+    }
+
+    /**
+     * @param Entry $entry
+     * @param $fileReferences
+     */
+    public function attachFilesToEntry(Entry $entry, $fileReferences)
+    {
+        foreach ($fileReferences as $fileReference) {
+            $file = $this->fileRepository->getFileByFilename($fileReference);
+            $file->entry_id = $entry->id;
+            $file->location_id = $entry->location_id;
+            $file->save();
+        }
+    }
+
+
+}

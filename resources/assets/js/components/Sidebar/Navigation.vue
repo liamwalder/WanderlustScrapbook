@@ -1,0 +1,72 @@
+<template>
+    <!--<div class="sub-menu">-->
+        <!--<span v-show="selectedEntry !== null">-->
+            <!--<a v-on:click="editEntry(selectedEntry)">Edit Entry</a>-->
+            <!--<span class="separator"> | </span>-->
+        <!--</span>-->
+        <!--<a v-on:click="showAllActivity()">All Activity</a>-->
+        <!--<span v-show="allImages == true || allEntries == true  || selectedEntry !== null" class="separator"> | </span>-->
+        <!--<a v-show="allImages == true || allEntries == true  || selectedEntry !== null" v-on:click="back()">Back</a>-->
+    <!--</div>-->
+
+    <div class="sub-menu">
+        <div v-show="contentSidebarState.selectedEntry !== null">
+            <a v-on:click="editEntry()">Edit Entry</a>
+            <span class="separator">|</span>
+        </div>
+        <div v-show="contentSidebarState.selectedLocation !== null">
+            <a v-on:click="showAllActivity()">All Activity</a>
+        </div>
+        <div v-show="contentSidebarState.viewingAllImages || contentSidebarState.viewingAllEntries || contentSidebarState.selectedEntry !== null">
+            <span class="separator">|</span>
+            <a v-on:click="back()">Back</a>
+        </div>
+    </div>
+
+</template>
+
+<script>
+    import { EventBus } from '../../event-bus';
+
+    export default {
+
+        data () { return {} },
+
+        computed: {
+            contentSidebarState() {
+                return this.$store.getters.contentSidebarState;
+            }
+        },
+
+        methods: {
+            editEntry() {
+                EventBus.$emit('entry-edit', this.contentSidebarState.selectedEntry);
+            },
+
+            showAllActivity() {
+                this.$store.commit('resetContentSidebar');
+                EventBus.$emit('location-selection-reset');
+            },
+
+            /**
+             * Working out from the stored state, what we want
+             * to show and hide
+             */
+            back() {
+                let self = this;
+                switch(true) {
+                    case self.contentSidebarState.viewingAllEntries && self.contentSidebarState.selectedEntry !== null:
+                        self.$store.commit('selectedEntry', {entry: null});
+                        break;
+                    default:
+                        self.$store.commit('viewAllImages', {state: false});
+                        self.$store.commit('selectedEntry', {entry: null});
+                        self.$store.commit('viewAllEntries', {state: false});
+                        break;
+                }
+            }
+
+        }
+
+    }
+</script>
