@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Repositories\FileRepository;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,5 +42,19 @@ class MediaController extends Controller {
         return response()->json($mediaFiles, 200);
     }
 
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @param FileRepository $fileRepository
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(Request $request, $id, FileRepository $fileRepository)
+    {
+        $file = $fileRepository->getFile($id);
+        $file->delete();
+
+        return response()->json([], 200);
+    }
 
 }

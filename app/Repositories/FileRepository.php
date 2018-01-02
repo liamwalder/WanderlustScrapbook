@@ -14,6 +14,15 @@ use App\Location;
 class FileRepository {
 
     /**
+     * @param $id
+     * @return mixed
+     */
+    public function getFile($id)
+    {
+        return File::findOrFail($id);
+    }
+
+    /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
     public function getFiles()

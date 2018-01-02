@@ -1,21 +1,26 @@
 <template>
     <div class="location-images">
-        <h5>Gallery <span class="badge badge-pill badge-info" v-show="viewAll">{{ images.length }}</span></h5>
-        <div class="location-images">
-            <div
+        <h5 v-if="viewAll">Gallery <span class="badge badge-pill badge-info" v-show="viewAll">{{ images.length }}</span></h5>
+        <div class="images">
+            <div v-for="image, imageIndex in images.slice(0, maximumImageCount)" class="image-holder">
+                <span class="delete" @click="deleteImage(image)" v-if="editMode">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </span>
+                <div
                     class="image"
-                    v-for="image, imageIndex in images.slice(0, maximumImageCount)"
                     @click="openGallery(images, imageIndex)"
                     :style="{ backgroundImage: 'url(' + image.filename + ')' }"
-            >
+                ></div>
             </div>
-            <div
+            <div v-for="image, imageIndex in images.slice(maximumImageCount)" v-show="allImages || !viewAll" class="image-holder">
+                <span class="delete" @click="deleteImage(image)" v-if="editMode">
+                    <i class="fa fa-times" aria-hidden="true"></i>
+                </span>
+                <div
                     class="image"
-                    v-for="image, imageIndex in images.slice(maximumImageCount)"
                     @click="openGallery(images, imageIndex)"
                     :style="{ backgroundImage: 'url(' + image.filename + ')' }"
-                    v-show="allImages || !viewAll"
-            >
+                ></div>
             </div>
             <div class="view-all" v-if="viewAll">
                 <div v-if="images.length > maximumImageCount">
@@ -46,6 +51,9 @@
         computed: {
             allImages() {
                 return this.$store.getters.contentSidebarState.viewingAllImages;
+            },
+            editMode() {
+                return this.$store.getters.editMode;
             }
         },
 
@@ -60,6 +68,17 @@
                     images: images,
                     index: index
                 })
+            },
+
+            deleteImage(file) {
+                let result = confirm("Are you sure you want to delete  this image?");
+                if (result) {
+                    axios.delete('/api/files/' + file.id)
+                        .then(function (response) {
+                            EventBus.$emit('refresh-trip');
+                        })
+                        .catch(function (error) {});
+                }
             }
         }
 

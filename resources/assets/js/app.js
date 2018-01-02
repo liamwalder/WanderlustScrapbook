@@ -38,6 +38,9 @@ Vue.component('navbar', require('./components/Navbar.vue'));
 Vue.component('travel-map', require('./components/Map.vue'));
 Vue.component('image-gallery', require('./components/Gallery.vue'));
 
+// Trip
+Vue.component('trip-name', require('./components/Trip/Name.vue'));
+
 // Input Screens
 Vue.component('add-entry', require('./components/InputScreen/AddEntry.vue'));
 Vue.component('add-location', require('./components/InputScreen/AddLocation.vue'));

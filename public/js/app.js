@@ -33602,6 +33602,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('navbar', __webpack_requir
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('travel-map', __webpack_require__(410));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('image-gallery', __webpack_require__(413));
 
+// Trip
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('trip-name', __webpack_require__(461));
+
 // Input Screens
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('add-entry', __webpack_require__(416));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('add-location', __webpack_require__(423));
@@ -74093,10 +74096,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            trip: null,
+            trip: [],
             tripId: null,
             locations: [],
-            tripName: null,
             activityImages: [],
             activityEntries: [],
             selectedLocation: [],
@@ -80118,7 +80120,7 @@ var render = function() {
     "div",
     { staticClass: "container-fluid" },
     [
-      _c("navbar", { attrs: { "trip-name": _vm.tripName } }),
+      _c("navbar", { attrs: { trip: _vm.trip.trip } }),
       _vm._v(" "),
       _c("image-gallery"),
       _vm._v(" "),
@@ -80326,12 +80328,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['tripName'],
+    props: ['trip'],
 
     data: function data() {
         return {
@@ -80378,24 +80381,12 @@ var render = function() {
     "nav",
     { staticClass: "navbar navbar-expand-lg navbar-light bg-light" },
     [
-      _c("span", { staticClass: "navbar-brand" }, [
-        _vm._v("\n        " + _vm._s(_vm.tripName) + " "),
-        _c(
-          "a",
-          {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.editMode,
-                expression: "editMode"
-              }
-            ],
-            staticClass: "notice instruction"
-          },
-          [_vm._v("Change")]
-        )
-      ]),
+      _c(
+        "span",
+        { staticClass: "navbar-brand" },
+        [_c("trip-name", { attrs: { trip: _vm.trip } })],
+        1
+      ),
       _vm._v(" "),
       _vm._m(0, false, false),
       _vm._v(" "),
@@ -85728,8 +85719,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -85827,9 +85816,7 @@ var render = function() {
                 }
               },
               [_vm._v("Edit Entry")]
-            ),
-            _vm._v(" "),
-            _c("span", { staticClass: "separator" }, [_vm._v("|")])
+            )
           ]
         )
       ]
@@ -85879,8 +85866,6 @@ var render = function() {
         ]
       },
       [
-        _c("span", { staticClass: "separator" }, [_vm._v("|")]),
-        _vm._v(" "),
         _c(
           "a",
           {
@@ -86304,6 +86289,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -86321,6 +86311,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         allImages: function allImages() {
             return this.$store.getters.contentSidebarState.viewingAllImages;
+        },
+        editMode: function editMode() {
+            return this.$store.getters.editMode;
         }
     },
 
@@ -86333,6 +86326,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 images: images,
                 index: index
             });
+        },
+        deleteImage: function deleteImage(file) {
+            var result = confirm("Are you sure you want to delete  this image?");
+            if (result) {
+                axios.delete('/api/files/' + file.id).then(function (response) {
+                    __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
+                }).catch(function (error) {});
+            }
         }
     }
 
@@ -86347,65 +86348,117 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "location-images" }, [
-    _c("h5", [
-      _vm._v("Gallery "),
-      _c(
-        "span",
-        {
-          directives: [
+    _vm.viewAll
+      ? _c("h5", [
+          _vm._v("Gallery "),
+          _c(
+            "span",
             {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.viewAll,
-              expression: "viewAll"
-            }
-          ],
-          staticClass: "badge badge-pill badge-info"
-        },
-        [_vm._v(_vm._s(_vm.images.length))]
-      )
-    ]),
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.viewAll,
+                  expression: "viewAll"
+                }
+              ],
+              staticClass: "badge badge-pill badge-info"
+            },
+            [_vm._v(_vm._s(_vm.images.length))]
+          )
+        ])
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
-      { staticClass: "location-images" },
+      { staticClass: "images" },
       [
         _vm._l(_vm.images.slice(0, _vm.maximumImageCount), function(
           image,
           imageIndex
         ) {
-          return _c("div", {
-            staticClass: "image",
-            style: { backgroundImage: "url(" + image.filename + ")" },
-            on: {
-              click: function($event) {
-                _vm.openGallery(_vm.images, imageIndex)
+          return _c("div", { staticClass: "image-holder" }, [
+            _vm.editMode
+              ? _c(
+                  "span",
+                  {
+                    staticClass: "delete",
+                    on: {
+                      click: function($event) {
+                        _vm.deleteImage(image)
+                      }
+                    }
+                  },
+                  [
+                    _c("i", {
+                      staticClass: "fa fa-times",
+                      attrs: { "aria-hidden": "true" }
+                    })
+                  ]
+                )
+              : _vm._e(),
+            _vm._v(" "),
+            _c("div", {
+              staticClass: "image",
+              style: { backgroundImage: "url(" + image.filename + ")" },
+              on: {
+                click: function($event) {
+                  _vm.openGallery(_vm.images, imageIndex)
+                }
               }
-            }
-          })
+            })
+          ])
         }),
         _vm._v(" "),
         _vm._l(_vm.images.slice(_vm.maximumImageCount), function(
           image,
           imageIndex
         ) {
-          return _c("div", {
-            directives: [
-              {
-                name: "show",
-                rawName: "v-show",
-                value: _vm.allImages || !_vm.viewAll,
-                expression: "allImages || !viewAll"
-              }
-            ],
-            staticClass: "image",
-            style: { backgroundImage: "url(" + image.filename + ")" },
-            on: {
-              click: function($event) {
-                _vm.openGallery(_vm.images, imageIndex)
-              }
-            }
-          })
+          return _c(
+            "div",
+            {
+              directives: [
+                {
+                  name: "show",
+                  rawName: "v-show",
+                  value: _vm.allImages || !_vm.viewAll,
+                  expression: "allImages || !viewAll"
+                }
+              ],
+              staticClass: "image-holder"
+            },
+            [
+              _vm.editMode
+                ? _c(
+                    "span",
+                    {
+                      staticClass: "delete",
+                      on: {
+                        click: function($event) {
+                          _vm.deleteImage(image)
+                        }
+                      }
+                    },
+                    [
+                      _c("i", {
+                        staticClass: "fa fa-times",
+                        attrs: { "aria-hidden": "true" }
+                      })
+                    ]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              _c("div", {
+                staticClass: "image",
+                style: { backgroundImage: "url(" + image.filename + ")" },
+                on: {
+                  click: function($event) {
+                    _vm.openGallery(_vm.images, imageIndex)
+                  }
+                }
+              })
+            ]
+          )
         }),
         _vm._v(" "),
         _vm.viewAll
@@ -87341,15 +87394,21 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
+            locationList: [],
             draggableDisabled: true
         };
     },
 
 
+    watch: {
+        locations: function locations(newVal) {
+            if (newVal !== null) {
+                this.locationList = this.locations;
+            }
+        }
+    },
+
     computed: {
-        locationList: function locationList() {
-            return this.locations;
-        },
         editMode: function editMode() {
             this.draggableDisabled = true;
             if (this.$store.getters.editMode) {
@@ -87445,11 +87504,11 @@ var render = function() {
             }
           },
           model: {
-            value: _vm.locations,
+            value: _vm.locationList,
             callback: function($$v) {
-              _vm.locations = $$v
+              _vm.locationList = $$v
             },
-            expression: "locations"
+            expression: "locationList"
           }
         },
         _vm._l(_vm.locationList, function(location) {
@@ -87520,6 +87579,220 @@ if (false) {
   module.hot.accept()
   if (module.hot.data) {
     require("vue-hot-reload-api")      .rerender("data-v-84d2d4b8", module.exports)
+  }
+}
+
+/***/ }),
+/* 461 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(462)
+/* template */
+var __vue_template__ = __webpack_require__(463)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/Trip/Name.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-659b27ae", Component.options)
+  } else {
+    hotAPI.reload("data-v-659b27ae", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 462 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_bus__ = __webpack_require__(2);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    props: ['trip'],
+
+    data: function data() {
+        return {
+            name: null,
+            editingTripName: null
+        };
+    },
+
+
+    computed: {
+        editMode: function editMode() {
+            return this.$store.getters.editMode;
+        }
+    },
+
+    methods: {
+        editName: function editName(location) {
+            this.name = location.name;
+            this.editingTripName = location;
+        },
+        saveName: function saveName() {
+            var self = this;
+            axios.put('/api/trip/' + this.trip.id, { name: this.name }).then(function (response) {
+                __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
+                self.editingTripName = null;
+            }).catch(function (error) {});
+        }
+    }
+});
+
+/***/ }),
+/* 463 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _vm.trip
+    ? _c("div", [
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.editingTripName == null,
+                expression: "editingTripName == null"
+              }
+            ]
+          },
+          [
+            _vm._v("\n        " + _vm._s(_vm.trip.name) + "\n        "),
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.editMode,
+                    expression: "editMode"
+                  }
+                ],
+                staticClass: "notice instruction",
+                on: {
+                  click: function($event) {
+                    _vm.editName(_vm.trip)
+                  }
+                }
+              },
+              [_vm._v("Change")]
+            )
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: _vm.editMode && _vm.editingTripName !== null,
+                expression: "editMode && editingTripName !== null"
+              }
+            ],
+            staticClass: "edit-trip-name"
+          },
+          [
+            _c("input", {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.name,
+                  expression: "name"
+                }
+              ],
+              staticClass: "form-control",
+              attrs: { type: "text" },
+              domProps: { value: _vm.name },
+              on: {
+                input: function($event) {
+                  if ($event.target.composing) {
+                    return
+                  }
+                  _vm.name = $event.target.value
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                staticClass: "notice instruction",
+                on: {
+                  click: function($event) {
+                    _vm.saveName()
+                  }
+                }
+              },
+              [_vm._v("Save")]
+            )
+          ]
+        )
+      ])
+    : _vm._e()
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-659b27ae", module.exports)
   }
 }
 

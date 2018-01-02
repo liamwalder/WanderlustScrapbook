@@ -36,4 +36,19 @@ class TripRepository {
            ->first();
    }
 
+
+    /**
+     * @param Trip $trip
+     * @param $data
+     * @return Trip
+     */
+    public function updateTrip(Trip $trip, $data)
+    {
+        $trip->fill([
+            'name' => isset($data['name']) ? $data['name'] : $trip->name
+        ]);
+        $trip->save();
+        return $trip;
+    }
+    
 }

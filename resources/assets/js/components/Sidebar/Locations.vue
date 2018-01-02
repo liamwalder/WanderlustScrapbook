@@ -2,7 +2,7 @@
     <div>
         <p class="notice instruction col" v-show="editMode"><i class="fa fa-bars" aria-hidden="true"></i> Drag the locations below to re-order your trip.</p>
         <draggable
-            v-model="locations"
+            v-model="locationList"
             @start="drag=true"
             @end="dragEnd(drag)"
             class="locations"
@@ -37,16 +37,20 @@
 
         data () {
             return {
+                locationList: [],
                 draggableDisabled: true
             }
         },
 
+        watch: {
+            locations: function(newVal) {
+                if (newVal !== null) {
+                    this.locationList = this.locations;
+                }
+            }
+        },
+
         computed: {
-
-            locationList() {
-                return this.locations;
-            },
-
             editMode() {
                 this.draggableDisabled = true;
                 if (this.$store.getters.editMode) {

@@ -150,6 +150,7 @@ body {
       margin-bottom: 0;
       a {
         font-size: 16px;
+        font-family: 'Lato', sans-serif !important;
       }
       .edit-location-name {
         display: flex;
@@ -177,6 +178,14 @@ body {
     font-size: 14px;
     &.instruction {
       color: #17a2b8 !important;
+    }
+  }
+
+  .edit-trip-name {
+    display: flex;
+    align-items: center;
+    input {
+      margin-right: 10px;
     }
   }
 
@@ -304,6 +313,7 @@ body {
         padding: 8px;
         color: #17a2b8;
         margin-top: 20px;
+        margin-bottom: 0;
         border-radius: 30px;
         border: 2px solid #17a2b8;
         &:hover {
@@ -383,13 +393,48 @@ body {
         width: 100%;
       }
 
-      .image {
-        width: 23%;
-        padding-top: 23%;
-        margin: 1%;
-        background-size: cover;
-        cursor: pointer;
+      .images {
+        width: 100%;
       }
+
+      .image-holder {
+        display: inline-block;
+        background: #f9f9f9;
+        margin: 10px 2% 0 0;
+        -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+        position: relative;
+        height: 100px;
+        width: calc(100% * (1/4) - 10px - 1px);
+      }
+
+      .delete {
+        right: 0;
+        /* left: 98px; */
+        width: 20px;
+        height: 20px;
+        color: white;
+        display: flex;
+        font-size: 12px;
+        cursor: pointer;
+        position: absolute;
+        align-items: center;
+        justify-content: center;
+        background-color: #d9534f;
+      }
+
+      .image {
+        cursor: pointer;
+        padding-top: 100%;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+
+      }
+    }
+
+    .location-images {
+      margin-bottom: 20px;
     }
 
   }

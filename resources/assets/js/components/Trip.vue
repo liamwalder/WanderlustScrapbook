@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid">
-        <navbar :trip-name="tripName"></navbar>
+        <navbar :trip="trip.trip"></navbar>
         <image-gallery></image-gallery>
 
         <div class="row">
@@ -56,10 +56,9 @@
 
         data () {
             return {
-                trip: null,
+                trip: [],
                 tripId: null,
                 locations: [],
-                tripName: null,
                 activityImages: [],
                 activityEntries: [],
                 selectedLocation:[],

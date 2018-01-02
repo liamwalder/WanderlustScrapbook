@@ -13,14 +13,12 @@
         <div v-show="editMode">
             <div v-show="contentSidebarState.selectedEntry !== null">
                 <a v-on:click="editEntry()" class="instruction">Edit Entry</a>
-                <span class="separator">|</span>
             </div>
         </div>
         <div v-show="contentSidebarState.selectedLocation !== null">
             <a v-on:click="showAllActivity()">All Activity</a>
         </div>
         <div v-show="contentSidebarState.viewingAllImages || contentSidebarState.viewingAllEntries || contentSidebarState.selectedEntry !== null">
-            <span class="separator">|</span>
             <a v-on:click="back()">Back</a>
         </div>
     </div>

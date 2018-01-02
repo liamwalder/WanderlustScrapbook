@@ -49,5 +49,23 @@ class TripController extends Controller {
         ]);
     }
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @param TripRepository $tripRepository
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function update(
+        Request $request,
+        $id,
+        TripRepository $tripRepository
+    ) {
+        $data = $request->all();
+        $trip = $tripRepository->getTrip($id);
+        $trip = $tripRepository->updateTrip($trip, $data);
+
+        return response()->json($trip, 200);
+    }
+
 
 }
