@@ -22,6 +22,7 @@
         "sidevue": "^2.1.1",
         "vue-fab": "^2.1.1",
         "vue-gallery": "^1.2.4",
+        "vue-js-toggle-button": "^1.2.2",
         "vue-moment": "^3.1.0",
         "vue-offcanvas": "0.0.3",
         "vue-offcanvas-simple": "^1.0.3",
@@ -31,6 +32,7 @@
         "vue2-google-maps": "^0.8.4",
         "vue2-leaflet": "0.0.57",
         "vuedraggable": "^2.15.0",
+        "vuejs-datepicker": "^0.9.22",
         "vuex": "^3.0.1"
     }
 }

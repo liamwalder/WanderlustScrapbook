@@ -24,6 +24,7 @@ class CreateLocationsTable extends Migration
             $table->string('longitude');
             $table->dateTime('from')->nullable();
             $table->dateTime('to')->nullable();
+            $table->integer('trip_id');
             $table->timestamps();
         });
     }

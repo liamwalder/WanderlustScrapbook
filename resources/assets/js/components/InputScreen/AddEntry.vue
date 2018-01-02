@@ -66,7 +66,7 @@
 </template>
 
 <script>
-    import { EventBus } from '../event-bus';
+    import { EventBus } from '../../event-bus';
     import vue2Dropzone from 'vue2-dropzone';
     import 'vue2-dropzone/dist/vue2Dropzone.css';
 
@@ -149,7 +149,7 @@
 
             cancelEntry() {
                 this.reset();
-                EventBus.$emit('entry-cancelled');
+                EventBus.$emit('input-screen-cancelled');
             },
 
             saveEntry() {

@@ -1,12 +1,12 @@
 <template>
     <div>
-        <div v-if="editingLocationDates === null">
+        <div v-show="editingLocationDates === null">
             <p class="date" v-if="location.from && location.to">
                 {{ location.from | moment("Do MMMM YYYY") }}  - {{ location.to | moment("Do MMMM YYYY") }}
-                <a v-on:click="editDates(location)">Edit Dates</a>
+                <a v-on:click="editDates(location)" class="instruction" v-show="editMode">Change Dates</a>
             </p>
         </div>
-        <div class="location-add" v-else>
+        <div class="location-add"  v-show="editMode && editingLocationDates !== null">
             <div class="datepicker">
                 <label>From</label>
                 <date-picker
@@ -28,7 +28,7 @@
                 ></date-picker>
             </div>
             <div class="add-to-trip">
-                <span @click="saveDates()" class="add-to-trip">Save Dates</span>
+                <span @click="saveDates()" class="instruction">Save Dates</span>
             </div>
         </div>
     </div>
@@ -55,6 +55,12 @@
             }
         },
 
+        computed: {
+            editMode() {
+                return this.$store.getters.editMode;
+            }
+        },
+
         watch: {
             from: function(from) {
                 let fromDate = new Date(from);
@@ -75,9 +81,12 @@
 
             saveDates() {
                 let self = this;
+                let toDate = new Date(this.to);
+                let fromDate = new Date(this.from);
+
                 let postData = {
-                    to: this.to,
-                    from: this.from
+                    to: toDate.getFullYear() + '-' + (toDate.getMonth() + 1) + '-' + toDate.getDate(),
+                    from: fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate()
                 };
 
                 axios.put('/api/location/' + this.location.id, postData)

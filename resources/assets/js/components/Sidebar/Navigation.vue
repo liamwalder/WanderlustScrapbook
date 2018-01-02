@@ -10,9 +10,11 @@
     <!--</div>-->
 
     <div class="sub-menu">
-        <div v-show="contentSidebarState.selectedEntry !== null">
-            <a v-on:click="editEntry()">Edit Entry</a>
-            <span class="separator">|</span>
+        <div v-show="editMode">
+            <div v-show="contentSidebarState.selectedEntry !== null">
+                <a v-on:click="editEntry()" class="instruction">Edit Entry</a>
+                <span class="separator">|</span>
+            </div>
         </div>
         <div v-show="contentSidebarState.selectedLocation !== null">
             <a v-on:click="showAllActivity()">All Activity</a>
@@ -35,6 +37,10 @@
         computed: {
             contentSidebarState() {
                 return this.$store.getters.contentSidebarState;
+            },
+
+            editMode() {
+                return this.$store.getters.editMode;
             }
         },
 
@@ -44,6 +50,7 @@
             },
 
             showAllActivity() {
+                EventBus.$emit('marker-reset');
                 this.$store.commit('resetContentSidebar');
                 EventBus.$emit('location-selection-reset');
             },
@@ -54,6 +61,7 @@
              */
             back() {
                 let self = this;
+                EventBus.$emit('marker-reset');
                 switch(true) {
                     case self.contentSidebarState.viewingAllEntries && self.contentSidebarState.selectedEntry !== null:
                         self.$store.commit('selectedEntry', {entry: null});

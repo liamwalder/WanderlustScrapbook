@@ -18,13 +18,35 @@ body {
     font-family: 'Montserrat', sans-serif !important;
   }
 
+  label {
+
+  }
+
+  a.instruction,
+  span.instruction {
+    color: #17a2b8 !important;
+  }
+
   .navbar {
     background-color: white !important;
     border-bottom: 1px solid #f5f5f5;
+    .content {
+      width: 100%;
+      display: flex;
+      h3 {
+        margin: 0;
+        display: flex;
+        margin-right: 20px;
+        align-items: center;
+        padding-right: 20px;
+        border-right: 1px solid #f5f5f5;
+      }
+    }
   }
 
   .location-add {
     display: flex;
+    flex: 1;
     width: 100%;
     ::-webkit-input-placeholder {
       color: #e3e3e3;
@@ -90,11 +112,11 @@ body {
   }
 
   a {
-    color: grey !important;
+    color: grey;
     cursor: pointer;
     font-weight: 700;
     &:hover {
-      text-decoration: underline !important;
+      text-decoration: underline;
     }
   }
   .container-fluid {
@@ -126,19 +148,40 @@ body {
   .content-location {
     .location-name {
       margin-bottom: 0;
+      a {
+        font-size: 16px;
+      }
+      .edit-location-name {
+        display: flex;
+        align-items: center;
+        input {
+          display: flex;
+          flex: 7;
+          margin-right: 10px;
+        }
+        a {
+          font-size: 16px;
+          display: flex;
+          flex: 2;
+        }
+      }
     }
     .date {
       color: grey;
     }
   }
 
+  .notice {
+    color: gray;
+    font-weight: 700;
+    font-size: 14px;
+    &.instruction {
+      color: #17a2b8 !important;
+    }
+  }
+
   .add-entry {
     padding-right: 0;
-    .notice {
-      color: gray;
-      font-weight: 700;
-      font-size: 12px;
-    }
     .markers {
       display: flex;
       .marker {
@@ -181,8 +224,10 @@ body {
 
   .locations {
     .location {
-      cursor: move;
       margin-bottom: 20px;
+      &.location-draggable {
+        cursor: move;
+      }
       .col {
         padding-right: 0;
         display: flex;
@@ -212,13 +257,22 @@ body {
     }
   }
 
+  .add-location {
+    .mx-datepicker {
+      width: 100% !important;
+      input {
+        background-color: white !important;
+      }
+    }
+  }
+
   .content-sidebar {
 
     .sub-menu {
       display: flex;
       margin-bottom: 10px;
       a {
-        color: grey !important;
+        color: grey;
         font-weight: 700;
         font-size: 14px;
       }
@@ -237,9 +291,26 @@ body {
       text-align: center;
       width: 100%;
       a {
-        font-weight: 700;
-        font-size: 14px;
-        color: grey !important;
+        width: 100%;
+        padding: 10px 20px;
+        border-radius: 4px;
+        font-weight: normal;
+        margin-bottom: 20px;
+        display: inline-block;
+        border: 1px solid #e3e3e3;
+      }
+      .show-indicator {
+        width: 50%;
+        padding: 8px;
+        color: #17a2b8;
+        margin-top: 20px;
+        border-radius: 30px;
+        border: 2px solid #17a2b8;
+        &:hover {
+          color: white;
+          text-decoration: none;
+          background-color: #17a2b8;
+        }
       }
     }
 
@@ -280,6 +351,7 @@ body {
           font-size: 14px;
           margin-bottom: 0;
           .read-more {
+            font-weight: normal;
             &:hover {
               cursor: pointer;
             }
@@ -291,7 +363,7 @@ body {
           border-top: 1px solid #f5f5f5;
           margin-top: 5px;
           p {
-            font-size: 12px;
+            font-size: 13px;
             float: right;
             margin-top: 5px;
             color: grey;
@@ -305,17 +377,12 @@ body {
     .entry-images {
       display: flex;
       flex-wrap: wrap;
-      margin-bottom: 20px;
       width: 100%;
       h5 {
         display: inline-block;
         width: 100%;
       }
-      a {
-        display: inline-block;
-        width: 100%;
-        margin-top: 20px;
-      }
+
       .image {
         width: 23%;
         padding-top: 23%;
@@ -331,46 +398,4 @@ body {
     padding-left: 0;
   }
 
-
-}
-
-.slideout-menu {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  width: 256px;
-  height: 100vh;
-  overflow-y: scroll;
-  -webkit-overflow-scrolling: touch;
-  z-index: 0;
-  display: none;
-  background-color: #1D1F20;
-  color: white;
-}
-
-.slideout-menu-left {
-  left: 0;
-}
-
-.slideout-menu-right {
-  right: 0;
-}
-
-.slideout-panel {
-  background-color: #4B5;
-  color: white;
-  position: relative;
-  z-index: 1;
-  will-change: transform;
-  min-height: 100vh;
-}
-
-.slideout-open,
-.slideout-open body,
-.slideout-open .slideout-panel {
-  overflow: hidden;
-}
-
-.slideout-open .slideout-menu {
-  display: block;
 }

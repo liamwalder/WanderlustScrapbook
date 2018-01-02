@@ -6,9 +6,11 @@ window.axios = require('axios');
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { EventBus } from './event-bus';
+import ToggleButton from 'vue-js-toggle-button';
 import * as VueGoogleMaps from 'vue2-google-maps';
 
 Vue.use(Vuex);
+Vue.use(ToggleButton);
 Vue.use(require('vue-moment'));
 Vue.use(VueGoogleMaps, {
     load: {
@@ -34,14 +36,19 @@ Vue.filter('truncate', function (text, stop, clamp) {
 Vue.component('trip', require('./components/Trip.vue'));
 Vue.component('navbar', require('./components/Navbar.vue'));
 Vue.component('travel-map', require('./components/Map.vue'));
-Vue.component('add-entry', require('./components/AddEntry.vue'));
 Vue.component('image-gallery', require('./components/Gallery.vue'));
+
+// Input Screens
+Vue.component('add-entry', require('./components/InputScreen/AddEntry.vue'));
+Vue.component('add-location', require('./components/InputScreen/AddLocation.vue'));
 
 // Sidebar
 Vue.component('sidebar', require('./components/Sidebar/Sidebar.vue'));
 Vue.component('navigation', require('./components/Sidebar/Navigation.vue'));
+Vue.component('locations-list', require('./components/Sidebar/Locations.vue'));
 
 // Location Specific
+Vue.component('single-location-name', require('./components/SingleLocation/Name.vue'));
 Vue.component('single-location-dates', require('./components/SingleLocation/Dates.vue'));
 Vue.component('single-location-gallery', require('./components/SingleLocation/Gallery.vue'));
 Vue.component('single-location-entries', require('./components/SingleLocation/Entries.vue'));
@@ -56,6 +63,7 @@ Vue.component('single-entry-preview', require('./components/Entry/Preview.vue'))
  */
 const store = new Vuex.Store({
     state: {
+        editMode: false,
         contentSidebar: {
             selectedEntry: null,
             selectedLocation: null,
@@ -66,9 +74,18 @@ const store = new Vuex.Store({
     getters: {
         contentSidebarState: state => {
             return state.contentSidebar;
+        },
+        editMode: state => {
+            return state.editMode;
+        },
+        selectedLocation: state => {
+            return state.contentSidebar.selectedLocation;
         }
     },
     mutations: {
+        setEditMode(state, payload) {
+            state.editMode = payload.state;
+        },
         viewAllEntries (state, payload) {
             state.contentSidebar.viewingAllEntries = payload.state;
         },

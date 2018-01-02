@@ -22,7 +22,10 @@
         <div v-for="location in locations" class="content-location">
             <div v-show="location.id === selectedLocation.id">
                 <navigation></navigation>
-                <h3 class="location-name">{{ location.name }}</h3>
+                <single-location-name
+                    :location="location"
+                ></single-location-name>
+                <!--<h3 class="location-name">{{ location.name }}</h3>-->
                 <single-location-dates
                     :location="location"
                 ></single-location-dates>

@@ -2,7 +2,7 @@
     <div class="entry">
         <h6 class="entry-title" v-on:click="selectEntry(entry)">{{ entry.title }}</h6>
         <p class="entry-content">
-            {{ entry.content | truncate(200) }} <a class="read-more" v-on:click="selectEntry(entry)">Read More</a>
+            {{ entry.content | truncate(200) }} <a class="read-more" v-on:click="selectEntry(entry)">Read More...</a>
         </p>
         <div class="entry-footer">
             <p>

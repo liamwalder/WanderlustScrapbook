@@ -43,6 +43,7 @@
                 zoom: 6,
                 markers: [],
                 locations: [],
+                entryLocations: [],
                 adhocEntryMarkers: [],
                 adhocEntryMarkerCount: 0,
                 polylinePath: [],
@@ -74,8 +75,17 @@
             EventBus.$on('select-entry', function(entry) {
                 entry.entry_locations.forEach(function (location, key) {
                     self.removeLocationFromMap(location);
-                    self.addLocationToMap(location, false, 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue' + (key + 1) + '.png');
+                    self.addLocationToMap(
+                        location,
+                        false,
+                        'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue' + (key + 1) + '.png',
+                        { entry: entry }
+                    );
                 })
+            });
+
+            EventBus.$on('marker-reset', function() {
+                self.resetEntryLocationMarkers();
             });
 
             EventBus.$on('location-selection-reset', function() {
@@ -103,12 +113,23 @@
                 self.markers = [];
                 self.polylinePath = [];
                 self.locations = newVal.locations;
+                self.entryLocations = newVal.markers.entryLocations;
+
                 if (newVal !== null) {
                     newVal.markers.locations.forEach(function(location) {
-                        self.addLocationToMap(location, true, 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red.png');
+                        self.addLocationToMap(
+                            location,
+                            true,
+                            'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red.png'
+                        );
                     });
                     newVal.markers.entryLocations.forEach(function(location) {
-                        self.addLocationToMap(location, false, 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png');
+                        self.addLocationToMap(
+                            location,
+                            false,
+                            'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png',
+                            { entry: location.entry }
+                        );
                     });
                 }
             }
@@ -131,7 +152,7 @@
                 }
             },
 
-            addLocationToMap(location, addToPolyline, icon) {
+            addLocationToMap(location, addToPolyline, icon, customInfo = {}) {
                 this.markers.push({
                     position: {
                         lat: parseFloat(location.latitude),
@@ -139,7 +160,8 @@
                     },
                     icon: {
                         url: icon
-                    }
+                    },
+                    customInfo: customInfo
                 });
 
                 if (addToPolyline) {
@@ -164,9 +186,31 @@
                 let self = this;
                 self.locations.forEach(function(location) {
                     if (location.latitude == marker.position.lat && location.longitude == marker.position.lng) {
+                        self.resetEntryLocationMarkers();
                         EventBus.$emit('location-selected', location);
                     }
                 });
+                self.entryLocations.forEach(function(location) {
+                    if (location.latitude == marker.position.lat && location.longitude == marker.position.lng) {
+                        self.resetEntryLocationMarkers();
+                        EventBus.$emit('select-entry', marker.customInfo.entry);
+                        self.$store.commit('selectedEntry', { entry: marker.customInfo.entry });
+                    }
+                });
+            },
+
+            resetEntryLocationMarkers() {
+                let self = this;
+                self.entryLocations.forEach(function(location) {
+                    self.removeLocationFromMap(location);
+                    self.addLocationToMap(
+                        location,
+                        false,
+                        'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png',
+                        { entry: location.entry }
+                    );
+                });
+
             },
 
             clickPolyline() {}

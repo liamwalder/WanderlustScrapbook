@@ -16,7 +16,7 @@ class Location extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'latitude', 'longitude', 'order', 'from', 'to'
+        'name', 'latitude', 'longitude', 'order', 'from', 'to', 'trip_id'
     ];
 
     /**
@@ -25,6 +25,14 @@ class Location extends Model
     public function entries()
     {
         return $this->hasMany(Entry::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function trip()
+    {
+        return $this->belongsTo(Trip::class);
     }
 
     /**

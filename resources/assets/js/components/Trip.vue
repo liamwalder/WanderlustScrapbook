@@ -1,33 +1,16 @@
 <template>
     <div class="container-fluid">
-        <navbar></navbar>
+        <navbar :trip-name="tripName"></navbar>
         <image-gallery></image-gallery>
-
-        <fab position="bottom-left"
-             bg-color="#17a2b8"
-             :actions="[{name: 'addEntry', icon: 'insert_comment'}, {name: 'addMedia', icon: 'insert_photo'}]"
-             @addEntry="addEntry()"
-             @addMedia="addMedia()"
-        ></fab>
 
         <div class="row">
             <div class="col-6">
                 <div class="sidebar">
-                    <div class="row" v-show="!addingEntry">
+                    <div class="row" v-show="!addingEntry && !addingLocation">
                         <div class="col-6 content divider">
-                            <draggable v-model="locations" @start="drag=true" @end="dragEnd(drag)" class="locations">
-                                <div v-for="location in locations" class="location">
-                                    <div class="col">
-                                        <div>
-                                            <h5 v-on:click="selectLocation(location)">{{ location.name }}</h5>
-                                            <span v-if="location.from && location.to">{{ location.from | moment("Do MMMM YYYY") }}  - {{ location.to | moment("Do MMMM YYYY") }}</span>
-                                        </div>
-                                        <div class="arrow" v-show="selectedLocation.id == location.id">
-                                            <div class="arrow-left float-right"></div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </draggable>
+                            <locations-list
+                                :locations="locations"
+                            ></locations-list>
                         </div>
 
                         <div class="col-6 content">
@@ -41,10 +24,12 @@
                     </div>
                     <div class="row" v-show="addingEntry">
                         <div class="col-12 content add-entry">
-                            <add-entry
-                                :locations="locations"
-                            >
-                            </add-entry>
+                            <add-entry :locations="locations"></add-entry>
+                        </div>
+                    </div>
+                    <div class="row" v-show="addingLocation">
+                        <div class="col-12 content add-entry">
+                            <add-location :trip-id="tripId"></add-location>
                         </div>
                     </div>
                 </div>
@@ -65,7 +50,6 @@
     export default {
 
         components: {
-            fab,
             draggable,
             'gallery': VueGallery
         },
@@ -73,11 +57,15 @@
         data () {
             return {
                 trip: null,
+                tripId: null,
                 locations: [],
+                tripName: null,
                 activityImages: [],
                 activityEntries: [],
                 selectedLocation:[],
-                addingEntry: false
+                addingEntry: false,
+                addingMedia: false,
+                addingLocation: false
             }
         },
 
@@ -95,6 +83,8 @@
 
             EventBus.$on('refresh-trip', function() {
                 self.getTrip();
+                self.addingEntry = false;
+                self.addingLocation = false;
             });
 
             EventBus.$on('entry-edit', function(entry) {
@@ -103,100 +93,57 @@
             });
 
             EventBus.$on('entry-cancelled', function() {
+                self.getTrip();
                 self.addingEntry = false;
+            });
+
+            EventBus.$on('input-screen-cancelled', function() {
+                self.getTrip();
+                self.addingEntry = false;
+                self.addingMedia = false;
+                self.addingLocation = false;
+            });
+
+            EventBus.$on('adding-location', function() {
+                self.addingEntry = false;
+                self.addingMedia = false;
+                self.addingLocation = true;
+            });
+
+            EventBus.$on('adding-entry', function() {
+                self.addingMedia = false;
+                self.addingEntry = true;
+                self.addingLocation = false;
+            });
+
+            EventBus.$on('adding-media', function() {
+                self.addingMedia = true;
+                self.addingEntry = false;
+                self.addingLocation = false;
             });
 
         },
 
+        computed: {
+            editMode() {
+                return this.$store.getters.editMode;
+            }
+        },
+
         methods: {
-
-            markerClick(marker) {},
-
             getTrip() {
                 let self = this;
-                axios.get('/api/trip')
+                axios.get('/api/trip/1')
                     .then(function (response) {
                         self.trip = response.data;
+                        self.tripId = response.data.trip.id;
+                        self.tripName = response.data.trip.name;
+                        self.locations = response.data.locations;
                         self.activityImages = response.data.activity.files;
                         self.activityEntries = response.data.activity.entries;
-                        self.locations = response.data.locations;
-                        self.addingEntry = false;
                     })
                     .catch(function (error) {});
-            },
-
-            open: function () {
-                console.log('slideoutOpen')
-            },
-
-            dragEnd(drag) {
-                drag = false;
-                this.storeLocations();
-            },
-
-            /**
-             * On re-ordering the draggable list of locations,
-             * we send all the locations as the order will have
-             * have changed
-             */
-            storeLocations() {
-                let self = this;
-                axios.post('/api/locations', { locations: this.locations })
-                    .then(function (response) {
-                        self.getTrip();
-                    })
-                    .catch(function (error) {});
-            },
-
-            /**
-             * Store a single location when adding from the
-             * Google Autocomplete.
-             */
-            storeLocation() {
-                let self = this;
-
-                if (this.place) {
-
-                    let location = {
-                        name: this.place.address_components[0].long_name,
-                        lat: this.place.geometry.location.lat(),
-                        lng: this.place.geometry.location.lng()
-                    };
-
-                    axios.post('/api/location', location)
-                        .then(function (response) {
-                            self.getTrip();
-                        })
-                        .catch(function (error) {
-                            console.log(error);
-                        });
-                }
-
-            },
-
-            selectLocation(location) {
-                this.selectedLocation = location;
-                EventBus.$emit('location-selected', location);
-                this.$store.commit('selectedLocation', {location: location});
-            },
-
-            clickPolyline() {
-                console.log('czcx');
-            },
-
-            setPlace(place) {
-                this.place = place
-            },
-
-            addEntry(){
-                this.addingEntry = true;
-                EventBus.$emit('add-entry');
-            },
-
-            addMedia(){
-                EventBus.$emit('add-media', location);
             }
-
         }
 
     }

@@ -9,6 +9,8 @@ use App\Repositories\EntryRepository;
 use App\Repositories\FileRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\LocationRepository;
+use App\Repositories\TripRepository;
+use App\Services\TripService;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -23,21 +25,27 @@ class TripController extends Controller {
      */
     public function single(
         Request $request,
-        LocationRepository $locationRepository,
-        EntryRepository $entryRepository,
-        FileRepository $fileRepository,
-        EntryLocationRepository $entryLocationRepository
+        $id,
+        TripService $tripService,
+        TripRepository $tripRepository
     ) {
+
+        $trip = $tripRepository->getTrip($id);
+
         return response()->json([
+            'trip' => [
+                'id' => $trip->id,
+                'name' => $trip->name
+            ],
             'activity' => [
-                'entries' => $entryRepository->getEntries(),
-                'files' => $fileRepository->getFiles(),
+                'entries' => $tripService->getEntriesForTrip($trip),
+                'files' => $tripService->getFilesForTrip($trip),
             ],
             'markers' => [
-                'locations' => $locationRepository->getMarkers(),
-                'entryLocations' => $entryLocationRepository->getMarkers()
+                'locations' => $trip->locations,
+                'entryLocations' => $tripService->getLocationsForTripEntries($trip)
             ],
-            'locations' => $locationRepository->getLocations()
+            'locations' => $trip->locations
         ]);
     }
 

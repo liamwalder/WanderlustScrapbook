@@ -15,10 +15,10 @@ use Illuminate\Http\Request;
 Route::get('/locations', 'Api\LocationsController@index');
 Route::post('/locations', 'Api\LocationsController@store');
 
-Route::post('/location', 'Api\LocationController@store');
+Route::post('/trip/{id}/location', 'Api\LocationController@store');
 Route::put('/location/{id}', 'Api\LocationController@update');
 
-Route::get('/trip', 'Api\TripController@single');
+Route::get('/trip/{id}', 'Api\TripController@single');
 
 Route::post('/media', 'Api\MediaController@store');
 

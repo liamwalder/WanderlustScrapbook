@@ -18,9 +18,10 @@ class LocationController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(Request $request, $tripId, LocationRepository $locationRepository)
     {
         $validator = Validator::make($request->all(), [
+            'name' => 'required',
             'location' => 'required'
         ]);
 
@@ -28,21 +29,7 @@ class LocationController extends Controller {
             return response()->json($validator->messages(), 400);
         }
         
-        $lastLocation = Location::orderBy('id', 'desc')->first();
-        $thisLocationOrder = is_null($lastLocation) ? 0 : ($lastLocation->order + 1);
-
-        $requestLocation = $request->get('location');
-
-        $location = new Location();
-        $location->fill([
-            'order' => $thisLocationOrder,
-            'name' => $requestLocation['name'],
-            'latitude' => $requestLocation['lat'],
-            'longitude' => $requestLocation['lng'],
-            'to' => $request->get('to') ? new \DateTime($request->get('to')) : null,
-            'from' => $request->get('from') ? new \DateTime($request->get('from')) : null
-         ]);
-        $location->save();
+        $location = $locationRepository->createLocation($request, $tripId);
 
         return response()->json($location, 201);
     }
