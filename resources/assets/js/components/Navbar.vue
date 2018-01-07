@@ -23,7 +23,7 @@
         </div>
         <div class="form-inline my-2 my-lg-0">
             <toggle-button
-                color="#17a2b8"
+                color="#f39c12"
                 :value="editMode"
                 :width="toggleWidth"
                 @change="toggleEditMode"

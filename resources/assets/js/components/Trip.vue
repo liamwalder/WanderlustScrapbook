@@ -32,6 +32,11 @@
                             <add-location :trip-id="tripId"></add-location>
                         </div>
                     </div>
+                    <div class="row" v-show="addingMedia">
+                        <div class="col-12 content add-entry">
+                            <!--<add-media :trip-id="tripId"></add-media>-->
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="col-6 map">

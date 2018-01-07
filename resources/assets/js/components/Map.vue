@@ -17,19 +17,21 @@
                     @click="markerClick(m)"
                 ></GmapMarker>
             </GmapCluster>
-
             <GmapPolyline
+                v-for="(path, index) in polylinePath"
+                :key="index"
                 @click="clickPolyline()"
                 :draggable="false"
                 :editable="false"
-                :path="polylinePath"
-            >
-            </GmapPolyline>
+                :path="curvedPath(path, index)"
+                :options="polylineOptions"
+            ></GmapPolyline>
         </GmapMap>
     </div>
 </template>
 
 <script>
+    import {range} from 'lodash'
     import VueGallery from 'vue-gallery';
     import draggable from 'vuedraggable';
     import { EventBus } from '../event-bus';
@@ -43,13 +45,32 @@
                 zoom: 6,
                 markers: [],
                 locations: [],
-                entryLocations: [],
-                adhocEntryMarkers: [],
-                adhocEntryMarkerCount: 0,
                 polylinePath: [],
+                entryLocations: [],
                 selectedLocation:[],
+                adhocEntryMarkers: [],
                 allowRightClick: false,
-                center: {lat: 13.736717, lng: 100.523186}
+                adhocEntryMarkerCount: 0,
+                calculateCurvedLine: false,
+                center: {lat: 13.736717, lng: 100.523186},
+                locationMarkerOptions: {
+                    icon: {
+                        path: google.maps.SymbolPath.CIRCLE,
+                        scale: 5,
+                        fillColor: '#f39c12',
+                        strokeColor: '#f39c12'
+                    }
+                },
+                polylineOptions: {
+                    strokeWeight: 2,
+                    icons: [{
+                        repeat: '45px',
+                        offset: '100%',
+                        icon: {
+                            path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW
+                        }
+                    }]
+                }
             }
         },
 
@@ -120,9 +141,12 @@
                         self.addLocationToMap(
                             location,
                             true,
-                            'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_red.png'
+                            self.locationMarkerOptions
                         );
                     });
+
+                    self.calculateCurvedLine = true;
+
                     newVal.markers.entryLocations.forEach(function(location) {
                         self.addLocationToMap(
                             location,
@@ -136,6 +160,51 @@
         },
 
         methods: {
+
+            curvedPath(path, key) {
+                let firstLocationInPath = this.polylinePath[0];
+                if (path.lat == firstLocationInPath.lat && path.lng == firstLocationInPath.lng) {
+                    return [];
+                }
+
+                let startingLocation = this.polylinePath[(key - 1)];
+                let endingLocation = path;
+
+                if (endingLocation && startingLocation) {
+
+                    return range(100).map(function(i) {
+                        let tick = i / 99;
+
+                        /* Bezier curve -- set up the control points */
+                        let dlat = endingLocation.lat - startingLocation.lat;
+                        let dlng = endingLocation.lng - startingLocation.lng;
+
+                        let cp1 = {
+                            lat: startingLocation.lat + 0.33 * dlat + 0.33 * dlng,
+                            lng: startingLocation.lng - 0.33 * dlat + 0.33 * dlng
+                        };
+
+                        let cp2 = {
+                            lat: endingLocation.lat - 0.33 * dlat + 0.33 * dlng,
+                            lng: endingLocation.lng - 0.33 * dlat - 0.33 * dlng,
+                        };
+
+                        /* Bezier curve formula */
+                        return {
+                            lat:
+                                (tick * tick * tick) * startingLocation.lat +
+                                3 * ((1 - tick) * tick * tick) * cp1.lat +
+                                3 * ((1 - tick) * (1 - tick) * tick) * cp2.lat +
+                                ((1 - tick) * (1 - tick) * (1 - tick)) * endingLocation.lat,
+                            lng:
+                                (tick * tick * tick) * startingLocation.lng +
+                                3 * ((1 - tick) * tick * tick) * cp1.lng +
+                                3 * ((1 - tick) * (1 - tick) * tick) * cp2.lng +
+                                ((1 - tick) * (1 - tick) * (1 - tick)) * endingLocation.lng
+                        }
+                    })
+                }
+            },
 
             rightClick(event) {
                 if (this.allowRightClick) {
@@ -153,16 +222,24 @@
             },
 
             addLocationToMap(location, addToPolyline, icon, customInfo = {}) {
-                this.markers.push({
+
+                let marker = {
                     position: {
                         lat: parseFloat(location.latitude),
                         lng: parseFloat(location.longitude)
                     },
-                    icon: {
-                        url: icon
-                    },
                     customInfo: customInfo
-                });
+                };
+
+                if (icon instanceof Object) {
+                    marker['icon'] = icon.icon;
+                } else {
+                    marker['icon'] = {
+                        url: icon
+                    }
+                }
+
+                this.markers.push(marker);
 
                 if (addToPolyline) {
                     this.polylinePath.push({

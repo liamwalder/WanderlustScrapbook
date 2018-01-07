@@ -21,6 +21,7 @@
         <div id="app">
             <trip></trip>
         </div>
+        <script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
         <script src="{{ asset('/js/app.js') }}"></script>
 
     </body>

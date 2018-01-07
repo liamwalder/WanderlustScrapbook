@@ -24,7 +24,7 @@ body {
 
   a.instruction,
   span.instruction {
-    color: #17a2b8 !important;
+    color: #f39c12 !important;
   }
 
   .navbar {
@@ -177,7 +177,7 @@ body {
     font-weight: 700;
     font-size: 14px;
     &.instruction {
-      color: #17a2b8 !important;
+      color: #f39c12 !important;
     }
   }
 
@@ -311,15 +311,15 @@ body {
       .show-indicator {
         width: 50%;
         padding: 8px;
-        color: #17a2b8;
+        color: #f39c12;
         margin-top: 20px;
         margin-bottom: 0;
         border-radius: 30px;
-        border: 2px solid #17a2b8;
+        border: 2px solid #f39c12;
         &:hover {
           color: white;
           text-decoration: none;
-          background-color: #17a2b8;
+          background-color: #f39c12;
         }
       }
     }
