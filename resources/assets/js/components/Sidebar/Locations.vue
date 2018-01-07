@@ -1,25 +1,28 @@
 <template>
     <div>
         <p class="notice instruction col" v-show="editMode"><i class="fa fa-bars" aria-hidden="true"></i> Drag the locations below to re-order your trip.</p>
-        <draggable
-            v-model="locationList"
-            @start="drag=true"
-            @end="dragEnd(drag)"
-            class="locations"
-            :options="{disabled: draggableDisabled}"
-        >
-            <div v-for="location in locationList" class="location"  v-bind:class="{ 'location-draggable': !draggableDisabled }">
-                <div class="col">
-                    <div>
-                        <h5 v-on:click="selectLocation(location)">{{ location.name }}</h5>
-                        <span v-if="location.from && location.to">{{ location.from | moment("Do MMMM YYYY") }}  - {{ location.to | moment("Do MMMM YYYY") }}</span>
-                    </div>
-                    <div class="arrow" v-show="selectedLocation.id == location.id">
-                        <div class="arrow-left float-right"></div>
+        <div v-if="locations.length !== 0">
+            <draggable
+                    v-model="locationList"
+                    @start="drag=true"
+                    @end="dragEnd(drag)"
+                    class="locations"
+                    :options="{disabled: draggableDisabled}"
+            >
+                <div v-for="location in locationList" class="location"  v-bind:class="{ 'location-draggable': !draggableDisabled }">
+                    <div class="col">
+                        <div>
+                            <h5 v-on:click="selectLocation(location)">{{ location.name }}</h5>
+                            <span v-if="location.from && location.to">{{ location.from | moment("Do MMMM YYYY") }}  - {{ location.to | moment("Do MMMM YYYY") }}</span>
+                        </div>
+                        <div class="arrow" v-show="selectedLocation.id == location.id">
+                            <div class="arrow-left float-right"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </draggable>
+            </draggable>
+        </div>
+        <p v-else class="notice col">You have not yet added any locations to your trip. Add your first by clicking "Add Location" above.</p>
     </div>
 </template>
 

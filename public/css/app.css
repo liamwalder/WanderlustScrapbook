@@ -1078,6 +1078,10 @@ body .content-sidebar .single-entry p {
   white-space: pre-line;
 }
 
+body .content-sidebar .single-entry .location-images {
+  margin-bottom: 0;
+}
+
 body .content-sidebar .entries .entry .entry-title {
   cursor: pointer;
   margin-bottom: 0;
@@ -1181,5 +1185,9 @@ body .content-sidebar .location-images {
 
 body .map {
   padding-left: 0;
+}
+
+body .blueimp-gallery a {
+  color: white !important;
 }
 

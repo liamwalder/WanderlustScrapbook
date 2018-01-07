@@ -80221,7 +80221,11 @@ var render = function() {
                 _c(
                   "div",
                   { staticClass: "col-12 content add-entry" },
-                  [_c("add-location", { attrs: { "trip-id": _vm.tripId } })],
+                  [
+                    _c("add-location", {
+                      attrs: { "trip-id": _vm.tripId, locations: _vm.locations }
+                    })
+                  ],
                   1
                 )
               ]
@@ -80681,7 +80685,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 lat: parseFloat(location.latitude),
                 lng: parseFloat(location.longitude)
             };
-            self.zoom = 10;
+            self.zoom = 9;
         });
 
         __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('select-entry', function (entry) {
@@ -80700,7 +80704,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             self.center = { lat: 13.736717, lng: 100.523186 };
         });
 
-        __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('add-entry', function () {
+        __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('adding-entry', function () {
             self.allowRightClick = true;
         });
 
@@ -85432,7 +85436,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['tripId'],
+    props: ['tripId', 'locations'],
 
     components: { DatePicker: __WEBPACK_IMPORTED_MODULE_1_vue2_datepicker___default.a },
 
@@ -85442,6 +85446,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             from: null,
             name: null,
             errors: [],
+            place: null,
             notAfterDate: null,
             notBeforeDate: null
         };
@@ -85452,9 +85457,23 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     watch: {
+
+        locations: function locations(_locations) {
+            if (_locations !== null && _locations.length !== 0) {
+                var lastLocation = _locations.slice(-1)[0];
+                var lastLocationToDate = new Date(lastLocation.to);
+                this.from = lastLocationToDate.getFullYear() + '-' + (lastLocationToDate.getMonth() + 1) + '-' + lastLocationToDate.getDate();
+            }
+        },
+
         from: function from(_from) {
             var fromDate = new Date(_from);
             this.notBeforeDate = fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate();
+
+            var toDate = new Date(_from);
+            var toDateAddOneDay = new Date(toDate.setDate(toDate.getDate() + 1));
+
+            this.to = toDateAddOneDay.getFullYear() + '-' + (toDateAddOneDay.getMonth() + 1) + '-' + toDateAddOneDay.getDate();
         },
         to: function to(_to) {
             var toDate = new Date(_to);
@@ -85470,17 +85489,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         reset: function reset() {
             this.to = null;
             this.from = null;
-            this.place = null;
             this.name = null;
-            this.errors = null;
+            this.errors = [];
+            this.place = null;
             this.notBeforeDate = null;
+            $('#autocomplete input').val('');
+            //                this.$refs.autocomplete.clear();
         },
         addLocation: function addLocation() {
             var self = this;
+            var toDate = new Date(this.to);
+            var fromDate = new Date(this.from);
+
             var postData = {
-                to: this.to,
-                from: this.from,
-                name: this.name
+                name: this.name,
+                to: toDate.getFullYear() + '-' + (toDate.getMonth() + 1) + '-' + toDate.getDate(),
+                from: fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate()
             };
 
             if (this.place) {
@@ -85550,13 +85574,14 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "form-group" },
+        { staticClass: "form-group", attrs: { id: "autocomplete" } },
         [
           _c("label", { class: { "text-danger": _vm.errors.location } }, [
             _vm._v("Location*")
           ]),
           _vm._v(" "),
           _c("GmapAutocomplete", {
+            ref: "autocomplete",
             staticClass: "form-control",
             class: { "is-invalid": _vm.errors.location },
             attrs: { placeholder: "Search for a location..." },
@@ -86287,6 +86312,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -86372,112 +86400,126 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "div",
-    [
-      _c(
-        "p",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.editMode,
-              expression: "editMode"
-            }
-          ],
-          staticClass: "notice instruction col"
-        },
-        [
-          _c("i", {
-            staticClass: "fa fa-bars",
-            attrs: { "aria-hidden": "true" }
-          }),
-          _vm._v(" Drag the locations below to re-order your trip.")
-        ]
-      ),
-      _vm._v(" "),
-      _c(
-        "draggable",
-        {
-          staticClass: "locations",
-          attrs: { options: { disabled: _vm.draggableDisabled } },
-          on: {
-            start: function($event) {
-              _vm.drag = true
-            },
-            end: function($event) {
-              _vm.dragEnd(_vm.drag)
-            }
-          },
-          model: {
-            value: _vm.locationList,
-            callback: function($$v) {
-              _vm.locationList = $$v
-            },
-            expression: "locationList"
+  return _c("div", [
+    _c(
+      "p",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.editMode,
+            expression: "editMode"
           }
-        },
-        _vm._l(_vm.locationList, function(location) {
-          return _c(
-            "div",
-            {
-              staticClass: "location",
-              class: { "location-draggable": !_vm.draggableDisabled }
-            },
-            [
-              _c("div", { staticClass: "col" }, [
-                _c("div", [
-                  _c(
-                    "h5",
-                    {
-                      on: {
-                        click: function($event) {
-                          _vm.selectLocation(location)
-                        }
-                      }
-                    },
-                    [_vm._v(_vm._s(location.name))]
-                  ),
-                  _vm._v(" "),
-                  location.from && location.to
-                    ? _c("span", [
-                        _vm._v(
-                          _vm._s(
-                            _vm._f("moment")(location.from, "Do MMMM YYYY")
-                          ) +
-                            "  - " +
-                            _vm._s(
-                              _vm._f("moment")(location.to, "Do MMMM YYYY")
-                            )
-                        )
-                      ])
-                    : _vm._e()
-                ]),
-                _vm._v(" "),
-                _c(
+        ],
+        staticClass: "notice instruction col"
+      },
+      [
+        _c("i", {
+          staticClass: "fa fa-bars",
+          attrs: { "aria-hidden": "true" }
+        }),
+        _vm._v(" Drag the locations below to re-order your trip.")
+      ]
+    ),
+    _vm._v(" "),
+    _vm.locations.length !== 0
+      ? _c(
+          "div",
+          [
+            _c(
+              "draggable",
+              {
+                staticClass: "locations",
+                attrs: { options: { disabled: _vm.draggableDisabled } },
+                on: {
+                  start: function($event) {
+                    _vm.drag = true
+                  },
+                  end: function($event) {
+                    _vm.dragEnd(_vm.drag)
+                  }
+                },
+                model: {
+                  value: _vm.locationList,
+                  callback: function($$v) {
+                    _vm.locationList = $$v
+                  },
+                  expression: "locationList"
+                }
+              },
+              _vm._l(_vm.locationList, function(location) {
+                return _c(
                   "div",
                   {
-                    directives: [
-                      {
-                        name: "show",
-                        rawName: "v-show",
-                        value: _vm.selectedLocation.id == location.id,
-                        expression: "selectedLocation.id == location.id"
-                      }
-                    ],
-                    staticClass: "arrow"
+                    staticClass: "location",
+                    class: { "location-draggable": !_vm.draggableDisabled }
                   },
-                  [_c("div", { staticClass: "arrow-left float-right" })]
+                  [
+                    _c("div", { staticClass: "col" }, [
+                      _c("div", [
+                        _c(
+                          "h5",
+                          {
+                            on: {
+                              click: function($event) {
+                                _vm.selectLocation(location)
+                              }
+                            }
+                          },
+                          [_vm._v(_vm._s(location.name))]
+                        ),
+                        _vm._v(" "),
+                        location.from && location.to
+                          ? _c("span", [
+                              _vm._v(
+                                _vm._s(
+                                  _vm._f("moment")(
+                                    location.from,
+                                    "Do MMMM YYYY"
+                                  )
+                                ) +
+                                  "  - " +
+                                  _vm._s(
+                                    _vm._f("moment")(
+                                      location.to,
+                                      "Do MMMM YYYY"
+                                    )
+                                  )
+                              )
+                            ])
+                          : _vm._e()
+                      ]),
+                      _vm._v(" "),
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.selectedLocation.id == location.id,
+                              expression: "selectedLocation.id == location.id"
+                            }
+                          ],
+                          staticClass: "arrow"
+                        },
+                        [_c("div", { staticClass: "arrow-left float-right" })]
+                      )
+                    ])
+                  ]
                 )
-              ])
-            ]
+              })
+            )
+          ],
+          1
+        )
+      : _c("p", { staticClass: "notice col" }, [
+          _vm._v(
+            'You have not yet added any locations to your trip. Add your first by clicking "Add Location" above.'
           )
-        })
-      )
-    ],
-    1
-  )
+        ])
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true

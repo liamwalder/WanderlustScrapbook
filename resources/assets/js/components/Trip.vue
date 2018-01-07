@@ -29,7 +29,7 @@
                     </div>
                     <div class="row" v-show="addingLocation">
                         <div class="col-12 content add-entry">
-                            <add-location :trip-id="tripId"></add-location>
+                            <add-location :trip-id="tripId" :locations="locations"></add-location>
                         </div>
                     </div>
                     <div class="row" v-show="addingMedia">

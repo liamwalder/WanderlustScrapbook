@@ -9,15 +9,15 @@
             </div>
             <p class="notice">You will be able to re-order this location in the list once added</p>
             <p class="notice">The location field is to ensure we find the correct location on the map. The name field is what you would like this locations name to be presented as.</p>
-            <div class="form-group">
+            <div class="form-group" id="autocomplete">
                 <label :class="{ 'text-danger': errors.location }">Location*</label>
                 <GmapAutocomplete
+                    ref="autocomplete"
                     :class="{ 'is-invalid': errors.location }"
                     class="form-control"
                     @place_changed="setPlace"
                     placeholder="Search for a location..."
-                >
-                </GmapAutocomplete>
+                ></GmapAutocomplete>
             </div>
 
             <div class="form-group">
@@ -64,7 +64,7 @@
 
     export default {
 
-        props: ['tripId'],
+        props: ['tripId', 'locations'],
 
         components: { DatePicker },
 
@@ -74,6 +74,7 @@
                 from: null,
                 name: null,
                 errors: [],
+                place: null,
                 notAfterDate: null,
                 notBeforeDate: null
             }
@@ -84,9 +85,23 @@
         },
 
         watch: {
+
+            locations: function(locations) {
+                if (locations !== null && locations.length !== 0) {
+                    let lastLocation = locations.slice(-1)[0];
+                    let lastLocationToDate = new Date(lastLocation.to);
+                    this.from = lastLocationToDate.getFullYear() + '-' + (lastLocationToDate.getMonth() + 1) + '-' + lastLocationToDate.getDate();
+                }
+            },
+
             from: function (from) {
                 let fromDate = new Date(from);
                 this.notBeforeDate = fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate();
+
+                let toDate = new Date(from);
+                let toDateAddOneDay = new Date(toDate.setDate(toDate.getDate() + 1));
+
+                this.to = toDateAddOneDay.getFullYear() + '-' + (toDateAddOneDay.getMonth() + 1) + '-' + toDateAddOneDay.getDate();
             },
             to: function (to) {
                 let toDate = new Date(to);
@@ -104,18 +119,23 @@
             reset() {
                 this.to = null;
                 this.from = null;
-                this.place = null;
                 this.name = null;
-                this.errors = null;
+                this.errors = [];
+                this.place = null;
                 this.notBeforeDate = null;
+                $('#autocomplete input').val('');
+//                this.$refs.autocomplete.clear();
             },
 
             addLocation() {
                 let self = this;
+                let toDate = new Date(this.to);
+                let fromDate = new Date(this.from);
+
                 let postData = {
-                    to: this.to,
-                    from: this.from,
-                    name: this.name
+                    name: this.name,
+                    to: toDate.getFullYear() + '-' + (toDate.getMonth() + 1) + '-' + toDate.getDate(),
+                    from: fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate()
                 };
 
                 if (this.place) {
@@ -126,13 +146,13 @@
                 }
 
                 axios.post('/api/trip/' + self.tripId + '/location', postData)
-                        .then(function (response) {
-                            self.reset();
-                            EventBus.$emit('refresh-trip');
-                        })
-                        .catch(function (error) {
-                            self.errors = error.response.data;
-                        });
+                    .then(function (response) {
+                        self.reset();
+                        EventBus.$emit('refresh-trip');
+                    })
+                    .catch(function (error) {
+                        self.errors = error.response.data;
+                    });
 
             },
 

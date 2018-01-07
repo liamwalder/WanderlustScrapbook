@@ -90,7 +90,7 @@
                     lat: parseFloat(location.latitude),
                     lng: parseFloat(location.longitude)
                 };
-                self.zoom = 10;
+                self.zoom = 9;
             });
 
             EventBus.$on('select-entry', function(entry) {
@@ -114,7 +114,7 @@
                 self.center = {lat: 13.736717, lng: 100.523186};
             });
 
-            EventBus.$on('add-entry', function() {
+            EventBus.$on('adding-entry', function() {
                 self.allowRightClick = true;
             });
 

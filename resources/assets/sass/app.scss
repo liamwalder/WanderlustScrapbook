@@ -349,6 +349,9 @@ body {
         width: 100%;
         white-space: pre-line;
       }
+      .location-images {
+        margin-bottom: 0;
+      }
     }
 
     .entries {
@@ -441,6 +444,12 @@ body {
 
   .map {
     padding-left: 0;
+  }
+
+  .blueimp-gallery {
+    a {
+      color: white !important;
+    }
   }
 
 }
