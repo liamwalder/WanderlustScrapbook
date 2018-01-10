@@ -16,7 +16,9 @@ Route::get('/locations', 'Api\LocationsController@index');
 Route::post('/locations', 'Api\LocationsController@store');
 
 Route::post('/trip/{id}/location', 'Api\LocationController@store');
+
 Route::put('/location/{id}', 'Api\LocationController@update');
+Route::post('/media/location/attach', 'Api\MediaController@attachToLocation');
 
 Route::get('/trip/{id}', 'Api\TripController@single');
 Route::put('/trip/{id}', 'Api\TripController@update');

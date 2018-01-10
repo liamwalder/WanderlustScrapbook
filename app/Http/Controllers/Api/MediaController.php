@@ -4,8 +4,11 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Repositories\FileRepository;
+use App\Repositories\LocationRepository;
+use App\Services\FileService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -56,5 +59,32 @@ class MediaController extends Controller {
 
         return response()->json([], 200);
     }
+
+
+    /**
+     * @param Request $request
+     * @param LocationRepository $locationRepository
+     * @param FileService $fileService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function attachToLocation(Request $request, LocationRepository $locationRepository, FileService $fileService)
+    {
+        $validator = Validator::make($request->all(), [
+            'files' => 'required',
+            'location' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+            return response()->json($validator->messages(), 400);
+        }
+
+        $location = $locationRepository->getLocation($request->get('location'));
+        $fileService->attachFilesToLocation($location, $request->get('files'));
+
+        return response()->json([], 200);
+    }
+
+
+
 
 }

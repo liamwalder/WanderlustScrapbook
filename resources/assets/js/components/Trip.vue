@@ -6,7 +6,7 @@
         <div class="row">
             <div class="col-6">
                 <div class="sidebar">
-                    <div class="row" v-show="!addingEntry && !addingLocation">
+                    <div class="row" v-show="!addingEntry && !addingLocation & !addingMedia">
                         <div class="col-6 content divider">
                             <locations-list
                                 :locations="locations"
@@ -34,7 +34,7 @@
                     </div>
                     <div class="row" v-show="addingMedia">
                         <div class="col-12 content add-entry">
-                            <!--<add-media :trip-id="tripId"></add-media>-->
+                            <add-media :locations="locations"></add-media>
                         </div>
                     </div>
                 </div>
@@ -88,6 +88,7 @@
             EventBus.$on('refresh-trip', function() {
                 self.getTrip();
                 self.addingEntry = false;
+                self.addingMedia = false;
                 self.addingLocation = false;
             });
 

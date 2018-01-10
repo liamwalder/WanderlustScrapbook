@@ -50704,6 +50704,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('image-gallery', __webpack
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('trip-name', __webpack_require__(417));
 
 // Input Screens
+__WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('add-media', __webpack_require__(463));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('add-entry', __webpack_require__(420));
 __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('add-location', __webpack_require__(427));
 
@@ -74133,6 +74134,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('refresh-trip', function () {
             self.getTrip();
             self.addingEntry = false;
+            self.addingMedia = false;
             self.addingLocation = false;
         });
 
@@ -80145,8 +80147,10 @@ var render = function() {
                   {
                     name: "show",
                     rawName: "v-show",
-                    value: !_vm.addingEntry && !_vm.addingLocation,
-                    expression: "!addingEntry && !addingLocation"
+                    value:
+                      !_vm.addingEntry &&
+                      !_vm.addingLocation & !_vm.addingMedia,
+                    expression: "!addingEntry && !addingLocation & !addingMedia"
                   }
                 ],
                 staticClass: "row"
@@ -80244,7 +80248,14 @@ var render = function() {
                 ],
                 staticClass: "row"
               },
-              [_c("div", { staticClass: "col-12 content add-entry" })]
+              [
+                _c(
+                  "div",
+                  { staticClass: "col-12 content add-entry" },
+                  [_c("add-media", { attrs: { locations: _vm.locations } })],
+                  1
+                )
+              ]
             )
           ])
         ]),
@@ -81401,8 +81412,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -81499,14 +81508,17 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             if (self.entryId) {
                 axios.put('/api/entry/' + self.entryId, postData).then(function (response) {
+                    self.reset();
                     __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
+                    self.$refs.mediaUpload.removeAllFiles();
                 }).catch(function (error) {
                     self.errors = error.response.data;
                 });
             } else {
                 axios.post('/api/entry', postData).then(function (response) {
-                    __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
                     self.reset();
+                    __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
+                    self.$refs.mediaUpload.removeAllFiles();
                 }).catch(function (error) {
                     self.errors = error.response.data;
                 });
@@ -85238,7 +85250,7 @@ var render = function() {
             _vm._v(" "),
             _c("p", { staticClass: "notice" }, [
               _vm._v(
-                "\n                The numbers on the marker are only there to help manage them. The numbers will not be shown anywhere.\n            "
+                "The numbers on the marker are only there to help manage them. The numbers will not be shown anywhere."
               )
             ]),
             _vm._v(" "),
@@ -85270,12 +85282,22 @@ var render = function() {
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "form-group" },
+        {
+          directives: [
+            {
+              name: "show",
+              rawName: "v-show",
+              value: !_vm.editingEntry,
+              expression: "!editingEntry"
+            }
+          ],
+          staticClass: "form-group"
+        },
         [
           _c("label", [_vm._v("Add media related to this entry")]),
           _vm._v(" "),
           _c("vue-dropzone", {
-            ref: "myVueDropzone",
+            ref: "mediaUpload",
             staticClass: "form-control",
             attrs: { id: "dropzone", options: _vm.dropzoneOptions },
             on: {
@@ -87926,6 +87948,301 @@ if (false) {
 /***/ (function(module, exports) {
 
 // removed by extract-text-webpack-plugin
+
+/***/ }),
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var disposed = false
+var normalizeComponent = __webpack_require__(1)
+/* script */
+var __vue_script__ = __webpack_require__(464)
+/* template */
+var __vue_template__ = __webpack_require__(465)
+/* template functional */
+var __vue_template_functional__ = false
+/* styles */
+var __vue_styles__ = null
+/* scopeId */
+var __vue_scopeId__ = null
+/* moduleIdentifier (server only) */
+var __vue_module_identifier__ = null
+var Component = normalizeComponent(
+  __vue_script__,
+  __vue_template__,
+  __vue_template_functional__,
+  __vue_styles__,
+  __vue_scopeId__,
+  __vue_module_identifier__
+)
+Component.options.__file = "resources/assets/js/components/InputScreen/AddMedia.vue"
+if (Component.esModule && Object.keys(Component.esModule).some(function (key) {  return key !== "default" && key.substr(0, 2) !== "__"})) {  console.error("named exports are not supported in *.vue files.")}
+
+/* hot reload */
+if (false) {(function () {
+  var hotAPI = require("vue-hot-reload-api")
+  hotAPI.install(require("vue"), false)
+  if (!hotAPI.compatible) return
+  module.hot.accept()
+  if (!module.hot.data) {
+    hotAPI.createRecord("data-v-35e78c9a", Component.options)
+  } else {
+    hotAPI.reload("data-v-35e78c9a", Component.options)
+' + '  }
+  module.hot.dispose(function (data) {
+    disposed = true
+  })
+})()}
+
+module.exports = Component.exports
+
+
+/***/ }),
+/* 464 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__event_bus__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_dropzone__ = __webpack_require__(422);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_vue2_dropzone___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_1_vue2_dropzone__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone_dist_vue2Dropzone_css__ = __webpack_require__(424);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_vue2_dropzone_dist_vue2Dropzone_css___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_vue2_dropzone_dist_vue2Dropzone_css__);
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+
+    components: {
+        'vue-dropzone': __WEBPACK_IMPORTED_MODULE_1_vue2_dropzone___default.a
+    },
+
+    props: ['locations'],
+
+    data: function data() {
+        return {
+            errors: [],
+            title: null,
+            location: [],
+            filesAttachedToLocation: [],
+            dropzoneOptions: {
+                url: '/api/media',
+                maxFilesize: 0.5,
+                thumbnailWidth: 150,
+                addRemoveLinks: true
+            }
+        };
+    },
+    created: function created() {},
+
+
+    watch: {
+        location: function location(selectedLocation) {
+            var self = this;
+            self.locations.forEach(function (location) {
+                if (selectedLocation == location.id) {
+                    __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('location-selected', location);
+                }
+            });
+        }
+    },
+
+    methods: {
+        reset: function reset() {
+            this.errors = [];
+            this.location = [];
+            this.filesAttachedToEntry = [];
+        },
+        cancelMedia: function cancelMedia() {
+            this.reset();
+            __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('input-screen-cancelled');
+        },
+        saveMedia: function saveMedia() {
+            var self = this;
+            var postData = {
+                location: this.location,
+                files: this.filesAttachedToLocation
+            };
+
+            axios.post('/api/media/location/attach', postData).then(function (response) {
+                self.reset();
+                __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
+                self.$refs.mediaUpload.removeAllFiles();
+            }).catch(function (error) {
+                self.errors = error.response.data;
+            });
+        },
+        successUpload: function successUpload(file, response) {
+            this.filesAttachedToLocation.push(response[0].filename);
+        },
+        removeFile: function removeFile(file) {
+            console.log(file);
+        }
+    }
+
+});
+
+/***/ }),
+/* 465 */
+/***/ (function(module, exports, __webpack_require__) {
+
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c("div", { staticClass: "content-sidebar" }, [
+    _c("div", { staticClass: "col-12" }, [
+      _c("div", { staticClass: "header" }, [
+        _c("h3", [_vm._v("Add Media")]),
+        _vm._v(" "),
+        _c(
+          "a",
+          {
+            staticClass: "float-right",
+            on: {
+              click: function($event) {
+                _vm.cancelMedia()
+              }
+            }
+          },
+          [
+            _c("i", {
+              staticClass: "fa fa-times",
+              attrs: { "aria-hidden": "true" }
+            })
+          ]
+        )
+      ]),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group" }, [
+        _c("label", [_vm._v("Where are you?")]),
+        _vm._v(" "),
+        _c(
+          "select",
+          {
+            directives: [
+              {
+                name: "model",
+                rawName: "v-model",
+                value: _vm.location,
+                expression: "location"
+              }
+            ],
+            staticClass: "form-control",
+            class: { "is-invalid": _vm.errors.location },
+            on: {
+              change: function($event) {
+                var $$selectedVal = Array.prototype.filter
+                  .call($event.target.options, function(o) {
+                    return o.selected
+                  })
+                  .map(function(o) {
+                    var val = "_value" in o ? o._value : o.value
+                    return val
+                  })
+                _vm.location = $event.target.multiple
+                  ? $$selectedVal
+                  : $$selectedVal[0]
+              }
+            }
+          },
+          _vm._l(_vm.locations, function(location) {
+            return _c("option", { domProps: { value: location.id } }, [
+              _vm._v(_vm._s(location.name))
+            ])
+          })
+        )
+      ]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "form-group" },
+        [
+          _c("label", [_vm._v("Add your images and videos.")]),
+          _vm._v(" "),
+          _c("vue-dropzone", {
+            ref: "mediaUpload",
+            staticClass: "form-control",
+            class: { "is-invalid": _vm.errors.files },
+            attrs: { id: "dropzone", options: _vm.dropzoneOptions },
+            on: {
+              "vdropzone-removed-file": _vm.removeFile,
+              "vdropzone-success": _vm.successUpload
+            }
+          })
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c("div", { staticClass: "form-group save-entry" }, [
+        _c(
+          "button",
+          {
+            on: {
+              click: function($event) {
+                _vm.saveMedia()
+              }
+            }
+          },
+          [_vm._v("Save media")]
+        )
+      ])
+    ])
+  ])
+}
+var staticRenderFns = []
+render._withStripped = true
+module.exports = { render: render, staticRenderFns: staticRenderFns }
+if (false) {
+  module.hot.accept()
+  if (module.hot.data) {
+    require("vue-hot-reload-api")      .rerender("data-v-35e78c9a", module.exports)
+  }
+}
 
 /***/ })
 /******/ ]);

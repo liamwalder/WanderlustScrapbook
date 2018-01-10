@@ -40,5 +40,18 @@ class FileService {
         }
     }
 
+    /**
+     * @param Location $location
+     * @param $fileReferences
+     */
+    public function attachFilesToLocation(Location $location, $fileReferences)
+    {
+        foreach ($fileReferences as $fileReference) {
+            $file = $this->fileRepository->getFileByFilename($fileReference);
+            $file->location_id = $location->id;
+            $file->save();
+        }
+    }
+
 
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Location;
 use App\Repositories\LocationRepository;
+use App\Services\FileService;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -48,6 +49,21 @@ class LocationController extends Controller {
         $location = $locationRepository->updateLocation($location, $data);
 
         return response()->json($location, 200);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @param LocationRepository $locationRepository
+     * @param FileService $fileService
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function attachFiles(Request $request, $id, LocationRepository $locationRepository, FileService $fileService)
+    {
+        $location = $locationRepository->getLocation($id);
+        $fileService->attachFilesToLocation($location, $request->get('files'));
+
+        return response()->json([], 200);
     }
 
 

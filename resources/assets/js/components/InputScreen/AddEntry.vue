@@ -32,9 +32,7 @@
 
             <div class="form-group" v-if="entryLocations.length !== 0">
                 <label>Markers</label>
-                <p class="notice">
-                    The numbers on the marker are only there to help manage them. The numbers will not be shown anywhere.
-                </p>
+                <p class="notice">The numbers on the marker are only there to help manage them. The numbers will not be shown anywhere.</p>
                 <div class="markers">
                     <div class="marker" v-for="(entryLocation, key) in entryLocations">
                         <img v-bind:src="markerImageUrl(entryLocation)" />
@@ -45,11 +43,11 @@
                 </div>
             </div>
 
-            <div class="form-group">
+            <div class="form-group" v-show=!editingEntry>
                 <label>Add media related to this entry</label>
                 <vue-dropzone
                     class="form-control"
-                    ref="myVueDropzone"
+                    ref="mediaUpload"
                     id="dropzone"
                     :options="dropzoneOptions"
                     v-on:vdropzone-removed-file="removeFile"
@@ -165,7 +163,9 @@
                 if (self.entryId) {
                     axios.put('/api/entry/' + self.entryId, postData)
                         .then(function (response) {
+                            self.reset();
                             EventBus.$emit('refresh-trip');
+                            self.$refs.mediaUpload.removeAllFiles();
                         })
                         .catch(function (error) {
                             self.errors = error.response.data;
@@ -173,8 +173,9 @@
                 } else {
                     axios.post('/api/entry', postData)
                         .then(function (response) {
-                            EventBus.$emit('refresh-trip');
                             self.reset();
+                            EventBus.$emit('refresh-trip');
+                            self.$refs.mediaUpload.removeAllFiles();
                         })
                         .catch(function (error) {
                             self.errors = error.response.data;

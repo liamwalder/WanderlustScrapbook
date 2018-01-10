@@ -42,6 +42,7 @@ Vue.component('image-gallery', require('./components/Gallery.vue'));
 Vue.component('trip-name', require('./components/Trip/Name.vue'));
 
 // Input Screens
+Vue.component('add-media', require('./components/InputScreen/AddMedia.vue'));
 Vue.component('add-entry', require('./components/InputScreen/AddEntry.vue'));
 Vue.component('add-location', require('./components/InputScreen/AddLocation.vue'));
 
