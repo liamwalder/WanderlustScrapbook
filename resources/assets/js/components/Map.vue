@@ -1,8 +1,9 @@
 <template>
     <div>
         <GmapMap
-            :center="center"
             :zoom="zoom"
+            :center="center"
+            :bounds="bounds"
             style="width: 100%; height: 93vh"
             @rightclick="rightClick($event)"
         >
@@ -42,7 +43,8 @@
 
         data () {
             return {
-                zoom: 6,
+                bounds: null,
+                zoom: 2,
                 markers: [],
                 locations: [],
                 polylinePath: [],
@@ -134,6 +136,7 @@
                 self.markers = [];
                 self.polylinePath = [];
                 self.locations = newVal.locations;
+
                 self.entryLocations = newVal.markers.entryLocations;
 
                 if (newVal !== null) {
@@ -146,6 +149,7 @@
                     });
 
                     self.calculateCurvedLine = true;
+                    self.calculateMapCenter(newVal.markers.locations);
 
                     newVal.markers.entryLocations.forEach(function(location) {
                         self.addLocationToMap(
@@ -160,6 +164,22 @@
         },
 
         methods: {
+
+            calculateMapCenter(locations) {
+                var bounds = new google.maps.LatLngBounds();
+                locations.forEach(function(location) {
+                    let marker = new google.maps.Marker({
+                        position: new google.maps.LatLng(location.latitude, location.longitude)
+                    });
+                    bounds.extend(marker.position);
+                });
+
+                var boundsCenter = bounds.getCenter();
+                this.center = {
+                    lat: boundsCenter.lat(),
+                    lng: boundsCenter.lng()
+                }
+            },
 
             curvedPath(path, key) {
                 let firstLocationInPath = this.polylinePath[0];
