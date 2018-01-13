@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Repositories\FileRepository;
 use App\Repositories\LocationRepository;
 use App\Services\FileService;
+use App\Services\MediaService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
@@ -20,7 +21,7 @@ class MediaController extends Controller {
     /**
      * @param Request $request
      */
-    public function store(Request $request)
+    public function store(Request $request, MediaService $mediaService)
     {
         $mediaFiles = [];
 
@@ -34,9 +35,10 @@ class MediaController extends Controller {
             $mediaFile = new \App\File();
 
             $mediaFile->mime = $file->getClientMimeType();
-            $mediaFile->original_filename = $file->getClientOriginalName();
             $mediaFile->filename = $filename.'.'.$extension;
-
+            $mediaFile->original_filename = $file->getClientOriginalName();
+            $mediaFile->thumbnail = $mediaService->generateVideoThumbnail($mediaFile);
+            
             $mediaFile->save();
 
             $mediaFiles[] = $mediaFile;

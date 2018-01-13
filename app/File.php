@@ -15,7 +15,7 @@ class File extends Model
     /**
      * @var array
      */
-    protected $fillable = ['location_id', 'entry_id'];
+    protected $fillable = ['thumbnail', 'location_id', 'entry_id'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

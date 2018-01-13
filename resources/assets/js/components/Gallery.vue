@@ -1,9 +1,10 @@
 <template>
-
     <div>
-        <gallery :images="galleryImages" :index="galleryImageIndex" @close="galleryImageIndex = null"></gallery>
+        <gallery :images="galleryImages"
+                 :index="galleryImageIndex"
+                 @close="galleryImageIndex = null"
+        ></gallery>
     </div>
-
 </template>
 
 <script>
@@ -21,12 +22,7 @@
         created() {
             let self = this;
             EventBus.$on('open-gallery', function(data) {
-                let images = [];
-                data.images.forEach(function(image) {
-                   images.push(image.filename);
-                });
-
-                self.galleryImages = images;
+                self.galleryImages = data.files;
                 self.galleryImageIndex = data.index;
             });
         },

@@ -124,7 +124,6 @@
                 this.place = null;
                 this.notBeforeDate = null;
                 $('#autocomplete input').val('');
-//                this.$refs.autocomplete.clear();
             },
 
             addLocation() {

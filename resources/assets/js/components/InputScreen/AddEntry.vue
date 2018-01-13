@@ -89,7 +89,7 @@
                 filesAttachedToEntry: [],
                 dropzoneOptions: {
                     url: '/api/media',
-                    maxFilesize: 0.5,
+                    maxFilesize: 40,
                     thumbnailWidth: 150,
                     addRemoveLinks: true
                 }

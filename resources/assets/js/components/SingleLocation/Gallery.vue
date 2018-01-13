@@ -8,7 +8,7 @@
                 </span>
                 <div
                     class="image"
-                    @click="openGallery(images, imageIndex)"
+                    @click="openGallery(vueGalleryFiles, imageIndex)"
                     :style="{ backgroundImage: 'url(' + image.filename + ')' }"
                 ></div>
             </div>
@@ -18,7 +18,7 @@
                 </span>
                 <div
                     class="image"
-                    @click="openGallery(images, imageIndex)"
+                    @click="openGallery(vueGalleryFiles, imageIndex)"
                     :style="{ backgroundImage: 'url(' + image.filename + ')' }"
                 ></div>
             </div>
@@ -49,12 +49,25 @@
         },
 
         computed: {
+            editMode() {
+                return this.$store.getters.editMode;
+            },
+
             allImages() {
                 return this.$store.getters.contentSidebarState.viewingAllImages;
             },
-            editMode() {
-                return this.$store.getters.editMode;
+
+            vueGalleryFiles() {
+                let mediaFiles = [];
+                this.images.forEach(function (image) {
+                    mediaFiles.push({
+                        type: image.mime,
+                        href: image.filename
+                    })
+                });
+                return mediaFiles;
             }
+
         },
 
         methods: {
@@ -65,7 +78,7 @@
 
             openGallery(images, index) {
                 EventBus.$emit('open-gallery', {
-                    images: images,
+                    files: images,
                     index: index
                 })
             },

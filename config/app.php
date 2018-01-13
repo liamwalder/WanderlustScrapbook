@@ -167,6 +167,7 @@ return [
         /*
          * Package Service Providers...
          */
+        Lakshmaji\Thumbnail\ThumbnailServiceProvider::class,
 
         /*
          * Application Service Providers...
@@ -225,6 +226,8 @@ return [
         'URL' => Illuminate\Support\Facades\URL::class,
         'Validator' => Illuminate\Support\Facades\Validator::class,
         'View' => Illuminate\Support\Facades\View::class,
+
+        'Thumbnail' => Lakshmaji\Thumbnail\Facade\Thumbnail::class,
 
     ],
 
