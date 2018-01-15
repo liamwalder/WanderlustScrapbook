@@ -54,6 +54,8 @@
 
     export default {
 
+        props: ['requestedTripId'],
+
         components: {
             draggable,
             'gallery': VueGallery
@@ -138,7 +140,7 @@
         methods: {
             getTrip() {
                 let self = this;
-                axios.get('/api/trip/1')
+                axios.get('/api/trip/' + self.requestedTripId)
                     .then(function (response) {
                         self.trip = response.data;
                         self.tripId = response.data.trip.id;

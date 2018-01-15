@@ -9,7 +9,7 @@
                 <div
                     class="image"
                     @click="openGallery(vueGalleryFiles, imageIndex)"
-                    :style="{ backgroundImage: 'url(' + image.filename + ')' }"
+                    :style="{ backgroundImage: 'url(' + image.thumbnail + ')' }"
                 ></div>
             </div>
             <div v-for="image, imageIndex in images.slice(maximumImageCount)" v-show="allImages || !viewAll" class="image-holder">
@@ -19,7 +19,7 @@
                 <div
                     class="image"
                     @click="openGallery(vueGalleryFiles, imageIndex)"
-                    :style="{ backgroundImage: 'url(' + image.filename + ')' }"
+                    :style="{ backgroundImage: 'url(' + image.thumbnail + ')' }"
                 ></div>
             </div>
             <div class="view-all" v-if="viewAll">
@@ -62,7 +62,8 @@
                 this.images.forEach(function (image) {
                     mediaFiles.push({
                         type: image.mime,
-                        href: image.filename
+                        href: image.filename,
+                        poster: image.thumbnail
                     })
                 });
                 return mediaFiles;

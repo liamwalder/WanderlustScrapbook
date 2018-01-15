@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -12,10 +13,17 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
  */
 class Trip extends Model
 {
+    use SoftDeletes;
+
     /**
      * @var array
      */
-    protected $fillable = ['name'];
+    protected $fillable = ['name', 'user_id'];
+
+    /**
+     * @var array
+     */
+    protected $dates = ['deleted_at'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
@@ -23,6 +31,14 @@ class Trip extends Model
     public function locations()
     {
         return $this->hasMany(Location::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 
 }

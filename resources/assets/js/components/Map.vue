@@ -2,30 +2,32 @@
     <div>
         <GmapMap
             :zoom="zoom"
+            ref="travelMap"
             :center="center"
-            :bounds="bounds"
             style="width: 100%; height: 93vh"
             @rightclick="rightClick($event)"
         >
             <GmapCluster :gridSize="20">
                 <GmapMarker
                     :key="index"
-                    v-for="(m, index) in markers"
-                    :position="m.position"
+                    :icon="m.icon"
+                    v-if="mapLoaded"
                     :clickable="true"
                     :draggable="false"
-                    :icon="m.icon"
+                    :position="m.position"
                     @click="markerClick(m)"
+                    v-for="(m, index) in markers"
                 ></GmapMarker>
             </GmapCluster>
             <GmapPolyline
-                v-for="(path, index) in polylinePath"
                 :key="index"
-                @click="clickPolyline()"
-                :draggable="false"
+                v-if="mapLoaded"
                 :editable="false"
-                :path="curvedPath(path, index)"
+                :draggable="false"
+                @click="clickPolyline()"
                 :options="polylineOptions"
+                :path="curvedPath(path, index)"
+                v-for="(path, index) in polylinePath"
             ></GmapPolyline>
         </GmapMap>
     </div>
@@ -43,36 +45,18 @@
 
         data () {
             return {
-                bounds: null,
                 zoom: 2,
                 markers: [],
                 locations: [],
                 polylinePath: [],
+                mapLoaded: false,
                 entryLocations: [],
                 selectedLocation:[],
+                polylineOptions: {},
                 adhocEntryMarkers: [],
                 allowRightClick: false,
                 adhocEntryMarkerCount: 0,
-                calculateCurvedLine: false,
-                center: {lat: 13.736717, lng: 100.523186},
-                locationMarkerOptions: {
-                    icon: {
-                        path: google.maps.SymbolPath.CIRCLE,
-                        scale: 5,
-                        fillColor: '#f39c12',
-                        strokeColor: '#f39c12'
-                    }
-                },
-                polylineOptions: {
-                    strokeWeight: 2,
-                    icons: [{
-                        repeat: '45px',
-                        offset: '100%',
-                        icon: {
-                            path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW
-                        }
-                    }]
-                }
+                center: {lat: 13.736717, lng: 100.523186}
             }
         },
 
@@ -130,40 +114,70 @@
 
         },
 
+        mounted: function() {
+            let self = this;
+            this.$refs.travelMap.$mapCreated.then(function() {
+                self.renderMarkers();
+                self.mapLoaded = true;
+                self.polylineOptions = {
+                    strokeWeight: 2,
+                    icons: [{
+                        repeat: '45px',
+                        offset: '100%',
+                        icon: {
+                            path: google.maps.SymbolPath.BACKWARD_CLOSED_ARROW
+                        }
+                    }]
+                }
+            })
+        },
+
         watch: {
             trip: function(newVal) {
                 let self = this;
                 self.markers = [];
                 self.polylinePath = [];
-                self.locations = newVal.locations;
 
+                self.locations = newVal.markers.locations;
                 self.entryLocations = newVal.markers.entryLocations;
 
-                if (newVal !== null) {
-                    newVal.markers.locations.forEach(function(location) {
-                        self.addLocationToMap(
-                            location,
-                            true,
-                            self.locationMarkerOptions
-                        );
-                    });
-
-                    self.calculateCurvedLine = true;
-                    self.calculateMapCenter(newVal.markers.locations);
-
-                    newVal.markers.entryLocations.forEach(function(location) {
-                        self.addLocationToMap(
-                            location,
-                            false,
-                            'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png',
-                            { entry: location.entry }
-                        );
-                    });
+                if (newVal !== null && self.mapLoaded == true) {
+                    self.renderMarkers();
                 }
             }
         },
 
         methods: {
+
+            renderMarkers() {
+                let self = this;
+                self.locations.forEach(function(location) {
+                    self.addLocationToMap(
+                        location,
+                        true,
+                        {
+                            icon: {
+                                path: google.maps.SymbolPath.CIRCLE,
+                                scale: 5,
+                                fillColor: '#f39c12',
+                                strokeColor: '#f39c12'
+                            }
+                        }
+                    );
+                });
+
+                self.calculateMapCenter(self.locations);
+
+                self.entryLocations.forEach(function(location) {
+                    self.addLocationToMap(
+                        location,
+                        false,
+                        'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png',
+                        { entry: location.entry }
+                    );
+                });
+
+            },
 
             calculateMapCenter(locations) {
                 var bounds = new google.maps.LatLngBounds();

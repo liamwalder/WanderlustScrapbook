@@ -1,6 +1,7 @@
 require('./bootstrap');
 
 window.Vue = require('vue');
+window.$ = require('jquery');
 window.axios = require('axios');
 
 import Vue from 'vue';
@@ -14,7 +15,7 @@ Vue.use(ToggleButton);
 Vue.use(require('vue-moment'));
 Vue.use(VueGoogleMaps, {
     load: {
-        key: 'AIzaSyBvWE_sIwKbWkiuJQOf8gSk9qzpO96fhfY',
+        key: 'AIzaSyC77tkgnSwKwwL7hEq8o7P9cRO2ibIC8ds',
         libraries: 'places', // This is required if you use the Autocomplete plugin
         // OR: libraries: 'places,drawing'
         // OR: libraries: 'places,drawing,visualization'

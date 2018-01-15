@@ -1,9 +1,11 @@
 // Leaflet
-@import "~leaflet/dist/leaflet.css";
+@import "variables";
+@import "trip/index";
+@import "trip/create";
+@import "_shared.scss";
 
 body,
-#app,
-.container {
+#app {
   height: 100vh;
 }
 

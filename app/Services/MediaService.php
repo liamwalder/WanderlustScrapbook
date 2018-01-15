@@ -19,25 +19,22 @@ class MediaService {
      * @param $mediaFile
      * @return mixed
      */
-    public function generateVideoThumbnail($mediaFile)
+    public function generateThumbnail($mediaFile)
     {
-        $storagePath = storage_path('app');
+        if (strpos($mediaFile->mime, 'video') !== false) {
+            $storagePath = storage_path('app/');
 
-        $videoPath = $storagePath . '/' . $mediaFile->filename;
-        $thumbnailFilename = md5('thumbnail'.$mediaFile->filename.time()).'.jpg';
+            $videoPath = storage_path('app/' . $mediaFile->filename);
+            $thumbnailFilename = md5('thumbnail'.$mediaFile->filename.time()).'.jpg';
 
-        $video = new \ffmpeg_movie($videoPath, false);
-        $frame = $video->getFrame(10);
+            $thumbnailPath = $storagePath . $thumbnailFilename;
 
-        if ($frame) {
-            $gdImage = $frame->toGDImage();
-            if ($gdImage) {
-                imagepng($gdImage, $thumbnailFilename);
-                imagedestroy($gdImage);
-            }
+            shell_exec("ffmpeg -i $videoPath -ss 00:00:01 -vframes 1 $thumbnailPath");
+
+            return $thumbnailFilename;
         }
-        
-        return $thumbnailFilename;
+
+        return $mediaFile->filename;
     }
 
 }

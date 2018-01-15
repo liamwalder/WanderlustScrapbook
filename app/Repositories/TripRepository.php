@@ -6,13 +6,56 @@ use App\Entry;
 use App\File;
 use App\Image;
 use App\Location;
+use App\Services\AuthService;
 use App\Trip;
+use App\User;
 
 /**
  * Class TripRepository
  * @package App\Repositories
  */
 class TripRepository {
+
+    /**
+     * TripRepository constructor.
+     * @param AuthService $authService
+     */
+    public function __construct(AuthService $authService)
+    {
+        $this->authService = $authService;
+    }
+
+    /**
+     * @param User $user
+     * @return mixed
+     */
+    public function getTripsForUser()
+    {
+        return Trip::with('locations')
+            ->where('user_id', $this->authService->getUser()->id)
+            ->get();
+    }
+
+    /**
+     * @param Trip $trip
+     * @throws \Exception
+     */
+    public function deleteTrip(Trip $trip)
+    {
+        $trip->delete();
+    }
+
+    /**
+     * @param $data
+     * @return mixed
+     */
+    public function createTrip($data)
+    {
+        return Trip::create([
+            'name' => $data['name'],
+            'user_id' => $this->authService->getUser()->id
+        ]);
+    }
 
     /**
      * @param $id

@@ -9,8 +9,9 @@
         <title>TravelApp</title>
 
         <!-- Fonts -->
-        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
+
         <link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
@@ -19,10 +20,8 @@
     </head>
     <body>
         <div id="app">
-            <trip></trip>
+            <trip :requested-trip-id="{{ $id }}"></trip>
         </div>
-        <script src="https://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>
         <script src="{{ asset('/js/app.js') }}"></script>
-
     </body>
 </html>

@@ -1,0 +1,40 @@
+#trip-index {
+  margin-top: 20px;
+  h1 {
+    color: black;
+  }
+  .notice {
+    font-size: 18px;
+  }
+  .trips {
+    .trip {
+      padding-top: 20px;
+      margin-bottom: 40px;
+      border-top: 2px solid #f5f5f5;
+      &:first-child {
+        border: none;
+        padding-top: 0;
+      }
+      .name {
+        a {
+          color: black;
+          font-size: 30px;
+          font-family: 'Montserrat', sans-serif;
+        }
+      }
+      .details {
+        display: flex;
+        font-size: 18px;
+        align-items: center;
+        .delete-trip {
+          border: none;
+          cursor: pointer;
+          background: none;
+        }
+      }
+    }
+  }
+  #add-to-trip {
+    margin-top: 40px;
+  }
+}

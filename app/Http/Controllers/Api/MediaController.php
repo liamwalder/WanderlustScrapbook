@@ -37,7 +37,7 @@ class MediaController extends Controller {
             $mediaFile->mime = $file->getClientMimeType();
             $mediaFile->filename = $filename.'.'.$extension;
             $mediaFile->original_filename = $file->getClientOriginalName();
-            $mediaFile->thumbnail = $mediaService->generateVideoThumbnail($mediaFile);
+            $mediaFile->thumbnail = $mediaService->generateThumbnail($mediaFile);
             
             $mediaFile->save();
 
