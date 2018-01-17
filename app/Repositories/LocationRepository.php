@@ -52,6 +52,7 @@ class LocationRepository {
             'trip_id' => $tripId,
             'order' => $thisLocationOrder,
             'name' => $request->get('name'),
+            'country' => $request->get('country'),
             'latitude' => $requestLocation['lat'],
             'longitude' => $requestLocation['lng'],
             'to' => $request->get('to') ? new \DateTime($request->get('to')) : null,

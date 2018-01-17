@@ -75,6 +75,7 @@
                 name: null,
                 errors: [],
                 place: null,
+                country: null,
                 notAfterDate: null,
                 notBeforeDate: null
             }
@@ -155,9 +156,24 @@
 
             },
 
+            /**
+             *
+             * @param place
+             */
             setPlace(place) {
+                let self = this;
+
                 this.place = place;
                 this.name = place.formatted_address;
+
+                place.address_components.forEach(function(addressComponent) {
+                    addressComponent.types.forEach(function(placeType) {
+                        if (placeType == 'country') {
+                            self.country = addressComponent.long_name;
+                        }
+                    });
+
+                });
             }
 
         }

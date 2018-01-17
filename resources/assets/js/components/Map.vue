@@ -1,10 +1,10 @@
 <template>
-    <div>
+    <div id="map">
         <GmapMap
             :zoom="zoom"
             ref="travelMap"
             :center="center"
-            style="width: 100%; height: 93vh"
+            style="width: 100%; height: calc(100vh - 114px);"
             @rightclick="rightClick($event)"
         >
             <GmapCluster :gridSize="20">

@@ -3,8 +3,8 @@
 @section('content')
     <div class="container" id="trip-index">
         <div class="row">
-            <div class="col-md-6 offset-md-3">
-                <div class="col-md-12">
+            <div class="col-md-8 offset-md-3">
+                <div class="col-md-12 content-block">
                     <h1 class="heading">Your Trips</h1>
                     <div class="trips">
                         @if ($trips->count() !== 0)
@@ -15,7 +15,7 @@
                                     </div>
                                     <div class="details">
                                         <span class="countries">
-                                            5 countries
+                                            {{ $trip->countries }} countries
                                         </span>
                                         <span class="circle-separator"></span>
                                         <span class="miles">

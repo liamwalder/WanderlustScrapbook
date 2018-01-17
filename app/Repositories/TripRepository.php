@@ -31,7 +31,9 @@ class TripRepository {
      */
     public function getTripsForUser()
     {
-        return Trip::with('locations')
+        return Trip::with(['locations' => function($query) {
+                $query->orderBy('order', 'ASC');
+            }])
             ->where('user_id', $this->authService->getUser()->id)
             ->get();
     }

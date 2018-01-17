@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Repositories\TripRepository;
 use App\Services\AuthService;
 use App\Services\DistanceService;
+use App\Services\TripService;
 use App\Trip;
 use Illuminate\Http\Request;
 
@@ -27,16 +28,17 @@ class TripController extends Controller
     }
 
     /**
-     * @param AuthService $authService
      * @param TripRepository $tripRepository
+     * @param TripService $tripService
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function index(TripRepository $tripRepository, DistanceService $distanceService)
+    public function index(TripRepository $tripRepository, TripService $tripService)
     {
         $trips = $tripRepository->getTripsForUser();
 
         foreach ($trips as $trip) {
-            $trip->miles = $distanceService->getDistancesForLatitudeAndLongitudes($trip->locations);
+            $trip->miles = $tripService->getTripMiles($trip);
+            $trip->countries = $tripService->getCountryCountForTrip($trip);
         }
 
         return view('trip.index', [

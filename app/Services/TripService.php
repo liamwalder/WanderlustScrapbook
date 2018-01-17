@@ -14,6 +14,20 @@ use App\Trip;
 class TripService {
 
     /**
+     * @var DistanceService
+     */
+    public $distanceService;
+
+    /**
+     * TripService constructor.
+     * @param DistanceService $distanceService
+     */
+    public function __construct(DistanceService $distanceService)
+    {
+        $this->distanceService = $distanceService;
+    }
+
+    /**
      * @param Trip $trip
      * @return array
      */
@@ -60,5 +74,36 @@ class TripService {
         }
         return $entryLocations;
     }
+
+    /**
+     * @param Trip $trip
+     * @return mixed
+     */
+    public function getCountryCountForTrip(Trip $trip)
+    {
+        $locationsGroupedByCountry = $trip->locations->groupBy('country');
+        return $locationsGroupedByCountry->count();
+    }
+
+    /**
+     * @param Trip $trip
+     * @return float|int
+     */
+    public function getTripMiles(Trip $trip)
+    {
+        $miles = 0;
+        $locations = $trip->locations;
+        
+        foreach ($locations as $key => $location) {
+            if ($key > 0) {
+                $locationOne = $locations[($key - 1)];
+                $locationTwo = $location;
+                $miles += $this->distanceService->getDistancesForLatitudeAndLongitude($locationOne->latitude, $locationTwo->latitude, $locationOne->longitude, $locationTwo->longitude);
+            }
+        }
+
+        return number_format(round($miles));
+    }
+
 
 }

@@ -6,6 +6,12 @@
   border-radius: 50%;
   background-color: #f5f5f5;
   display: inline-block;
+  &.black {
+    background-color: black;
+  }
+  &.grey {
+    background-color: lighten(grey, 25%);
+  }
 }
 
 .btn.button-primary {
@@ -21,12 +27,24 @@
   }
 }
 
+body {
+  background-color: #F6F6F6 !important;
+}
+
+.content-block {
+  background: #fff;
+  border-radius: 2px;
+  box-shadow: 0 1px 5px #dcdcdc;
+  padding: 5% 10% !important;
+  border: 0 solid rgba(255,255,255,.25);
+}
+
 input, .btn {
   border-radius: 2px !important;
 }
 
 nav {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 1px 5px #dcdcdc;
   &.margin-bottom {
     margin-bottom: 30px;
   }

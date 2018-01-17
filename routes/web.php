@@ -13,14 +13,13 @@
 
 Auth::routes();
 
-// Trip
+Route::group(['middleware' => ['auth']], function () {
+    Route::get('/trips', 'TripController@index')->name('trip.index');
+    Route::post('/trip/create', 'TripController@store')->name('trip.store');
+    Route::get('/trip/create', 'TripController@create')->name('trip.create');
+    Route::delete('/trip/{id}', 'TripController@delete')->name('trip.delete');
+    Route::get('/trip/{id}', 'TripController@single')->name('trip');
 
-Route::get('/trips', 'TripController@index')->name('trip.index');
+    Route::get('/{filename}', 'MediaController@serve');
+});
 
-Route::post('/trip/create', 'TripController@store')->name('trip.store');
-Route::get('/trip/create', 'TripController@create')->name('trip.create');
-Route::delete('/trip/{id}', 'TripController@delete')->name('trip.delete');
-Route::get('/trip/{id}', 'TripController@single')->name('trip');
-
-// Media
-Route::get('/{filename}', 'MediaController@serve');

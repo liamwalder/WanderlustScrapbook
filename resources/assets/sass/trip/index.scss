@@ -23,13 +23,13 @@
         }
       }
       .details {
-        display: flex;
         font-size: 18px;
         align-items: center;
         .delete-trip {
           border: none;
           cursor: pointer;
           background: none;
+          display: inline-block;
         }
       }
     }

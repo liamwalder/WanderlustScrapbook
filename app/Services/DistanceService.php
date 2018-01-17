@@ -13,35 +13,20 @@ use App\Repositories\FileRepository;
 class DistanceService {
 
     /**
-     * @param $locations
-     * @return float|int
+     * @param $latitudeOne
+     * @param $latitudeTwo
+     * @param $longitudeOne
+     * @param $longitudeTwo
+     * @return float
      */
-    public function getDistancesForLatitudeAndLongitudes($locations)
+    public function getDistancesForLatitudeAndLongitude($latitudeOne, $latitudeTwo, $longitudeOne, $longitudeTwo)
     {
-        $miles = 0;
+        $theta = $longitudeOne - $longitudeTwo;
+        $dist = sin(deg2rad($latitudeOne)) * sin(deg2rad($latitudeTwo)) +  cos(deg2rad($latitudeOne)) * cos(deg2rad($latitudeTwo)) * cos(deg2rad($theta));
+        $dist = acos($dist);
+        $dist = rad2deg($dist);
+        $miles = $dist * 60 * 1.1515;
 
-        foreach ($locations as $key => $location) {
-            if ($key > 0) {
-
-                $firstPosition = $locations[($key - 1)];
-                $secondPosition = $locations[$key];
-
-                $latitudeOne = $firstPosition->latitude;
-                $latitudeTwo = $secondPosition->latitude;
-
-                $longitudeOne = $firstPosition->longitude;
-                $longitudeTwo = $secondPosition->longitude;
-
-                $theta = $longitudeOne - $longitudeTwo;
-                $dist = sin(deg2rad($latitudeOne)) * sin(deg2rad($latitudeTwo)) +  cos(deg2rad($latitudeOne)) * cos(deg2rad($latitudeTwo)) * cos(deg2rad($theta));
-                $dist = acos($dist);
-                $dist = rad2deg($dist);
-                $miles += $dist * 60 * 1.1515;
-
-            }
-        }
-
-        $miles = number_format(round($miles));
         return $miles;
     }
 

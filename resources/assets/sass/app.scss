@@ -1,6 +1,7 @@
 // Leaflet
 @import "variables";
 @import "trip/index";
+@import "trip/single";
 @import "trip/create";
 @import "_shared.scss";
 
@@ -31,7 +32,7 @@ body {
 
   .navbar {
     background-color: white !important;
-    border-bottom: 1px solid #f5f5f5;
+    border-bottom: 1px solid #F6F6F6;
     .content {
       width: 100%;
       display: flex;
@@ -41,7 +42,7 @@ body {
         margin-right: 20px;
         align-items: center;
         padding-right: 20px;
-        border-right: 1px solid #f5f5f5;
+        border-right: 1px solid #F6F6F6;
       }
     }
   }
@@ -137,9 +138,10 @@ body {
       height: 100vh;
       overflow: scroll;
       padding-bottom: 100px;
+      background-color: white;
     }
     .divider {
-      background-color: #f5f5f5;
+      background-color: #F6F6F6;
       padding-right: 0;
     }
     .off-canvas-content {

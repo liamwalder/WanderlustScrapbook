@@ -10,6 +10,7 @@ use App\Repositories\FileRepository;
 use App\Repositories\ImageRepository;
 use App\Repositories\LocationRepository;
 use App\Repositories\TripRepository;
+use App\Services\DistanceService;
 use App\Services\TripService;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -21,6 +22,9 @@ class TripController extends Controller {
 
     /**
      * @param Request $request
+     * @param $id
+     * @param TripService $tripService
+     * @param TripRepository $tripRepository
      * @return \Illuminate\Http\JsonResponse
      */
     public function single(
@@ -29,17 +33,19 @@ class TripController extends Controller {
         TripService $tripService,
         TripRepository $tripRepository
     ) {
-
         $trip = $tripRepository->getTrip($id);
 
         return response()->json([
             'trip' => [
                 'id' => $trip->id,
-                'name' => $trip->name
+                'name' => $trip->name,
+                'locationCount' => $trip->locations->count(),
+                'miles' => $tripService->getTripMiles($trip),
+                'countries' => $tripService->getCountryCountForTrip($trip),
             ],
             'activity' => [
-                'entries' => $tripService->getEntriesForTrip($trip),
                 'files' => $tripService->getFilesForTrip($trip),
+                'entries' => $tripService->getEntriesForTrip($trip)
             ],
             'markers' => [
                 'locations' => $trip->locations,

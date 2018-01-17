@@ -10,17 +10,18 @@
 
         <title>{{ config('app.name', 'Laravel') }}</title>
 
-        <!-- Styles -->
+        <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
-        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
+
+        <link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" />
     </head>
-    <body>
+    <body class="@yield('bodyClass')">
         <div id="app">
-            <nav class="navbar navbar-light bg-faded margin-bottom">
-                <div class="container">
+            <nav class="navbar navbar-light bg-faded margin-bottom main">
+                <div class="@yield('navbarClass', 'container')">
                     <a class="navbar-brand">Logo</a>
                     @if(Auth::user())
                         <form method="post" action="{{ route('logout') }}">

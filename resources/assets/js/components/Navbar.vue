@@ -1,8 +1,7 @@
 <template>
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light" id="single-trip-navbar">
         <span class="navbar-brand">
             <trip-name :trip="trip"></trip-name>
-            <!--{{ tripName }} <a class="notice instruction" v-show="editMode">Change</a>-->
         </span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,6 +21,15 @@
             </ul>
         </div>
         <div class="form-inline my-2 my-lg-0">
+
+            <div class="details" v-if="trip">
+                <span>{{ trip.countries }} countries</span>
+                <span class="circle-separator grey"></span>
+                <span>{{ trip.miles }} miles</span>
+                <span class="circle-separator grey"></span>
+                <span>{{ trip.locationCount }} locations</span>
+            </div>
+
             <toggle-button
                 color="#f39c12"
                 :value="editMode"
