@@ -1,15 +1,10 @@
 <template>
-    <div>
-        <h3 class="location-name">
-            <div v-show="editingLocationName == null">
-                {{ location.name }}
-                <a class="instruction" v-on:click="editName(location)" v-show="editMode">Change name</a>
-            </div>
-            <div v-show="editMode && editingLocationName !== null" class="edit-location-name">
-                <input type="text" class="form-control" v-model="name" />
-                <a class="instruction" v-on:click="saveName()">Save name</a>
-            </div>
-        </h3>
+    <div class="location-name">
+        <h3 v-show="!editMode">{{ location.name }}</h3>
+        <div v-show="editMode">
+            <label>Name</label>
+            <input type="text" class="form-control" v-model="name" v-on:blur="saveName()" />
+        </div>
     </div>
 </template>
 
@@ -23,8 +18,7 @@
 
         data () {
             return {
-                name: null,
-                editingLocationName: null
+                name: this.location.name
             }
         },
 
@@ -35,17 +29,11 @@
         },
 
         methods: {
-            editName(location) {
-                this.name = location.name;
-                this.editingLocationName = location;
-            },
-
             saveName() {
                 let self = this;
                 axios.put('/api/location/' + this.location.id, { name: this.name })
                     .then(function (response) {
                         EventBus.$emit('refresh-trip');
-                        self.editingLocationName = null;
                     })
                     .catch(function (error) {});
             }

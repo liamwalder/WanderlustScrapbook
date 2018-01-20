@@ -54,6 +54,7 @@
                 selectedLocation:[],
                 polylineOptions: {},
                 adhocEntryMarkers: [],
+                currentTrip: this.trip,
                 allowRightClick: false,
                 adhocEntryMarkerCount: 0,
                 center: {lat: 13.736717, lng: 100.523186}
@@ -132,26 +133,11 @@
             })
         },
 
-        watch: {
-            trip: function(newVal) {
-                let self = this;
-                self.markers = [];
-                self.polylinePath = [];
-
-                self.locations = newVal.markers.locations;
-                self.entryLocations = newVal.markers.entryLocations;
-
-                if (newVal !== null && self.mapLoaded == true) {
-                    self.renderMarkers();
-                }
-            }
-        },
-
         methods: {
 
             renderMarkers() {
                 let self = this;
-                self.locations.forEach(function(location) {
+                self.currentTrip.markers.locations.forEach(function(location) {
                     self.addLocationToMap(
                         location,
                         true,
@@ -168,7 +154,7 @@
 
                 self.calculateMapCenter(self.locations);
 
-                self.entryLocations.forEach(function(location) {
+                self.currentTrip.markers.entryLocations.forEach(function(location) {
                     self.addLocationToMap(
                         location,
                         false,
@@ -295,13 +281,14 @@
 
             markerClick(marker) {
                 let self = this;
-                self.locations.forEach(function(location) {
+                self.currentTrip.markers.locations.forEach(function(location) {
                     if (location.latitude == marker.position.lat && location.longitude == marker.position.lng) {
                         self.resetEntryLocationMarkers();
                         EventBus.$emit('location-selected', location);
+                        self.$store.commit('selectedLocation', {location: location});
                     }
                 });
-                self.entryLocations.forEach(function(location) {
+                self.currentTrip.markers.entryLocations.forEach(function(location) {
                     if (location.latitude == marker.position.lat && location.longitude == marker.position.lng) {
                         self.resetEntryLocationMarkers();
                         EventBus.$emit('select-entry', marker.customInfo.entry);
@@ -312,7 +299,7 @@
 
             resetEntryLocationMarkers() {
                 let self = this;
-                self.entryLocations.forEach(function(location) {
+                self.currentTrip.markers.entryLocations.forEach(function(location) {
                     self.removeLocationFromMap(location);
                     self.addLocationToMap(
                         location,

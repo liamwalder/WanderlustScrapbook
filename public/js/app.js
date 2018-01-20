@@ -80341,7 +80341,11 @@ var render = function() {
         _c(
           "div",
           { staticClass: "col-6 map" },
-          [_c("travel-map", { attrs: { trip: _vm.trip } })],
+          [
+            _vm.trip.length !== 0
+              ? _c("travel-map", { attrs: { trip: _vm.trip } })
+              : _vm._e()
+          ],
           1
         )
       ])
@@ -80515,7 +80519,7 @@ var render = function() {
       _c(
         "span",
         { staticClass: "navbar-brand" },
-        [_c("trip-name", { attrs: { trip: _vm.trip } })],
+        [_vm.trip ? _c("trip-name", { attrs: { trip: _vm.trip } }) : _vm._e()],
         1
       ),
       _vm._v(" "),
@@ -80602,7 +80606,7 @@ var render = function() {
           _vm._v(" "),
           _c("toggle-button", {
             attrs: {
-              color: "#f39c12",
+              cssColors: true,
               value: _vm.editMode,
               width: _vm.toggleWidth,
               labels: {
@@ -80766,6 +80770,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             selectedLocation: [],
             polylineOptions: {},
             adhocEntryMarkers: [],
+            currentTrip: this.trip,
             allowRightClick: false,
             adhocEntryMarkerCount: 0,
             center: { lat: 13.736717, lng: 100.523186 }
@@ -80838,25 +80843,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         });
     },
 
-    watch: {
-        trip: function trip(newVal) {
-            var self = this;
-            self.markers = [];
-            self.polylinePath = [];
-
-            self.locations = newVal.markers.locations;
-            self.entryLocations = newVal.markers.entryLocations;
-
-            if (newVal !== null && self.mapLoaded == true) {
-                self.renderMarkers();
-            }
-        }
-    },
-
     methods: {
         renderMarkers: function renderMarkers() {
             var self = this;
-            self.locations.forEach(function (location) {
+            self.currentTrip.markers.locations.forEach(function (location) {
                 self.addLocationToMap(location, true, {
                     icon: {
                         path: google.maps.SymbolPath.CIRCLE,
@@ -80869,7 +80859,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             self.calculateMapCenter(self.locations);
 
-            self.entryLocations.forEach(function (location) {
+            self.currentTrip.markers.entryLocations.forEach(function (location) {
                 self.addLocationToMap(location, false, 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png', { entry: location.entry });
             });
         },
@@ -80977,13 +80967,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         markerClick: function markerClick(marker) {
             var self = this;
-            self.locations.forEach(function (location) {
+            self.currentTrip.markers.locations.forEach(function (location) {
                 if (location.latitude == marker.position.lat && location.longitude == marker.position.lng) {
                     self.resetEntryLocationMarkers();
                     __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$emit('location-selected', location);
+                    self.$store.commit('selectedLocation', { location: location });
                 }
             });
-            self.entryLocations.forEach(function (location) {
+            self.currentTrip.markers.entryLocations.forEach(function (location) {
                 if (location.latitude == marker.position.lat && location.longitude == marker.position.lng) {
                     self.resetEntryLocationMarkers();
                     __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$emit('select-entry', marker.customInfo.entry);
@@ -80993,7 +80984,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         },
         resetEntryLocationMarkers: function resetEntryLocationMarkers() {
             var self = this;
-            self.entryLocations.forEach(function (location) {
+            self.currentTrip.markers.entryLocations.forEach(function (location) {
                 self.removeLocationFromMap(location);
                 self.addLocationToMap(location, false, 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png', { entry: location.entry });
             });
@@ -81278,8 +81269,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
 
 
 
@@ -81289,8 +81278,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            name: null,
-            editingTripName: null
+            name: this.trip.name
         };
     },
 
@@ -81302,15 +81290,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        editName: function editName(location) {
-            this.name = location.name;
-            this.editingTripName = location;
-        },
         saveName: function saveName() {
-            var self = this;
             axios.put('/api/trip/' + this.trip.id, { name: this.name }).then(function (response) {
                 __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
-                self.editingTripName = null;
             }).catch(function (error) {});
         }
     }
@@ -81333,34 +81315,12 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: _vm.editingTripName == null,
-                expression: "editingTripName == null"
+                value: !_vm.editMode,
+                expression: "!editMode"
               }
             ]
           },
-          [
-            _vm._v("\n        " + _vm._s(_vm.trip.name) + "\n        "),
-            _c(
-              "a",
-              {
-                directives: [
-                  {
-                    name: "show",
-                    rawName: "v-show",
-                    value: _vm.editMode,
-                    expression: "editMode"
-                  }
-                ],
-                staticClass: "notice instruction",
-                on: {
-                  click: function($event) {
-                    _vm.editName(_vm.trip)
-                  }
-                }
-              },
-              [_vm._v("Change")]
-            )
-          ]
+          [_vm._v("\n        " + _vm._s(_vm.trip.name) + "\n    ")]
         ),
         _vm._v(" "),
         _c(
@@ -81370,8 +81330,8 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
-                value: _vm.editMode && _vm.editingTripName !== null,
-                expression: "editMode && editingTripName !== null"
+                value: _vm.editMode,
+                expression: "editMode"
               }
             ],
             staticClass: "edit-trip-name"
@@ -81390,6 +81350,9 @@ var render = function() {
               attrs: { type: "text" },
               domProps: { value: _vm.name },
               on: {
+                blur: function($event) {
+                  _vm.saveName()
+                },
                 input: function($event) {
                   if ($event.target.composing) {
                     return
@@ -81397,20 +81360,7 @@ var render = function() {
                   _vm.name = $event.target.value
                 }
               }
-            }),
-            _vm._v(" "),
-            _c(
-              "a",
-              {
-                staticClass: "notice instruction",
-                on: {
-                  click: function($event) {
-                    _vm.saveName()
-                  }
-                }
-              },
-              [_vm._v("Save")]
-            )
+            })
           ]
         )
       ])
@@ -86475,16 +86425,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
-//
-//
-//
-//
-//
 
 
 
@@ -87023,11 +86963,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
-//
 
 
 
@@ -87038,8 +86973,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            name: null,
-            editingLocationName: null
+            name: this.location.name
         };
     },
 
@@ -87051,15 +86985,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        editName: function editName(location) {
-            this.name = location.name;
-            this.editingLocationName = location;
-        },
         saveName: function saveName() {
             var self = this;
             axios.put('/api/location/' + this.location.id, { name: this.name }).then(function (response) {
                 __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
-                self.editingLocationName = null;
             }).catch(function (error) {});
         }
     }
@@ -87074,98 +87003,63 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c("h3", { staticClass: "location-name" }, [
-      _c(
-        "div",
-        {
-          directives: [
-            {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.editingLocationName == null,
-              expression: "editingLocationName == null"
-            }
-          ]
-        },
-        [
-          _vm._v(
-            "\n            " + _vm._s(_vm.location.name) + "\n            "
-          ),
-          _c(
-            "a",
-            {
-              directives: [
-                {
-                  name: "show",
-                  rawName: "v-show",
-                  value: _vm.editMode,
-                  expression: "editMode"
-                }
-              ],
-              staticClass: "instruction",
-              on: {
-                click: function($event) {
-                  _vm.editName(_vm.location)
-                }
-              }
-            },
-            [_vm._v("Change name")]
-          )
+  return _c("div", { staticClass: "location-name" }, [
+    _c(
+      "h3",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: !_vm.editMode,
+            expression: "!editMode"
+          }
         ]
-      ),
-      _vm._v(" "),
-      _c(
-        "div",
-        {
+      },
+      [_vm._v(_vm._s(_vm.location.name))]
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.editMode,
+            expression: "editMode"
+          }
+        ]
+      },
+      [
+        _c("label", [_vm._v("Name")]),
+        _vm._v(" "),
+        _c("input", {
           directives: [
             {
-              name: "show",
-              rawName: "v-show",
-              value: _vm.editMode && _vm.editingLocationName !== null,
-              expression: "editMode && editingLocationName !== null"
+              name: "model",
+              rawName: "v-model",
+              value: _vm.name,
+              expression: "name"
             }
           ],
-          staticClass: "edit-location-name"
-        },
-        [
-          _c("input", {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.name,
-                expression: "name"
-              }
-            ],
-            staticClass: "form-control",
-            attrs: { type: "text" },
-            domProps: { value: _vm.name },
-            on: {
-              input: function($event) {
-                if ($event.target.composing) {
-                  return
-                }
-                _vm.name = $event.target.value
-              }
-            }
-          }),
-          _vm._v(" "),
-          _c(
-            "a",
-            {
-              staticClass: "instruction",
-              on: {
-                click: function($event) {
-                  _vm.saveName()
-                }
-              }
+          staticClass: "form-control",
+          attrs: { type: "text" },
+          domProps: { value: _vm.name },
+          on: {
+            blur: function($event) {
+              _vm.saveName()
             },
-            [_vm._v("Save name")]
-          )
-        ]
-      )
-    ])
+            input: function($event) {
+              if ($event.target.composing) {
+                return
+              }
+              _vm.name = $event.target.value
+            }
+          }
+        })
+      ]
+    )
   ])
 }
 var staticRenderFns = []
@@ -87267,10 +87161,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
-//
-//
-//
-//
 
 
 
@@ -87284,11 +87174,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            to: null,
-            from: null,
-            notAfterDate: null,
-            notBeforeDate: null,
-            editingLocationDates: null
+            to: this.location.to ? this.location.to : null,
+            from: this.location.from ? this.location.from : null,
+            notAfterDate: this.location.to ? this.location.to : null,
+            notBeforeDate: this.location.from ? this.location.from : null
         };
     },
 
@@ -87303,19 +87192,16 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         from: function from(_from) {
             var fromDate = new Date(_from);
             this.notBeforeDate = fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate();
+            this.saveDates();
         },
         to: function to(_to) {
             var toDate = new Date(_to);
             this.notAfterDate = toDate.getFullYear() + '-' + (toDate.getMonth() + 1) + '-' + toDate.getDate();
+            this.saveDates();
         }
     },
 
     methods: {
-        editDates: function editDates(location) {
-            this.to = location.to;
-            this.from = location.from;
-            this.editingLocationDates = location;
-        },
         saveDates: function saveDates() {
             var self = this;
             var toDate = new Date(this.to);
@@ -87328,7 +87214,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
             axios.put('/api/location/' + this.location.id, postData).then(function (response) {
                 __WEBPACK_IMPORTED_MODULE_1__event_bus__["a" /* EventBus */].$emit('refresh-trip');
-                self.editingLocationDates = null;
             }).catch(function (error) {});
         }
     }
@@ -87343,53 +87228,32 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
-    _c(
-      "div",
-      {
-        directives: [
+  return _c("div", { staticClass: "location-dates" }, [
+    _vm.location.from && _vm.location.to
+      ? _c(
+          "p",
           {
-            name: "show",
-            rawName: "v-show",
-            value: _vm.editingLocationDates === null,
-            expression: "editingLocationDates === null"
-          }
-        ]
-      },
-      [
-        _vm.location.from && _vm.location.to
-          ? _c("p", { staticClass: "date" }, [
-              _vm._v(
-                "\n            " +
-                  _vm._s(_vm._f("moment")(_vm.location.from, "Do MMMM YYYY")) +
-                  "  - " +
-                  _vm._s(_vm._f("moment")(_vm.location.to, "Do MMMM YYYY")) +
-                  "\n            "
-              ),
-              _c(
-                "a",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.editMode,
-                      expression: "editMode"
-                    }
-                  ],
-                  staticClass: "instruction",
-                  on: {
-                    click: function($event) {
-                      _vm.editDates(_vm.location)
-                    }
-                  }
-                },
-                [_vm._v("Change Dates")]
-              )
-            ])
-          : _vm._e()
-      ]
-    ),
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
+                value: !_vm.editMode,
+                expression: "!editMode"
+              }
+            ],
+            staticClass: "date"
+          },
+          [
+            _vm._v(
+              "\n        " +
+                _vm._s(_vm._f("moment")(_vm.location.from, "Do MMMM YYYY")) +
+                "  - " +
+                _vm._s(_vm._f("moment")(_vm.location.to, "Do MMMM YYYY")) +
+                "\n    "
+            )
+          ]
+        )
+      : _vm._e(),
     _vm._v(" "),
     _c(
       "div",
@@ -87398,8 +87262,8 @@ var render = function() {
           {
             name: "show",
             rawName: "v-show",
-            value: _vm.editMode && _vm.editingLocationDates !== null,
-            expression: "editMode && editingLocationDates !== null"
+            value: _vm.editMode,
+            expression: "editMode"
           }
         ],
         staticClass: "location-add"
@@ -87414,8 +87278,8 @@ var render = function() {
             _c("date-picker", {
               attrs: {
                 lang: "en",
-                placeholder: "12/07/2017",
                 format: "dd/MM/yyyy",
+                placeholder: "12/07/2017",
                 "not-after": _vm.notAfterDate == null ? "" : _vm.notAfterDate
               },
               model: {
@@ -87453,22 +87317,7 @@ var render = function() {
             })
           ],
           1
-        ),
-        _vm._v(" "),
-        _c("div", { staticClass: "add-to-trip" }, [
-          _c(
-            "span",
-            {
-              staticClass: "instruction",
-              on: {
-                click: function($event) {
-                  _vm.saveDates()
-                }
-              }
-            },
-            [_vm._v("Save Dates")]
-          )
-        ])
+        )
       ]
     )
   ])
@@ -88101,7 +87950,6 @@ var render = function() {
         _vm._l(_vm.entries.slice(0, _vm.maximumEntriesCount), function(entry) {
           return _c(
             "div",
-            { staticClass: "entry" },
             [_c("single-entry-preview", { attrs: { entry: entry } })],
             1
           )
@@ -88118,8 +87966,7 @@ var render = function() {
                   value: _vm.allEntries,
                   expression: "allEntries"
                 }
-              ],
-              staticClass: "entry"
+              ]
             },
             [_c("single-entry-preview", { attrs: { entry: entry } })],
             1
@@ -88303,19 +88150,9 @@ var render = function() {
     _vm._v(" "),
     _c("p", { staticClass: "entry-content" }, [
       _vm._v(
-        "\n        " + _vm._s(_vm._f("truncate")(_vm.entry.content, 200)) + " "
-      ),
-      _c(
-        "a",
-        {
-          staticClass: "read-more",
-          on: {
-            click: function($event) {
-              _vm.selectEntry(_vm.entry)
-            }
-          }
-        },
-        [_vm._v("Read More...")]
+        "\n        " +
+          _vm._s(_vm._f("truncate")(_vm.entry.content, 200)) +
+          "\n    "
       )
     ]),
     _vm._v(" "),

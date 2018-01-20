@@ -1,14 +1,4 @@
 <template>
-    <!--<div class="sub-menu">-->
-        <!--<span v-show="selectedEntry !== null">-->
-            <!--<a v-on:click="editEntry(selectedEntry)">Edit Entry</a>-->
-            <!--<span class="separator"> | </span>-->
-        <!--</span>-->
-        <!--<a v-on:click="showAllActivity()">All Activity</a>-->
-        <!--<span v-show="allImages == true || allEntries == true  || selectedEntry !== null" class="separator"> | </span>-->
-        <!--<a v-show="allImages == true || allEntries == true  || selectedEntry !== null" v-on:click="back()">Back</a>-->
-    <!--</div>-->
-
     <div class="sub-menu">
         <div v-show="editMode">
             <div v-show="contentSidebarState.selectedEntry !== null">

@@ -27,6 +27,22 @@
   }
 }
 
+nav.main {
+  .navbar-nav {
+    .nav-link {
+      &:hover {
+        color: $trip-primary;
+      }
+    }
+    .active {
+      .nav-link {
+        color: $trip-primary;
+      }
+    }
+  }
+
+}
+
 body {
   background-color: #F6F6F6 !important;
 }

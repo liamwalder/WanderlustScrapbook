@@ -21,6 +21,10 @@
   padding-top: 0;
 }
 
+#trip-index .trips .trip:last-child {
+  margin-bottom: 0;
+}
+
 #trip-index .trips .trip .name a {
   color: black;
   font-size: 30px;
@@ -54,6 +58,73 @@
   border-bottom: 1px solid #e4e4e4;
   -webkit-box-shadow: none;
           box-shadow: none;
+}
+
+.trip-single .v-switch-core {
+  background-color: grey !important;
+}
+
+.trip-single .vue-js-switch.toggled .v-switch-core {
+  background-color: #17a2b8 !important;
+}
+
+.trip-single .entries .entry {
+  padding: 10px;
+  margin-bottom: 10px;
+  background-color: #F6F6F6;
+}
+
+.trip-single .entries .entry .entry-title {
+  cursor: pointer;
+  font-weight: 700;
+  margin-bottom: 0;
+}
+
+.trip-single .entries .entry .entry-content {
+  font-size: 14px;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.trip-single .entries .entry .entry-content .read-more {
+  font-weight: normal;
+}
+
+.trip-single .entries .entry .entry-content .read-more:hover {
+  cursor: pointer;
+}
+
+.trip-single .entries .entry .entry-footer {
+  width: 100%;
+  color: silver;
+  margin-top: 5px;
+  display: inline-block;
+  border-top: 1px solid #ececec;
+}
+
+.trip-single .entries .entry .entry-footer p {
+  width: 100%;
+  float: right;
+  font-size: 13px;
+  margin-top: 5px;
+  margin-bottom: 0;
+}
+
+.trip-single label {
+  font-weight: 700;
+}
+
+.trip-single .content-location .location-name {
+  margin-bottom: 10px;
+}
+
+.trip-single .location-dates .datepicker {
+  margin-right: 10px;
+}
+
+.trip-single .location-dates input {
+  padding: .375rem .75rem !important;
+  border: 1px solid #ced4da;
 }
 
 .trip-single .details {
@@ -113,6 +184,14 @@
   color: white;
   cursor: pointer;
   background-color: #148ea1;
+}
+
+nav.main .navbar-nav .nav-link:hover {
+  color: #17a2b8;
+}
+
+nav.main .navbar-nav .active .nav-link {
+  color: #17a2b8;
 }
 
 body {
@@ -397,7 +476,7 @@ body .notice {
 }
 
 body .notice.instruction {
-  color: #f39c12 !important;
+  color: #17a2b8 !important;
 }
 
 body .edit-trip-name {
@@ -610,38 +689,6 @@ body .content-sidebar .single-entry p {
 
 body .content-sidebar .single-entry .location-images {
   margin-bottom: 0;
-}
-
-body .content-sidebar .entries .entry .entry-title {
-  cursor: pointer;
-  margin-bottom: 0;
-}
-
-body .content-sidebar .entries .entry .entry-content {
-  font-size: 14px;
-  margin-bottom: 0;
-}
-
-body .content-sidebar .entries .entry .entry-content .read-more {
-  font-weight: normal;
-}
-
-body .content-sidebar .entries .entry .entry-content .read-more:hover {
-  cursor: pointer;
-}
-
-body .content-sidebar .entries .entry .entry-footer {
-  display: inline-block;
-  width: 100%;
-  border-top: 2px solid #f5f5f5;
-  margin-top: 5px;
-}
-
-body .content-sidebar .entries .entry .entry-footer p {
-  font-size: 13px;
-  float: right;
-  margin-top: 5px;
-  width: 100%;
 }
 
 body .content-sidebar .location-images,

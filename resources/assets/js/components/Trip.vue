@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="col-6 map">
-                <travel-map :trip="trip"></travel-map>
+                <travel-map v-if="trip.length !== 0" :trip="trip"></travel-map>
             </div>
         </div>
     </div>

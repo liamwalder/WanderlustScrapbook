@@ -10,6 +10,74 @@
     box-shadow: none;
   }
 
+  .v-switch-core {
+    background-color: grey !important;
+  }
+
+  .vue-js-switch.toggled {
+    .v-switch-core {
+      background-color: $trip-primary !important;
+    }
+  }
+
+  .entries {
+    .entry {
+      padding: 10px;
+      margin-bottom: 10px;
+      background-color: #F6F6F6;
+      .entry-title {
+        cursor: pointer;
+        font-weight: 700;
+        margin-bottom: 0;
+      }
+      .entry-content {
+        font-size: 14px;
+        margin-top: 5px;
+        margin-bottom: 5px;
+        .read-more {
+          font-weight: normal;
+          &:hover {
+            cursor: pointer;
+          }
+        }
+      }
+      .entry-footer {
+        width: 100%;
+        color: silver;
+        margin-top: 5px;
+        display: inline-block;
+        border-top: 1px solid #ececec;
+        p {
+          width: 100%;
+          float: right;
+          font-size: 13px;
+          margin-top: 5px;
+          margin-bottom: 0;
+        }
+      }
+    }
+  }
+
+  label {
+    font-weight: 700;
+  }
+
+  .content-location {
+    .location-name {
+      margin-bottom: 10px;
+    }
+  }
+
+  .location-dates {
+    .datepicker {
+      margin-right: 10px;
+    }
+    input {
+      padding: .375rem .75rem !important;
+      border: 1px solid #ced4da;
+    }
+  }
+
   .details {
     font-weight: 600;
     margin-right: 15px;

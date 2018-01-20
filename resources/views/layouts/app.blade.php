@@ -20,9 +20,24 @@
     </head>
     <body class="@yield('bodyClass')">
         <div id="app">
-            <nav class="navbar navbar-light bg-faded margin-bottom main">
+            <nav class="navbar navbar-light navbar-expand-lg bg-faded margin-bottom main">
                 <div class="@yield('navbarClass', 'container')">
                     <a class="navbar-brand">Logo</a>
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav">
+                            @if(Auth::user())
+                                <li class="nav-item {{ Request::path() == 'trips' ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('trip.index') }}">My Trips</a>
+                                </li>
+                                <li class="nav-item {{ Request::path() == 'trip/create' ? 'active' : '' }}">
+                                    <a class="nav-link" href="{{ route('trip.create') }}">Add a Trip</a>
+                                </li>
+                            @endif
+                        </ul>
+                    </div>
                     @if(Auth::user())
                         <form method="post" action="{{ route('logout') }}">
                             {{ csrf_field() }}

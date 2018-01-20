@@ -12,16 +12,17 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::get('/locations', 'Api\LocationsController@index');
-Route::post('/locations', 'Api\LocationsController@store');
-
-Route::post('/trip/{id}/location', 'Api\LocationController@store');
-
-Route::put('/location/{id}', 'Api\LocationController@update');
-Route::post('/media/location/attach', 'Api\MediaController@attachToLocation');
 
 Route::get('/trip/{id}', 'Api\TripController@single');
 Route::put('/trip/{id}', 'Api\TripController@update');
+Route::post('/trip/{id}/location', 'Api\LocationController@store');
+
+Route::get('/locations', 'Api\LocationsController@index');
+Route::post('/locations', 'Api\LocationsController@store');
+
+
+Route::put('/location/{id}', 'Api\LocationController@update');
+Route::post('/media/location/attach', 'Api\MediaController@attachToLocation');
 
 Route::post('/media', 'Api\MediaController@store');
 Route::delete('/files/{id}', 'Api\MediaController@delete');

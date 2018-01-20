@@ -1,12 +1,10 @@
 <template>
     <div v-if="trip">
-        <div v-show="editingTripName == null">
+        <div v-show="!editMode">
             {{ trip.name }}
-            <a class="notice instruction"  v-on:click="editName(trip)" v-show="editMode">Change</a>
         </div>
-        <div v-show="editMode && editingTripName !== null" class="edit-trip-name">
-            <input type="text" class="form-control" v-model="name" />
-            <a class="notice instruction" v-on:click="saveName()">Save</a>
+        <div v-show="editMode" class="edit-trip-name">
+            <input type="text" class="form-control" v-model="name" v-on:blur="saveName()" />
         </div>
     </div>
 </template>
@@ -20,8 +18,7 @@
 
         data () {
             return {
-                name: null,
-                editingTripName: null
+                name: this.trip.name
             }
         },
 
@@ -34,17 +31,10 @@
 
         methods: {
 
-            editName(location) {
-                this.name = location.name;
-                this.editingTripName = location;
-            },
-
             saveName() {
-                let self = this;
                 axios.put('/api/trip/' + this.trip.id, { name: this.name })
                     .then(function (response) {
                         EventBus.$emit('refresh-trip');
-                        self.editingTripName = null;
                     })
                     .catch(function (error) {});
             }

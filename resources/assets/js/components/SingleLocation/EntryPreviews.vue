@@ -2,10 +2,10 @@
     <div class="entries">
         <h5>Entries <span class="badge badge-pill badge-info">{{ entries.length }}</span></h5>
         <div>
-            <div v-for="entry in entries.slice(0, maximumEntriesCount)" class="entry">
+            <div v-for="entry in entries.slice(0, maximumEntriesCount)">
                 <single-entry-preview :entry="entry"></single-entry-preview>
             </div>
-            <div v-show="allEntries" v-for="entry in entries.slice(maximumEntriesCount)" class="entry">
+            <div v-show="allEntries" v-for="entry in entries.slice(maximumEntriesCount)">
                 <single-entry-preview :entry="entry"></single-entry-preview>
             </div>
             <div class="view-all" v-if="entries.length > maximumEntriesCount">

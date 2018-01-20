@@ -35,12 +35,8 @@
                                 </div>
                             @endforeach
                         @else
-                            <p class="notice">You don't have any trips. Add your first by clicking below</p>
+                            <p class="notice">You don't have any trips. Add your first by clicking above.</p>
                         @endif
-
-                        <div>
-                            <a class="btn button-primary btn-block" href="{{ route('trip.create') }}" id="add-trip">Add a trip</a>
-                        </div>
                     </div>
                 </div>
             </div>
