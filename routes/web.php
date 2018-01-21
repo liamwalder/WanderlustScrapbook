@@ -13,6 +13,8 @@
 
 Auth::routes();
 
+Route::get('/trip/{hash}', 'TripController@single')->name('trip');
+
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/trips', 'TripController@index')->name('trip.index');
@@ -23,8 +25,6 @@ Route::group(['middleware' => ['auth']], function () {
 
     Route::group(['middleware' => ['trip.user']], function() {
         Route::delete('/trip/{id}', 'TripController@delete')->name('trip.delete');
-        Route::get('/trip/{id}', 'TripController@single')->name('trip');
-
     });
 
 });

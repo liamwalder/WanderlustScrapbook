@@ -17,13 +17,17 @@ class TripController extends Controller
 {
 
     /**
-     * @param $id
+     * @param $hash
+     * @param TripRepository $tripRepository
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function single($id)
+    public function single($hash, TripRepository $tripRepository)
     {
+        $trip = $tripRepository->getTripByHash($hash);
+
         return view('trip.single', [
-            'id' => $id
+            'trip' => $trip,
+            'hash' => $trip->hash
         ]);
     }
 
@@ -57,14 +61,18 @@ class TripController extends Controller
     /**
      * @param Request $request
      * @param TripRepository $tripRepository
+     * @param TripService $tripService
      * @return \Illuminate\Http\RedirectResponse
      */
-    public function store(Request $request, TripRepository $tripRepository)
+    public function store(Request $request, TripRepository $tripRepository, TripService $tripService)
     {
         $request->validate([
             'name' => 'required'
         ]);
-        $tripRepository->createTrip($request->all());
+
+        $trip = $tripRepository->createTrip($request->all());
+        $tripService->generateHash($trip);
+
         return redirect()->route('trip.index');
     }
 

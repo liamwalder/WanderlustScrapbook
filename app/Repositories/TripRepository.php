@@ -26,6 +26,16 @@ class TripRepository {
     }
 
     /**
+     * @param $hash
+     * @return mixed
+     */
+    public function getTripByHash($hash)
+    {
+        return Trip::where('hash', $hash)
+            ->first();
+    }
+
+    /**
      * @param User $user
      * @return mixed
      */

@@ -17,6 +17,7 @@ class CreateTripsTable extends Migration
             $table->increments('id');
             $table->string('name');
             $table->integer('user_id');
+            $table->string('hash');
             $table->timestamps();
             $table->softDeletes();
         });

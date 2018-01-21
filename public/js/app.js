@@ -60892,6 +60892,7 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('single-entry-preview', __
  */
 var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     state: {
+        authenticated: null,
         editMode: false,
         contentSidebar: {
             selectedEntry: null,
@@ -60909,9 +60910,15 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
         },
         selectedLocation: function selectedLocation(state) {
             return state.contentSidebar.selectedLocation;
+        },
+        authenticated: function authenticated(state) {
+            return state.authenticated;
         }
     },
     mutations: {
+        setAuthenticated: function setAuthenticated(state, payload) {
+            state.authenticated = payload.authenticated;
+        },
         setEditMode: function setEditMode(state, payload) {
             state.editMode = payload.state;
         },
@@ -74004,7 +74011,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 /* harmony default export */ __webpack_exports__["default"] = ({
 
-    props: ['requestedTripId'],
+    props: ['requestedTripId', 'authenticated'],
 
     components: {
         draggable: __WEBPACK_IMPORTED_MODULE_2_vuedraggable___default.a,
@@ -74027,6 +74034,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     created: function created() {
         var self = this;
         self.getTrip();
+
+        self.$store.commit('setAuthenticated', { authenticated: self.authenticated });
 
         __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('location-selected', function (location) {
             self.selectedLocation = location;
@@ -80464,6 +80473,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -80479,6 +80489,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     computed: {
+        isAuthenticated: function isAuthenticated() {
+            return this.$store.getters.authenticated;
+        },
         editMode: function editMode() {
             return this.$store.getters.editMode;
         }
@@ -80528,68 +80541,70 @@ var render = function() {
       _vm._v(" "),
       _vm._m(0, false, false),
       _vm._v(" "),
-      _c(
-        "div",
-        {
-          staticClass: "collapse navbar-collapse",
-          attrs: { id: "navbarSupportedContent" }
-        },
-        [
-          _c("ul", { staticClass: "navbar-nav mr-auto" }, [
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      _vm.addLocation()
-                    }
-                  }
-                },
-                [_vm._v("Add Location")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      _vm.addEntry()
-                    }
-                  }
-                },
-                [_vm._v("Add Entry")]
-              )
-            ]),
-            _vm._v(" "),
-            _c("li", { staticClass: "nav-item" }, [
-              _c(
-                "a",
-                {
-                  staticClass: "nav-link",
-                  attrs: { href: "#" },
-                  on: {
-                    click: function($event) {
-                      _vm.addMedia()
-                    }
-                  }
-                },
-                [_vm._v("Add Media")]
-              )
-            ])
-          ])
-        ]
-      ),
+      _vm.isAuthenticated
+        ? _c(
+            "div",
+            {
+              staticClass: "collapse navbar-collapse",
+              attrs: { id: "navbarSupportedContent" }
+            },
+            [
+              _c("ul", { staticClass: "navbar-nav mr-auto" }, [
+                _c("li", { staticClass: "nav-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "nav-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.addLocation()
+                        }
+                      }
+                    },
+                    [_vm._v("Add Location")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "nav-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "nav-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.addEntry()
+                        }
+                      }
+                    },
+                    [_vm._v("Add Entry")]
+                  )
+                ]),
+                _vm._v(" "),
+                _c("li", { staticClass: "nav-item" }, [
+                  _c(
+                    "a",
+                    {
+                      staticClass: "nav-link",
+                      attrs: { href: "#" },
+                      on: {
+                        click: function($event) {
+                          _vm.addMedia()
+                        }
+                      }
+                    },
+                    [_vm._v("Add Media")]
+                  )
+                ])
+              ])
+            ]
+          )
+        : _vm._e(),
       _vm._v(" "),
       _c(
         "div",
-        { staticClass: "form-inline my-2 my-lg-0" },
+        { staticClass: "form-inline my-2 my-lg-0 ml-auto" },
         [
           _vm.trip
             ? _c("div", { staticClass: "details" }, [
@@ -80607,18 +80622,20 @@ var render = function() {
               ])
             : _vm._e(),
           _vm._v(" "),
-          _c("toggle-button", {
-            attrs: {
-              cssColors: true,
-              value: _vm.editMode,
-              width: _vm.toggleWidth,
-              labels: {
-                checked: "Edit mode enabled",
-                unchecked: "Edit mode disabled"
-              }
-            },
-            on: { change: _vm.toggleEditMode }
-          })
+          _vm.isAuthenticated
+            ? _c("toggle-button", {
+                attrs: {
+                  cssColors: true,
+                  value: _vm.editMode,
+                  width: _vm.toggleWidth,
+                  labels: {
+                    checked: "Edit mode enabled",
+                    unchecked: "Edit mode disabled"
+                  }
+                },
+                on: { change: _vm.toggleEditMode }
+              })
+            : _vm._e()
         ],
         1
       )
@@ -86811,6 +86828,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -86840,6 +86859,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     computed: {
+        isAuthenticated: function isAuthenticated() {
+            return this.$store.getters.authenticated;
+        },
         editMode: function editMode() {
             this.draggableDisabled = true;
             if (this.$store.getters.editMode) {
@@ -87011,9 +87033,13 @@ var render = function() {
           1
         )
       : _c("p", { staticClass: "notice col" }, [
-          _vm._v(
-            'You have not yet added any locations to your trip. Add your first by clicking "Add Location" above.'
-          )
+          _vm.isAuthenticated
+            ? _c("span", [
+                _vm._v(
+                  'You have not yet added any locations to your trip. Add your first by clicking "Add Location" above.'
+                )
+              ])
+            : _vm._e()
         ])
   ])
 }

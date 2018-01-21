@@ -4,7 +4,11 @@
 @section('navbarClass', 'container-fluid')
 
 @section('content')
-    <trip :requested-trip-id="{{ $id }}"></trip>
+    <trip
+        requested-trip-id="{{ $hash }}"
+        :authenticated="{{ Auth::user() ? 1 : 0 }}"
+    >
+    </trip>
 @endsection
 
 

@@ -12,8 +12,10 @@ use Illuminate\Http\Request;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
+
+Route::get('/trip/{hash}', 'Api\TripController@single');
+
 Route::group(['middleware' => ['auth:api']], function () {
-    Route::get('/trip/{id}', 'Api\TripController@single');
     Route::put('/trip/{id}', 'Api\TripController@update');
     Route::post('/trip/{id}/location', 'Api\LocationController@store');
 

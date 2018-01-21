@@ -7,7 +7,7 @@
             <span class="navbar-toggler-icon"></span>
         </button>
 
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <div class="collapse navbar-collapse" id="navbarSupportedContent" v-if="isAuthenticated">
             <ul class="navbar-nav mr-auto">
                 <li class="nav-item">
                     <a class="nav-link" href="#" v-on:click="addLocation()">Add Location</a>
@@ -20,7 +20,7 @@
                 </li>
             </ul>
         </div>
-        <div class="form-inline my-2 my-lg-0">
+        <div class="form-inline my-2 my-lg-0 ml-auto">
 
             <div class="details" v-if="trip">
                 <span>{{ trip.countries }} countries</span>
@@ -31,6 +31,7 @@
             </div>
 
             <toggle-button
+                v-if="isAuthenticated"
                 :cssColors="true"
                 :value="editMode"
                 :width="toggleWidth"
@@ -55,6 +56,9 @@
         },
 
         computed: {
+            isAuthenticated() {
+                return this.$store.getters.authenticated;
+            },
             editMode() {
                 return this.$store.getters.editMode;
             }

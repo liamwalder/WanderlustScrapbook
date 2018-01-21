@@ -54,7 +54,7 @@
 
     export default {
 
-        props: ['requestedTripId'],
+        props: ['requestedTripId', 'authenticated'],
 
         components: {
             draggable,
@@ -78,6 +78,8 @@
         created() {
             let self = this;
             self.getTrip();
+
+            self.$store.commit('setAuthenticated', {authenticated: self.authenticated});
 
             EventBus.$on('location-selected', function(location) {
                 self.selectedLocation = location;

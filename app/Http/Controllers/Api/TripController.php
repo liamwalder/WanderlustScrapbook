@@ -22,18 +22,18 @@ class TripController extends Controller {
 
     /**
      * @param Request $request
-     * @param $id
+     * @param $hash
      * @param TripService $tripService
      * @param TripRepository $tripRepository
      * @return \Illuminate\Http\JsonResponse
      */
     public function single(
         Request $request,
-        $id,
+        $hash,
         TripService $tripService,
         TripRepository $tripRepository
     ) {
-        $trip = $tripRepository->getTrip($id);
+        $trip = $tripRepository->getTripByHash($hash);
 
         return response()->json([
             'trip' => [

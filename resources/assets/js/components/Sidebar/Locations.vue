@@ -22,7 +22,9 @@
                 </div>
             </draggable>
         </div>
-        <p v-else class="notice col">You have not yet added any locations to your trip. Add your first by clicking "Add Location" above.</p>
+        <p v-else class="notice col">
+            <span v-if="isAuthenticated">You have not yet added any locations to your trip. Add your first by clicking "Add Location" above.</span>
+        </p>
     </div>
 </template>
 
@@ -54,6 +56,9 @@
         },
 
         computed: {
+            isAuthenticated() {
+                return this.$store.getters.authenticated;
+            },
             editMode() {
                 this.draggableDisabled = true;
                 if (this.$store.getters.editMode) {

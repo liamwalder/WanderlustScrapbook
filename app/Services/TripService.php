@@ -6,6 +6,7 @@ use App\Entry;
 use App\Location;
 use App\Repositories\FileRepository;
 use App\Trip;
+use Illuminate\Support\Facades\Hash;
 
 /**
  * Class TripService
@@ -119,6 +120,16 @@ class TripService {
         }
 
         return number_format(round($miles));
+    }
+
+    /**
+     * @param Trip $trip
+     */
+    public function generateHash(Trip $trip)
+    {
+        $hash = base64_encode(Hash::make($trip->id . env('APP_KEY')));
+        $trip->hash = $hash;
+        $trip->save();
     }
 
 

@@ -19,7 +19,7 @@ class Trip extends Model
     /**
      * @var array
      */
-    protected $fillable = ['name', 'user_id'];
+    protected $fillable = ['name', 'user_id', 'hash'];
 
     /**
      * @var array
