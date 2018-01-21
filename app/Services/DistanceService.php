@@ -44,42 +44,47 @@ class DistanceService {
      */
     public function getCenterOfMultipleLatitudeLongitudes($data) 
     {
+        $latitude = floatval('-43.525650');
+        $longitude = floatval('172.639847');
 
-        if (!is_array($data)) return FALSE;
+        $numberOfCoordinates = count($data);
+        if ($numberOfCoordinates > 0) {
+            $X = 0.0;
+            $Y = 0.0;
+            $Z = 0.0;
 
-        $num_coords = count($data);
+            foreach ($data as $coord)
+            {
+                $lat = $coord[0] * pi() / 180;
+                $lon = $coord[1] * pi() / 180;
 
-        $X = 0.0;
-        $Y = 0.0;
-        $Z = 0.0;
+                $a = cos($lat) * cos($lon);
+                $b = cos($lat) * sin($lon);
+                $c = sin($lat);
 
-        foreach ($data as $coord)
-        {
-            $lat = $coord[0] * pi() / 180;
-            $lon = $coord[1] * pi() / 180;
+                $X += $a;
+                $Y += $b;
+                $Z += $c;
+            }
 
-            $a = cos($lat) * cos($lon);
-            $b = cos($lat) * sin($lon);
-            $c = sin($lat);
+            $X /= $numberOfCoordinates;
+            $Y /= $numberOfCoordinates;
+            $Z /= $numberOfCoordinates;
 
-            $X += $a;
-            $Y += $b;
-            $Z += $c;
+            $lon = atan2($Y, $X);
+            $hyp = sqrt($X * $X + $Y * $Y);
+            $lat = atan2($Z, $hyp);
+
+            $latitude = $lat * 180 / pi();
+            $longitude = $lon * 180 / pi();
+
         }
 
-        $X /= $num_coords;
-        $Y /= $num_coords;
-        $Z /= $num_coords;
-
-        $lon = atan2($Y, $X);
-        $hyp = sqrt($X * $X + $Y * $Y);
-        $lat = atan2($Z, $hyp);
-
         return [
-            'lat' => $lat * 180 / pi(),
-            'lng' => $lon * 180 / pi()
+            'lat' => $latitude,
+            'lng' => $longitude
         ];
-        
+
     }
 
 }
