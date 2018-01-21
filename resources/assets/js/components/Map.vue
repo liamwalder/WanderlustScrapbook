@@ -45,7 +45,7 @@
 
         data () {
             return {
-                zoom: 2,
+                zoom: 3,
                 markers: [],
                 locations: [],
                 polylinePath: [],

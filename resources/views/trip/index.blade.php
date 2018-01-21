@@ -11,7 +11,7 @@
                             @foreach($trips as $trip)
                                 <div class="trip">
                                     <div class="name">
-                                        <a href="{{ route('trip', ['id' => $trip->id]) }}">{{ $trip->name }}</a>
+                                        <a href="{{ route('trip', ['hash' => $trip->hash]) }}">{{ $trip->name }}</a>
                                     </div>
                                     <div class="details">
                                         <span class="countries">
