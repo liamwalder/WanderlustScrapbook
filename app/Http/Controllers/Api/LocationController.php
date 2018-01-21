@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Location;
 use App\Repositories\LocationRepository;
 use App\Services\FileService;
+use App\Services\LocationService;
 use Illuminate\Support\Facades\Validator;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -19,7 +20,7 @@ class LocationController extends Controller {
      * @param Request $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request, $tripId, LocationRepository $locationRepository)
+    public function store(Request $request, $tripId, LocationRepository $locationRepository, LocationService $locationService)
     {
         $validator = Validator::make($request->all(), [
             'name' => 'required',
@@ -29,8 +30,10 @@ class LocationController extends Controller {
         if ($validator->fails()) {
             return response()->json($validator->messages(), 400);
         }
-        
-        $location = $locationRepository->createLocation($request, $tripId);
+
+        $data = $request->all();
+        $data = $locationService->handleDuplicateLocation($data, $tripId);
+        $location = $locationRepository->createLocation($data, $tripId);
 
         return response()->json($location, 201);
     }

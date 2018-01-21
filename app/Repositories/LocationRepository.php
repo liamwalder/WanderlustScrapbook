@@ -35,27 +35,27 @@ class LocationRepository {
     }
 
     /**
-     * @param Request $request
+     * @param $data
      * @param $tripId
      * @return Location
      */
-    public function createLocation(Request $request, $tripId)
+    public function createLocation($data, $tripId)
     {
         $lastLocation = Location::orderBy('id', 'desc')->where('trip_id', $tripId)->first();
         $thisLocationOrder = is_null($lastLocation) ? 0 : ($lastLocation->order + 1);
 
-        $requestLocation = $request->get('location');
+        $requestLocation = $data['location'];
 
         $location = new Location();
         $location->fill([
             'trip_id' => $tripId,
             'order' => $thisLocationOrder,
-            'name' => $request->get('name'),
-            'country' => $request->get('country'),
+            'name' => $data['name'],
+            'country' => $data['country'],
             'latitude' => $requestLocation['lat'],
             'longitude' => $requestLocation['lng'],
-            'to' => $request->get('to') ? new \DateTime($request->get('to')) : null,
-            'from' => $request->get('from') ? new \DateTime($request->get('from')) : null
+            'to' =>$data['to'] ? new \DateTime($data['to']) : null,
+            'from' => $data['from'] ? new \DateTime($data['from']) : null
         ]);
 
         $location->save();
@@ -96,6 +96,20 @@ class LocationRepository {
         return Location::select('latitude', 'longitude')
             ->orderBy('order', 'ASC')
             ->get();
+    }
+
+    /**
+     * @param $latitude
+     * @param $longitude
+     * @param $tripId
+     * @return mixed
+     */
+    public function getLocationByLatitudeLongitudeForTrip($latitude, $longitude, $tripId)
+    {
+        return Location::where('latitude', $latitude)
+            ->where('longitude', $longitude)
+            ->where('trip_id', $tripId)
+            ->first();
     }
 
 }

@@ -80830,7 +80830,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('refresh-map', function (trip) {
             self.currentTrip = trip;
             self.markers = [];
-            self.renderMarkers();
+            self.renderMarkers(false);
         });
     },
 
@@ -80855,6 +80855,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         renderMarkers: function renderMarkers() {
+            var setCenter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
+
             var self = this;
             self.currentTrip.markers.locations.forEach(function (location) {
                 self.addLocationToMap(location, true, {
@@ -80867,7 +80869,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
 
-            self.center = self.currentTrip.trip.center;
+            if (setCenter == true) {
+                self.center = self.currentTrip.trip.center;
+            }
 
             self.currentTrip.markers.entryLocations.forEach(function (location) {
                 self.addLocationToMap(location, false, 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png', { entry: location.entry });

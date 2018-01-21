@@ -117,7 +117,7 @@
             EventBus.$on('refresh-map', function(trip) {
                 self.currentTrip = trip;
                 self.markers = [];
-                self.renderMarkers();
+                self.renderMarkers(false);
             });
 
         },
@@ -142,7 +142,7 @@
 
         methods: {
 
-            renderMarkers() {
+            renderMarkers(setCenter = true) {
                 let self = this;
                 self.currentTrip.markers.locations.forEach(function(location) {
                     self.addLocationToMap(
@@ -159,7 +159,9 @@
                     );
                 });
 
-                self.center = self.currentTrip.trip.center;
+                if (setCenter == true) {
+                    self.center = self.currentTrip.trip.center;
+                }
 
                 self.currentTrip.markers.entryLocations.forEach(function(location) {
                     self.addLocationToMap(
