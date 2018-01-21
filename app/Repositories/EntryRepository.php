@@ -59,4 +59,13 @@ class EntryRepository {
         ]);
     }
 
+    /**
+     * @param Entry $entry
+     * @throws \Exception
+     */
+    public function deleteEntry(Entry $entry)
+    {
+        $entry->delete();
+    }
+
 }

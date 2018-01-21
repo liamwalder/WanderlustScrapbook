@@ -81,4 +81,19 @@ class EntryController extends Controller {
     }
 
 
+    /**
+     * @param Request $request
+     * @param $id
+     * @param EntryRepository $entryRepository
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(Request $request, $id, EntryRepository $entryRepository)
+    {
+        $entry = $entryRepository->getEntry($id);
+        $entryRepository->deleteEntry($entry);
+
+        return response()->json([], 200);
+    }
+
+
 }

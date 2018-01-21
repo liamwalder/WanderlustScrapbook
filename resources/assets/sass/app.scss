@@ -27,7 +27,7 @@ body {
 
   a.instruction,
   span.instruction {
-    color: #f39c12 !important;
+    color: $trip-primary !important;
   }
 
   .navbar {
@@ -341,7 +341,6 @@ body {
         margin-bottom: 10px;
       }
       p {
-        font-size: 14px;
         margin-top: 10px;
         display: inline-block;
         width: 100%;

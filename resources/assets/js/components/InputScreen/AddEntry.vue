@@ -57,7 +57,7 @@
             </div>
 
             <div class="form-group save-entry">
-                <button v-on:click="saveEntry()">Save entry</button>
+                <button v-on:click="saveEntry()" class="btn button-primary">Save entry</button>
             </div>
         </div>
     </div>
@@ -91,7 +91,10 @@
                     url: '/api/media',
                     maxFilesize: 40,
                     thumbnailWidth: 150,
-                    addRemoveLinks: true
+                    addRemoveLinks: true,
+                    headers: {
+                        'Authorization' : 'Bearer ' + $('meta[name="api-token"]').attr('content')
+                    }
                 }
             }
         },

@@ -1,12 +1,20 @@
 <template>
     <div class="sub-menu">
         <div v-show="editMode">
+            <div v-show="contentSidebarState.selectedLocation !== null && contentSidebarState.selectedEntry == null">
+                <a v-on:click="deleteLocation()" class="text-danger">Delete Location</a>
+                <span class="circle-separator"></span>
+            </div>
             <div v-show="contentSidebarState.selectedEntry !== null">
+                <a v-on:click="deleteEntry()" class="text-danger">Delete Entry</a>
+                <span class="circle-separator"></span>
                 <a v-on:click="editEntry()" class="instruction">Edit Entry</a>
+                <span class="circle-separator"></span>
             </div>
         </div>
         <div v-show="contentSidebarState.selectedLocation !== null">
             <a v-on:click="showAllActivity()">All Activity</a>
+            <span class="circle-separator"></span>
         </div>
         <div v-show="contentSidebarState.viewingAllImages || contentSidebarState.viewingAllEntries || contentSidebarState.selectedEntry !== null">
             <a v-on:click="back()">Back</a>
@@ -59,6 +67,35 @@
                         self.$store.commit('selectedEntry', {entry: null});
                         self.$store.commit('viewAllEntries', {state: false});
                         break;
+                }
+            },
+
+            deleteEntry() {
+                let self = this;
+                let entry = this.contentSidebarState.selectedEntry;
+                let result = confirm("Click 'Ok' to confirm your deletion.");
+                if (result) {
+                    axios.delete('/api/entry/' + entry.id)
+                        .then(function (response) {
+                            EventBus.$emit('refresh-trip');
+                            self.$store.commit('selectedEntry', {entry: null});
+                        })
+                        .catch(function (error) {});
+                }
+            },
+
+            deleteLocation() {
+                let self = this;
+                let location = this.contentSidebarState.selectedLocation;
+                let result = confirm("Click 'Ok' to confirm your deletion.");
+                if (result) {
+                    axios.delete('/api/location/' + location.id)
+                        .then(function (response) {
+                            EventBus.$emit('refresh-trip');
+                            self.$store.commit('selectedLocation', {location: null});
+                            self.showAllActivity();
+                        })
+                        .catch(function (error) {});
                 }
             }
 

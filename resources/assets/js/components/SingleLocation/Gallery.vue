@@ -85,7 +85,7 @@
             },
 
             deleteImage(file) {
-                let result = confirm("Are you sure you want to delete  this image?");
+                let result = confirm("Click 'Ok' to confirm your deletion.");
                 if (result) {
                     axios.delete('/api/files/' + file.id)
                         .then(function (response) {

@@ -57,7 +57,8 @@
                 currentTrip: this.trip,
                 allowRightClick: false,
                 adhocEntryMarkerCount: 0,
-                center: {lat: 13.736717, lng: 100.523186}
+                defaultCenter: this.trip.trip.center,
+                center: this.trip.trip.center
             }
         },
 
@@ -98,7 +99,7 @@
 
             EventBus.$on('location-selection-reset', function() {
                 self.zoom = 6;
-                self.center = {lat: 13.736717, lng: 100.523186};
+                self.center = self.defaultCenter;
             });
 
             EventBus.$on('adding-entry', function() {
@@ -158,7 +159,7 @@
                     );
                 });
 
-                self.calculateMapCenter(self.locations);
+                self.center = self.currentTrip.trip.center;
 
                 self.currentTrip.markers.entryLocations.forEach(function(location) {
                     self.addLocationToMap(

@@ -80776,7 +80776,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             currentTrip: this.trip,
             allowRightClick: false,
             adhocEntryMarkerCount: 0,
-            center: { lat: 13.736717, lng: 100.523186 }
+            defaultCenter: this.trip.trip.center,
+            center: this.trip.trip.center
         };
     },
     created: function created() {
@@ -80811,7 +80812,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
         __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('location-selection-reset', function () {
             self.zoom = 6;
-            self.center = { lat: 13.736717, lng: 100.523186 };
+            self.center = self.defaultCenter;
         });
 
         __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('adding-entry', function () {
@@ -80866,7 +80867,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 });
             });
 
-            self.calculateMapCenter(self.locations);
+            self.center = self.currentTrip.trip.center;
 
             self.currentTrip.markers.entryLocations.forEach(function (location) {
                 self.addLocationToMap(location, false, 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_black.png', { entry: location.entry });
@@ -85182,6 +85183,7 @@ var render = function() {
         _c(
           "button",
           {
+            staticClass: "btn button-primary",
             on: {
               click: function($event) {
                 _vm.saveMedia()
@@ -85356,7 +85358,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 url: '/api/media',
                 maxFilesize: 40,
                 thumbnailWidth: 150,
-                addRemoveLinks: true
+                addRemoveLinks: true,
+                headers: {
+                    'Authorization': 'Bearer ' + $('meta[name="api-token"]').attr('content')
+                }
             }
         };
     },
@@ -85664,6 +85669,7 @@ var render = function() {
         _c(
           "button",
           {
+            staticClass: "btn button-primary",
             on: {
               click: function($event) {
                 _vm.saveEntry()
@@ -86198,6 +86204,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -86217,6 +86224,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
     computed: {
+        editMode: function editMode() {
+            return this.$store.getters.editMode;
+        },
         contentSidebarState: function contentSidebarState() {
             return this.$store.getters.contentSidebarState;
         }
@@ -86309,11 +86319,29 @@ var render = function() {
             [
               _c("navigation"),
               _vm._v(" "),
-              _c("single-location-name", { attrs: { location: location } }),
-              _vm._v(" "),
-              _c("single-location-dates", { attrs: { location: location } }),
-              _vm._v(" "),
-              _c("hr"),
+              _c(
+                "div",
+                {
+                  directives: [
+                    {
+                      name: "show",
+                      rawName: "v-show",
+                      value: _vm.contentSidebarState.selectedEntry == null,
+                      expression: "contentSidebarState.selectedEntry == null"
+                    }
+                  ]
+                },
+                [
+                  _c("single-location-name", { attrs: { location: location } }),
+                  _vm._v(" "),
+                  _c("single-location-dates", {
+                    attrs: { location: location }
+                  }),
+                  _vm._v(" "),
+                  _c("hr")
+                ],
+                1
+              ),
               _vm._v(" "),
               _c("single-location-gallery", {
                 directives: [
@@ -86439,6 +86467,14 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -86485,6 +86521,29 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     self.$store.commit('viewAllEntries', { state: false });
                     break;
             }
+        },
+        deleteEntry: function deleteEntry() {
+            var self = this;
+            var entry = this.contentSidebarState.selectedEntry;
+            var result = confirm("Click 'Ok' to confirm your deletion.");
+            if (result) {
+                axios.delete('/api/entry/' + entry.id).then(function (response) {
+                    __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
+                    self.$store.commit('selectedEntry', { entry: null });
+                }).catch(function (error) {});
+            }
+        },
+        deleteLocation: function deleteLocation() {
+            var self = this;
+            var location = this.contentSidebarState.selectedLocation;
+            var result = confirm("Click 'Ok' to confirm your deletion.");
+            if (result) {
+                axios.delete('/api/location/' + location.id).then(function (response) {
+                    __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
+                    self.$store.commit('selectedLocation', { location: null });
+                    self.showAllActivity();
+                }).catch(function (error) {});
+            }
         }
     }
 
@@ -86519,12 +86578,60 @@ var render = function() {
               {
                 name: "show",
                 rawName: "v-show",
+                value:
+                  _vm.contentSidebarState.selectedLocation !== null &&
+                  _vm.contentSidebarState.selectedEntry == null,
+                expression:
+                  "contentSidebarState.selectedLocation !== null && contentSidebarState.selectedEntry == null"
+              }
+            ]
+          },
+          [
+            _c(
+              "a",
+              {
+                staticClass: "text-danger",
+                on: {
+                  click: function($event) {
+                    _vm.deleteLocation()
+                  }
+                }
+              },
+              [_vm._v("Delete Location")]
+            ),
+            _vm._v(" "),
+            _c("span", { staticClass: "circle-separator" })
+          ]
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          {
+            directives: [
+              {
+                name: "show",
+                rawName: "v-show",
                 value: _vm.contentSidebarState.selectedEntry !== null,
                 expression: "contentSidebarState.selectedEntry !== null"
               }
             ]
           },
           [
+            _c(
+              "a",
+              {
+                staticClass: "text-danger",
+                on: {
+                  click: function($event) {
+                    _vm.deleteEntry()
+                  }
+                }
+              },
+              [_vm._v("Delete Entry")]
+            ),
+            _vm._v(" "),
+            _c("span", { staticClass: "circle-separator" }),
+            _vm._v(" "),
             _c(
               "a",
               {
@@ -86536,7 +86643,9 @@ var render = function() {
                 }
               },
               [_vm._v("Edit Entry")]
-            )
+            ),
+            _vm._v(" "),
+            _c("span", { staticClass: "circle-separator" })
           ]
         )
       ]
@@ -86565,7 +86674,9 @@ var render = function() {
             }
           },
           [_vm._v("All Activity")]
-        )
+        ),
+        _vm._v(" "),
+        _c("span", { staticClass: "circle-separator" })
       ]
     ),
     _vm._v(" "),
@@ -87483,7 +87594,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             });
         },
         deleteImage: function deleteImage(file) {
-            var result = confirm("Are you sure you want to delete  this image?");
+            var result = confirm("Click 'Ok' to confirm your deletion.");
             if (result) {
                 axios.delete('/api/files/' + file.id).then(function (response) {
                     __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');

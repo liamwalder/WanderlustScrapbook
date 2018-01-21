@@ -87,6 +87,22 @@ class TripService {
 
     /**
      * @param Trip $trip
+     * @return array|bool
+     */
+    public function getTripCenter(Trip $trip)
+    {
+        $latitudesAndLongitudes = [];
+        foreach ($trip->locations as $location) {
+            $latitudesAndLongitudes[] = [$location->latitude, $location->longitude];
+        }
+
+        $center = $this->distanceService->getCenterOfMultipleLatitudeLongitudes($latitudesAndLongitudes);
+
+        return $center;
+    }
+
+    /**
+     * @param Trip $trip
      * @return float|int
      */
     public function getTripMiles(Trip $trip)

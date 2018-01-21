@@ -55,6 +55,20 @@ class LocationController extends Controller {
      * @param Request $request
      * @param $id
      * @param LocationRepository $locationRepository
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function delete(Request $request, $id, LocationRepository $locationRepository)
+    {
+        $location = $locationRepository->getLocation($id);
+        $locationRepository->deleteLocation($location);
+
+        return response()->json([], 200);
+    }
+
+    /**
+     * @param Request $request
+     * @param $id
+     * @param LocationRepository $locationRepository
      * @param FileService $fileService
      * @return \Illuminate\Http\JsonResponse
      */

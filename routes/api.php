@@ -19,8 +19,9 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::get('/locations', 'Api\LocationsController@index');
     Route::post('/locations', 'Api\LocationsController@store');
-
     Route::put('/location/{id}', 'Api\LocationController@update');
+    Route::delete('/location/{id}', 'Api\LocationController@delete');
+
     Route::post('/media/location/attach', 'Api\MediaController@attachToLocation');
 
     Route::post('/media', 'Api\MediaController@store');
@@ -28,4 +29,5 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('/entry', 'Api\EntryController@store');
     Route::put('/entry/{id}', 'Api\EntryController@update');
+    Route::delete('/entry/{id}', 'Api\EntryController@delete');
 });

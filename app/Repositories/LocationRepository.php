@@ -17,7 +17,6 @@ class LocationRepository {
         return Location::findOrFail($id);
     }
 
-
     /**
      * @return \Illuminate\Database\Eloquent\Collection|static[]
      */
@@ -78,6 +77,15 @@ class LocationRepository {
         ]);
         $location->save();
         return $location;
+    }
+
+    /**
+     * @param Location $location
+     * @throws \Exception
+     */
+    public function deleteLocation(Location $location)
+    {
+        $location->delete();
     }
 
     /**

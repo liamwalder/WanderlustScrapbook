@@ -29,7 +29,7 @@
             </div>
 
             <div class="form-group save-entry">
-                <button v-on:click="saveMedia()">Save media</button>
+                <button v-on:click="saveMedia()" class="btn button-primary">Save media</button>
             </div>
         </div>
     </div>

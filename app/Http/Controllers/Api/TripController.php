@@ -41,6 +41,7 @@ class TripController extends Controller {
                 'name' => $trip->name,
                 'locationCount' => $trip->locations->count(),
                 'miles' => $tripService->getTripMiles($trip),
+                'center' => $tripService->getTripCenter($trip),
                 'countries' => $tripService->getCountryCountForTrip($trip),
             ],
             'activity' => [

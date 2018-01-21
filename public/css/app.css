@@ -275,7 +275,7 @@ body label {
 
 body a.instruction,
 body span.instruction {
-  color: #f39c12 !important;
+  color: #17a2b8 !important;
 }
 
 body .navbar {
@@ -685,7 +685,6 @@ body .content-sidebar .single-entry .date {
 }
 
 body .content-sidebar .single-entry p {
-  font-size: 14px;
   margin-top: 10px;
   display: inline-block;
   width: 100%;

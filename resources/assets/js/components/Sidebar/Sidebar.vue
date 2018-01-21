@@ -22,14 +22,15 @@
         <div v-for="location in locations" class="content-location">
             <div v-show="location.id === selectedLocation.id">
                 <navigation></navigation>
-                <single-location-name
-                    :location="location"
-                ></single-location-name>
-                <!--<h3 class="location-name">{{ location.name }}</h3>-->
-                <single-location-dates
-                    :location="location"
-                ></single-location-dates>
-                <hr>
+                <div v-show="contentSidebarState.selectedEntry == null">
+                    <single-location-name
+                            :location="location"
+                    ></single-location-name>
+                    <single-location-dates
+                            :location="location"
+                    ></single-location-dates>
+                    <hr>
+                </div>
                 <single-location-gallery
                     :images="location.files"
                     :view-all="true"
@@ -67,6 +68,9 @@
         },
 
         computed: {
+            editMode() {
+                return this.$store.getters.editMode;
+            },
             contentSidebarState() {
                 return this.$store.getters.contentSidebarState;
             }
