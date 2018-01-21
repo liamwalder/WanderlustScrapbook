@@ -27,6 +27,18 @@
   }
 }
 
+.mx-datepicker-popup {
+ color: black;
+  .mx-calendar-table {
+    td.current {
+      background-color: $trip-primary;
+    }
+    .today {
+      color: $trip-primary;
+    }
+  }
+}
+
 nav.main {
   .navbar-nav {
     .nav-link {

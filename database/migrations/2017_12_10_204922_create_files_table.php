@@ -17,11 +17,12 @@ class CreateFilesTable extends Migration
             $table->increments('id');
             $table->string('mime');
             $table->string('original_filename');
-            $table->string('filename');
-            $table->string('thumbnail')->nullable();
+            $table->string('filename', 1000);
+            $table->string('thumbnail', 1000)->nullable();
             $table->integer('location_id')->nullable();
             $table->integer('entry_id')->nullable();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

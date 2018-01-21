@@ -113,6 +113,12 @@
                 self.adhocEntryMarkerCount = entry.entry_locations.length;
             });
 
+            EventBus.$on('refresh-map', function(trip) {
+                self.currentTrip = trip;
+                self.markers = [];
+                self.renderMarkers();
+            });
+
         },
 
         mounted: function() {

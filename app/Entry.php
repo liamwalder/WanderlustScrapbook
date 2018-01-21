@@ -3,6 +3,7 @@
 namespace App;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 /**
  * Class Entry
@@ -10,6 +11,8 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Entry extends Model
 {
+    use SoftDeletes;
+
     /**
      * @var array
      */

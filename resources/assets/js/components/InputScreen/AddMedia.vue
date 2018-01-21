@@ -58,7 +58,10 @@
                     url: '/api/media',
                     maxFilesize: 40,
                     thumbnailWidth: 150,
-                    addRemoveLinks: true
+                    addRemoveLinks: true,
+                    headers: {
+                        'Authorization' : 'Bearer ' + $('meta[name="api-token"]').attr('content')
+                    }
                 }
             }
         },

@@ -148,6 +148,7 @@
                         self.locations = response.data.locations;
                         self.activityImages = response.data.activity.files;
                         self.activityEntries = response.data.activity.entries;
+                        EventBus.$emit('refresh-map', response.data);
                     })
                     .catch(function (error) {});
             }

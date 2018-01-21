@@ -60827,6 +60827,8 @@ window.Vue = __webpack_require__(22);
 window.$ = __webpack_require__(61);
 window.axios = __webpack_require__(62);
 
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + $('meta[name="api-token"]').attr('content');
+
 
 
 
@@ -74094,6 +74096,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 self.locations = response.data.locations;
                 self.activityImages = response.data.activity.files;
                 self.activityEntries = response.data.activity.entries;
+                __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$emit('refresh-map', response.data);
             }).catch(function (error) {});
         }
     }
@@ -80822,6 +80825,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('entry-edit', function (entry) {
             self.adhocEntryMarkerCount = entry.entry_locations.length;
         });
+
+        __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('refresh-map', function (trip) {
+            self.currentTrip = trip;
+            self.markers = [];
+            self.renderMarkers();
+        });
     },
 
 
@@ -81495,7 +81504,10 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 url: '/api/media',
                 maxFilesize: 40,
                 thumbnailWidth: 150,
-                addRemoveLinks: true
+                addRemoveLinks: true,
+                headers: {
+                    'Authorization': 'Bearer ' + $('meta[name="api-token"]').attr('content')
+                }
             }
         };
     },
@@ -85873,6 +85885,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                     lat: this.place.geometry.location.lat(),
                     lng: this.place.geometry.location.lng()
                 };
+                postData['country'] = this.country;
             }
 
             axios.post('/api/trip/' + self.tripId + '/location', postData).then(function (response) {
@@ -86055,6 +86068,7 @@ var render = function() {
         _c(
           "button",
           {
+            staticClass: "btn button-primary",
             on: {
               click: function($event) {
                 _vm.addLocation()

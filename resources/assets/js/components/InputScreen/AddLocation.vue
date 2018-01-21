@@ -52,7 +52,7 @@
             </div>
 
             <div class="form-group save-entry">
-                <button v-on:click="addLocation()">Add Location</button>
+                <button v-on:click="addLocation()" class="btn button-primary">Add Location</button>
             </div>
         </div>
     </div>
@@ -142,7 +142,8 @@
                     postData['location'] = {
                         lat: this.place.geometry.location.lat(),
                         lng: this.place.geometry.location.lng()
-                    }
+                    };
+                    postData['country'] = this.country;
                 }
 
                 axios.post('/api/trip/' + self.tripId + '/location', postData)

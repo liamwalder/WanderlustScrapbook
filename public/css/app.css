@@ -186,6 +186,18 @@
   background-color: #148ea1;
 }
 
+.mx-datepicker-popup {
+  color: black;
+}
+
+.mx-datepicker-popup .mx-calendar-table td.current {
+  background-color: #17a2b8;
+}
+
+.mx-datepicker-popup .mx-calendar-table .today {
+  color: #17a2b8;
+}
+
 nav.main .navbar-nav .nav-link:hover {
   color: #17a2b8;
 }
@@ -532,13 +544,6 @@ body .add-entry .header h3 {
 
 body .add-entry .save-entry {
   text-align: right;
-}
-
-body .add-entry .save-entry button {
-  border: none;
-  color: grey;
-  font-weight: 700;
-  cursor: pointer;
 }
 
 body .add-entry .vue-dropzone.form-control {

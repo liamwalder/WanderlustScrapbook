@@ -19,6 +19,7 @@ class CreateEntriesTable extends Migration
             $table->string('content');
             $table->integer('location_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

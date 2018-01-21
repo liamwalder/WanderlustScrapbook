@@ -27,6 +27,7 @@ class CreateLocationsTable extends Migration
             $table->dateTime('to')->nullable();
             $table->integer('trip_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

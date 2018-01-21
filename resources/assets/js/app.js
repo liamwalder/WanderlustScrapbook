@@ -4,6 +4,8 @@ window.Vue = require('vue');
 window.$ = require('jquery');
 window.axios = require('axios');
 
+axios.defaults.headers.common['Authorization'] = 'Bearer ' + $('meta[name="api-token"]').attr('content');
+
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { EventBus } from './event-bus';

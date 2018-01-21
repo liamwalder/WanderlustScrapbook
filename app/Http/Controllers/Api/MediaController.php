@@ -35,7 +35,7 @@ class MediaController extends Controller {
             $mediaFile = new \App\File();
 
             $mediaFile->mime = $file->getClientMimeType();
-            $mediaFile->filename = $filename.'.'.$extension;
+            $mediaFile->filename =  url('/') . '/' . $filename.'.'.$extension;
             $mediaFile->original_filename = $file->getClientOriginalName();
             $mediaFile->thumbnail = $mediaService->generateThumbnail($mediaFile);
             

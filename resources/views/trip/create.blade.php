@@ -14,7 +14,7 @@
                             <input class="form-control" name="name" />
                         </div>
                         <div class="form-group" id="save">
-                            <button class="btn button-primary btn-block">Save</button>
+                            <button class="btn button-primary btn-block">Add Trip</button>
                         </div>
                     </form>
                 </div>

@@ -20,6 +20,7 @@ class CreateEntryLocationsTable extends Migration
             $table->integer('entry_id');
             $table->integer('location_id');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
