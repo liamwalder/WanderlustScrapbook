@@ -57,7 +57,7 @@
             </div>
 
             <div class="form-group save-entry">
-                <button v-on:click="saveEntry()" class="btn button-primary">Save entry</button>
+                <button v-on:click="saveEntry()" class="btn button-primary">Add entry</button>
             </div>
         </div>
     </div>

@@ -2,6 +2,7 @@
     <div>
         <p class="notice instruction col" v-show="editMode"><i class="fa fa-bars" aria-hidden="true"></i> Drag the locations below to re-order your trip.</p>
         <div v-if="locations.length !== 0">
+            <p class="notice col" v-show="!editMode">View a location by clicking on one below.</p>
             <draggable
                     v-model="locationList"
                     @start="drag=true"

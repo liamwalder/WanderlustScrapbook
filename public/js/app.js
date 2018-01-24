@@ -85211,7 +85211,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("Save media")]
+          [_vm._v("Add media")]
         )
       ])
     ])
@@ -85697,7 +85697,7 @@ var render = function() {
               }
             }
           },
-          [_vm._v("Save entry")]
+          [_vm._v("Add entry")]
         )
       ])
     ])
@@ -86830,6 +86830,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -86945,6 +86946,22 @@ var render = function() {
       ? _c(
           "div",
           [
+            _c(
+              "p",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.editMode,
+                    expression: "!editMode"
+                  }
+                ],
+                staticClass: "notice col"
+              },
+              [_vm._v("View a location by clicking on one below.")]
+            ),
+            _vm._v(" "),
             _c(
               "draggable",
               {

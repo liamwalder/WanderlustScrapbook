@@ -111,7 +111,7 @@
 }
 
 .trip-single label {
-  font-weight: 700;
+  font-weight: 500;
 }
 
 .trip-single .content-location .location-name {
@@ -479,8 +479,6 @@ body .content-location .date {
 
 body .notice {
   color: gray;
-  font-weight: 700;
-  font-size: 14px;
 }
 
 body .notice.instruction {
