@@ -144,6 +144,7 @@
 
             renderMarkers(setCenter = true) {
                 let self = this;
+                self.polylinePath = [];
                 self.currentTrip.markers.locations.forEach(function(location) {
                     self.addLocationToMap(
                         location,

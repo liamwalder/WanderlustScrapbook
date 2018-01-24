@@ -80875,6 +80875,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var setCenter = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : true;
 
             var self = this;
+            self.polylinePath = [];
             self.currentTrip.markers.locations.forEach(function (location) {
                 self.addLocationToMap(location, true, {
                     icon: {
