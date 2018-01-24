@@ -31,7 +31,19 @@ class TripRepository {
      */
     public function getTripByHash($hash)
     {
-        return Trip::where('hash', $hash)
+        return Trip::with(['locations' => function($query) {
+            $query->orderBy('order', 'ASC');
+            $query->with(['entries' => function($query) {
+                $query->orderBy('created_at', 'DESC');
+                $query->with('files');
+                $query->with(['entryLocations' => function($query) {
+                    $query->with(['entry' => function($query) {
+                            $query->with('entryLocations');
+                        }]);
+                    }]);
+                }]);
+            }])
+            ->where('hash', $hash)
             ->first();
     }
 
