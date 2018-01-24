@@ -56,7 +56,7 @@
                 filesAttachedToLocation: [],
                 dropzoneOptions: {
                     url: '/api/media',
-                    maxFilesize: 40,
+                    maxFilesize: 5000,
                     thumbnailWidth: 150,
                     addRemoveLinks: true,
                     headers: {
