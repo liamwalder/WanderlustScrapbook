@@ -24,6 +24,7 @@
                     :options="dropzoneOptions"
                     v-on:vdropzone-removed-file="removeFile"
                     v-on:vdropzone-success="successUpload"
+                    v-on:vdropzone-sending="sendingFile"
                 >
                 </vue-dropzone>
             </div>
@@ -56,17 +57,27 @@
                 filesAttachedToLocation: [],
                 dropzoneOptions: {
                     url: '/api/media',
+                    acceptedFiles: 'image/*,video/*',
                     maxFilesize: 5000,
-                    thumbnailWidth: 150,
-                    addRemoveLinks: true,
                     headers: {
                         'Authorization' : 'Bearer ' + $('meta[name="api-token"]').attr('content')
-                    }
+                    },
+                    previewTemplate: "<div class='dz-preview dz-file-preview file-upload-row' data-id=''>\
+                                        <div class='images col-md-2'>\
+                                            <img data-dz-thumbnail class='thumbnail' />\
+                                        </div>\
+                                        <div class='caption col-md-9'>\
+                                            <span data-dz-errormessage></span>\
+                                            <label data-dz-name></label>\
+                                            <input type='text' class='form-control' name='caption_id[]' placeholder='Caption'>\
+                                        </div>\
+                                        <div class='actions col-md-1'>\
+                                            <i aria-hidden='true' class='fa fa-trash remove' data-dz-remove></i>\
+                                        </div>\
+                                    </div>"
                 }
             }
         },
-
-        created() {},
 
         watch: {
             location: function(selectedLocation) {
@@ -84,7 +95,7 @@
             reset() {
                 this.errors = [];
                 this.location = [];
-                this.filesAttachedToEntry = [];
+                this.filesAttachedToLocation = [];
             },
 
             cancelMedia() {
@@ -92,9 +103,22 @@
                 EventBus.$emit('input-screen-cancelled');
             },
 
+            sendingFile(file, xhr, formData) {
+                formData.append('uuid', file.upload.uuid);
+            },
+
             saveMedia() {
+                let captions = [];
+                this.$refs.mediaUpload.getAcceptedFiles().forEach(function(file) {
+                    captions.push({
+                        uuid: file.upload.uuid,
+                        caption: $(file.previewElement).find('.caption').find('input').val()
+                    });
+                });
+
                 let self = this;
                 let postData = {
+                    captions: captions,
                     location: this.location,
                     files: this.filesAttachedToLocation
                 };

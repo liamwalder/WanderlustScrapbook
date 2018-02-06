@@ -52,6 +52,7 @@ class TripService {
         $files = [];
         foreach ($trip->locations as $location) {
             foreach ($location->files as $file) {
+                $file->title = $file->caption;
                 $files[] = $file;
             }
         }

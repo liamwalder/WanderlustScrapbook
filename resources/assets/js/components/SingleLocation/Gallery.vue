@@ -61,6 +61,7 @@
                 let mediaFiles = [];
                 this.images.forEach(function (image) {
                     mediaFiles.push({
+                        title: image.caption,
                         type: image.mime,
                         href: image.filename,
                         poster: image.thumbnail

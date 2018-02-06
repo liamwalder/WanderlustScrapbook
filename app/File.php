@@ -18,7 +18,7 @@ class File extends Model
     /**
      * @var array
      */
-    protected $fillable = ['thumbnail', 'location_id', 'entry_id'];
+    protected $fillable = ['thumbnail', 'location_id', 'entry_id', 'caption', 'uuid', 'unique_filename'];
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsTo

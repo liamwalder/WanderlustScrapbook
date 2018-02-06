@@ -89,3 +89,36 @@ nav {
   background: none;
   color: $trip-primary;
 }
+
+.file-upload-row {
+  background-color: #f9f9f9 !important;
+  display: flex !important;
+  min-height: auto !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  align-items: center;
+  .dz-image {
+    margin-left: 5px;
+    margin-right: 5px;
+    width: auto !important;
+    i {
+      color: $trip-primary;
+      font-size: 24px;
+    }
+  }
+  img {
+    width: 100%;
+  }
+  .actions {
+    i {
+      font-size: 24px;
+    }
+    i.remove {
+      color: #d9534f;
+    }
+    i.view {
+      color: $trip-primary;
+    }
+  }
+
+}

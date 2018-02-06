@@ -82,11 +82,9 @@ class MediaController extends Controller {
 
         $location = $locationRepository->getLocation($request->get('location'));
         $fileService->attachFilesToLocation($location, $request->get('files'));
+        $fileService->attachCaptionsToFiles($request->get('captions'));
 
         return response()->json([], 200);
     }
-
-
-
 
 }

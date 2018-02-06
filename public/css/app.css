@@ -246,6 +246,46 @@ nav.margin-bottom {
   color: #17a2b8;
 }
 
+.file-upload-row {
+  background-color: #f9f9f9 !important;
+  display: -webkit-box !important;
+  display: -ms-flexbox !important;
+  display: flex !important;
+  min-height: auto !important;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.file-upload-row .dz-image {
+  margin-left: 5px;
+  margin-right: 5px;
+  width: auto !important;
+}
+
+.file-upload-row .dz-image i {
+  color: #17a2b8;
+  font-size: 24px;
+}
+
+.file-upload-row img {
+  width: 100%;
+}
+
+.file-upload-row .actions i {
+  font-size: 24px;
+}
+
+.file-upload-row .actions i.remove {
+  color: #d9534f;
+}
+
+.file-upload-row .actions i.view {
+  color: #17a2b8;
+}
+
 body,
 #app {
   height: 100vh;
@@ -544,6 +584,7 @@ body .add-entry .vue-dropzone.form-control {
   border: 1px solid #ced4da;
   background: none;
   font-family: 'Montserrat', sans-serif !important;
+  padding: 0;
 }
 
 body .add-entry .vue-dropzone.form-control.is-invalid {
@@ -645,17 +686,17 @@ body .content-sidebar .view-all a {
 body .content-sidebar .view-all .show-indicator {
   width: 50%;
   padding: 8px;
-  color: #f39c12;
+  color: #17a2b8;
   margin-top: 20px;
   margin-bottom: 0;
   border-radius: 30px;
-  border: 2px solid #f39c12;
+  border: 2px solid #17a2b8;
 }
 
 body .content-sidebar .view-all .show-indicator:hover {
   color: white;
   text-decoration: none;
-  background-color: #f39c12;
+  background-color: #17a2b8;
 }
 
 body .content-sidebar .single-entry .entry-images {

@@ -41,7 +41,10 @@ class EntryController extends Controller {
 
         $data = $request->all();
         $entry = $entryRepository->createEntry($data);
+
         $fileService->attachFilesToEntry($entry, $data['files']);
+        $fileService->attachCaptionsToFiles($data['captions']);
+        
         $entryLocationService->attachLocationsToEntry($entry, $data['locations']);
 
         return response()->json($entry, 200);
@@ -74,7 +77,10 @@ class EntryController extends Controller {
         $data = $request->all();
         $entry = $entryRepository->getEntry($id);
         $entry = $entryRepository->updateEntry($entry, $data);
+
         $fileService->attachFilesToEntry($entry, $data['files']);
+        $fileService->attachCaptionsToFiles($data['captions']);
+
         $entryLocationService->attachLocationsToEntry($entry, $data['locations']);
 
         return response()->json($entry, 200);

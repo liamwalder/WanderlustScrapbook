@@ -39,4 +39,13 @@ class FileRepository {
         return File::where('filename', $filename)->first();
     }
 
+    /**
+     * @param $UUID
+     * @return mixed
+     */
+    public function getFileByUUID($UUID)
+    {
+        return File::where('uuid', $UUID)->first();
+    }
+
 }

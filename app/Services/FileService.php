@@ -53,5 +53,18 @@ class FileService {
         }
     }
 
+    /**
+     * @param array $captions
+     * @param $fileReferences
+     */
+    public function attachCaptionsToFiles(array $captions)
+    {
+        foreach ($captions as $caption) {
+            $file = $this->fileRepository->getFileByUUID($caption['uuid']);
+            $file->caption = $caption['caption'];
+            $file->save();
+        }
+    }
+
 
 }
