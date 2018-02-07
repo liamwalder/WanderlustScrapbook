@@ -254,9 +254,9 @@ nav.margin-bottom {
   min-height: auto !important;
   padding-top: 10px;
   padding-bottom: 10px;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
 }
 
 .file-upload-row .dz-image {
@@ -274,12 +274,29 @@ nav.margin-bottom {
   width: 100%;
 }
 
+.file-upload-row .actions {
+  top: 0;
+  right: 0;
+  padding: 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  text-align: right;
+  position: absolute;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
+
 .file-upload-row .actions i {
   font-size: 24px;
 }
 
 .file-upload-row .actions i.remove {
-  color: #d9534f;
+  color: white;
+  padding: 3px;
+  font-size: 12px;
+  background-color: #d9534f;
 }
 
 .file-upload-row .actions i.view {

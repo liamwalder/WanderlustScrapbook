@@ -19,13 +19,13 @@ class MediaService {
      * @param $mediaFile
      * @return mixed
      */
-    public function generateThumbnail($mediaFile)
+    public function generateThumbnail($file, $filename)
     {
-        if (strpos($mediaFile->mime, 'video') !== false) {
+        if (strpos($file->getClientMimeType(), 'video') !== false) {
             $storagePath = storage_path('app/');
 
-            $videoPath = storage_path('app/' . $mediaFile->filename);
-            $thumbnailFilename = md5('thumbnail'.$mediaFile->filename.time()).'.jpg';
+            $videoPath = storage_path('app/' . $filename);
+            $thumbnailFilename = 'thumbnail'.$filename.'.jpg';
 
             $thumbnailPath = $storagePath . $thumbnailFilename;
 
@@ -34,7 +34,7 @@ class MediaService {
             return $thumbnailFilename;
         }
 
-        return $mediaFile->filename;
+        return $filename;
     }
 
 }

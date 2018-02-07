@@ -1,4 +1,5 @@
 require('./bootstrap');
+require('blueimp-gallery/js/blueimp-gallery-video.js');
 
 window.Vue = require('vue');
 window.$ = require('jquery');

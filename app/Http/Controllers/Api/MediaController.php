@@ -27,19 +27,22 @@ class MediaController extends Controller {
 
         foreach ($request->files->all() as $file) {
             $extension = $file->getClientOriginalExtension();
+            $filename = md5($file->getFilename().time()).'.'.$extension;
 
-            $filename = md5($file->getFilename().time());
+            Storage::disk('local')->put($filename,  File::get($file));
 
-            Storage::disk('local')->put($filename.'.'.$extension,  File::get($file));
+            $thumbnail = $mediaService->generateThumbnail($file, $filename);
 
             $mediaFile = new \App\File();
-
+            $mediaFile->thumbnail = $thumbnail;
+            $mediaFile->uuid = $request->get('uuid');
             $mediaFile->mime = $file->getClientMimeType();
-            $mediaFile->filename =  url('/') . '/' . $filename.'.'.$extension;
+            $mediaFile->filename =  url('/').'/'.$filename;
             $mediaFile->original_filename = $file->getClientOriginalName();
-            $mediaFile->thumbnail = $mediaService->generateThumbnail($mediaFile);
-            
+
             $mediaFile->save();
+
+            $mediaFile->thumbnail = url('/').'/'.$mediaFile->thumbnail;
 
             $mediaFiles[] = $mediaFile;
         }
@@ -57,6 +60,20 @@ class MediaController extends Controller {
     public function delete(Request $request, $id, FileRepository $fileRepository)
     {
         $file = $fileRepository->getFile($id);
+        $file->delete();
+
+        return response()->json([], 200);
+    }
+
+    /**
+     * @param Request $request
+     * @param $UUID
+     * @param FileRepository $fileRepository
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function deleteByUUID(Request $request, $UUID, FileRepository $fileRepository)
+    {
+        $file = $fileRepository->getFileByUUID($UUID);
         $file->delete();
 
         return response()->json([], 200);

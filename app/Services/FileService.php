@@ -34,9 +34,11 @@ class FileService {
     {
         foreach ($fileReferences as $fileReference) {
             $file = $this->fileRepository->getFileByFilename($fileReference);
-            $file->entry_id = $entry->id;
-            $file->location_id = $entry->location_id;
-            $file->save();
+            if ($file) {
+                $file->entry_id = $entry->id;
+                $file->location_id = $entry->location_id;
+                $file->save();
+            }
         }
     }
 
@@ -48,8 +50,10 @@ class FileService {
     {
         foreach ($fileReferences as $fileReference) {
             $file = $this->fileRepository->getFileByFilename($fileReference);
-            $file->location_id = $location->id;
-            $file->save();
+            if ($file) {
+                $file->location_id = $location->id;
+                $file->save();
+            }
         }
     }
 

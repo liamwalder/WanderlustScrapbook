@@ -101,13 +101,13 @@
                                         <div class='images col-md-2'>\
                                             <img data-dz-thumbnail class='thumbnail' />\
                                         </div>\
-                                        <div class='caption col-md-9'>\
+                                        <div class='caption col-md-10'>\
                                             <span data-dz-errormessage></span>\
                                             <label data-dz-name></label>\
                                             <input type='text' class='form-control' name='caption_id[]' placeholder='Caption'>\
                                         </div>\
                                         <div class='actions col-md-1'>\
-                                            <i aria-hidden='true' class='fa fa-trash remove' data-dz-remove></i>\
+                                            <i aria-hidden='true' class='fa fa-times remove' data-dz-remove></i>\
                                         </div>\
                                     </div>"
                 }
@@ -144,6 +144,7 @@
                 self.locations.forEach(function(location) {
                     if (selectedLocation == location.id) {
                         EventBus.$emit('location-selected', location);
+                        self.$store.commit('selectedLocation', {location: location});
                     }
                 });
             }
@@ -196,7 +197,8 @@
                         .then(function (response) {
                             self.reset();
                             EventBus.$emit('refresh-trip');
-                            self.$refs.mediaUpload.removeAllFiles();
+                            $('.file-upload-row').remove();
+                            $('.vue-dropzone .dz-default').show();
                         })
                         .catch(function (error) {
                             self.errors = error.response.data;
@@ -206,7 +208,8 @@
                         .then(function (response) {
                             self.reset();
                             EventBus.$emit('refresh-trip');
-                            self.$refs.mediaUpload.removeAllFiles();
+                            $('.file-upload-row').remove();
+                            $('.vue-dropzone .dz-default').show();
                         })
                         .catch(function (error) {
                             self.errors = error.response.data;
@@ -230,11 +233,14 @@
             },
 
             successUpload(file, response) {
+                file.previewElement.querySelector("img").src = response[0].thumbnail;
                 this.filesAttachedToEntry.push(response[0].filename);
             },
 
             removeFile(file) {
-                console.log(file);
+                axios.delete('/api/files/uuid/' + file.upload.uuid)
+                    .then(function (response) {})
+                    .catch(function (error) {});
             }
 
         }
