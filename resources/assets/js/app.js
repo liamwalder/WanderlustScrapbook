@@ -10,11 +10,13 @@ axios.defaults.headers.common['Authorization'] = 'Bearer ' + $('meta[name="api-t
 import Vue from 'vue';
 import Vuex from 'vuex';
 import { EventBus } from './event-bus';
+import BootstrapVue from 'bootstrap-vue';
 import ToggleButton from 'vue-js-toggle-button';
 import * as VueGoogleMaps from 'vue2-google-maps';
 
 Vue.use(Vuex);
 Vue.use(ToggleButton);
+Vue.use(BootstrapVue);
 Vue.use(require('vue-moment'));
 Vue.use(VueGoogleMaps, {
     load: {

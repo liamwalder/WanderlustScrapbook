@@ -51,6 +51,14 @@ class MediaController extends Controller {
     }
 
 
+    public function update(Request $request, $id, FileRepository $fileRepository)
+    {
+        $file = $fileRepository->getFile($id);
+        $fileRepository->updateFile($request->all(), $file);
+
+    }
+
+
     /**
      * @param Request $request
      * @param $id

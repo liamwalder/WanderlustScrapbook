@@ -130,5 +130,13 @@ nav {
       color: $trip-primary;
     }
   }
+}
 
+.dropdown-item {
+  &:focus {
+    background-color: white !important;
+  }
+  &:hover {
+    background-color: white !important;
+  }
 }

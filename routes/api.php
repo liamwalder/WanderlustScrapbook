@@ -28,6 +28,7 @@ Route::group(['middleware' => ['auth:api']], function () {
 
     Route::post('/media', 'Api\MediaController@store');
 
+    Route::put('/media/{id}', 'Api\MediaController@update');
     Route::delete('/files/uuid/{UUID}', 'Api\MediaController@deleteByUUID');
     Route::delete('/files/{id}', 'Api\MediaController@delete');
 

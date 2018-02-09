@@ -3,8 +3,27 @@
         <h5 v-if="viewAll">Gallery <span class="badge badge-pill badge-info" v-show="viewAll">{{ images.length }}</span></h5>
         <div class="images">
             <div v-for="image, imageIndex in images.slice(0, maximumImageCount)" class="image-holder">
-                <span class="delete" @click="deleteImage(image)" v-if="editMode">
-                    <i class="fa fa-times" aria-hidden="true"></i>
+                <b-tooltip v-bind:target="imageCaptionId(image)" placement="bottom">{{ image.caption }}</b-tooltip>
+                <span class="caption" v-bind:id="imageCaptionId(image)" v-if="image.caption">
+                    <i class="fa fa-info"></i>
+                </span>
+                <span class="option-dropdown dropdown" v-if="editMode">
+                    <span  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                    </span>
+                    <div class="dropdown-menu image-dropdown" aria-labelledby="dropdownMenuButton">
+                        <span class="dropdown-item">
+                            <label>Caption</label>
+                            <input
+                                class="form-control"
+                                placeholder="Caption"
+                                v-model="image.caption"
+                                v-on:blur="saveCaption(image)"
+                            />
+                        </span>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="#" @click="deleteImage(image)">Delete</a>
+                    </div>
                 </span>
                 <div
                     class="image"
@@ -12,9 +31,29 @@
                     :style="{ backgroundImage: 'url(' + image.thumbnail + ')' }"
                 ></div>
             </div>
+
             <div v-for="image, imageIndex in images.slice(maximumImageCount)" v-show="allImages || !viewAll" class="image-holder">
-                <span class="delete" @click="deleteImage(image)" v-if="editMode">
-                    <i class="fa fa-times" aria-hidden="true"></i>
+                <b-tooltip v-bind:target="imageCaptionId(image)" placement="bottom">{{ image.caption }}</b-tooltip>
+                <span class="caption" v-bind:id="imageCaptionId(image)" v-if="image.caption">
+                    <i class="fa fa-info"></i>
+                </span>
+                <span class="option-dropdown dropdown" v-if="editMode">
+                    <span  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
+                    </span>
+                    <div class="dropdown-menu image-dropdown" aria-labelledby="dropdownMenuButton">
+                        <span class="dropdown-item">
+                            <label>Caption</label>
+                            <input
+                                class="form-control"
+                                placeholder="Caption"
+                                v-model="image.caption"
+                                v-on:blur="saveCaption(image)"
+                            />
+                        </span>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item text-danger" href="#" @click="deleteImage(image)">Delete</a>
+                    </div>
                 </span>
                 <div
                     class="image"
@@ -37,8 +76,11 @@
 
 <script>
     import { EventBus } from '../../event-bus';
+    import { mixin as clickaway } from 'vue-clickaway';
 
     export default {
+
+        mixins: [ clickaway ],
 
         props: ['images', 'viewAll'],
 
@@ -73,6 +115,18 @@
         },
 
         methods: {
+
+            imageCaptionId(image) {
+                return image.id + '-caption';
+            },
+
+            saveCaption(file) {
+                axios.put('/api/media/' + file.id, {caption: file.caption})
+                    .then(function (response) {
+                        EventBus.$emit('refresh-trip');
+                    })
+                    .catch(function (error) {});
+            },
 
             toggleFileDisplay(state) {
                 this.$store.commit('viewAllImages', { state: state });

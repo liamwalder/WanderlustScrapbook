@@ -48,4 +48,14 @@ class FileRepository {
         return File::where('uuid', $UUID)->first();
     }
 
+    /**
+     * @param $data
+     * @param File $file
+     */
+    public function updateFile($data, File $file)
+    {
+        $file->fill($data);
+        $file->save();
+    }
+
 }
