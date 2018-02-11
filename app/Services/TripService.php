@@ -52,7 +52,6 @@ class TripService {
         $files = [];
         foreach ($trip->locations as $location) {
             foreach ($location->files as $file) {
-                $file->thumbnail = url('/').'/'.$file->thumbnail;
                 $files[] = $file;
             }
         }
