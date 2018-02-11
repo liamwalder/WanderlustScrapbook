@@ -30,6 +30,6 @@ Route::group(['middleware' => ['auth']], function () {
 
 });
 
-Route::get('/media/view/{filename}', 'MediaController@serve');
+Route::get('/media/view/{filename}', 'MediaController@serve')->name('media.single');
 Route::get('/trip/{hash}', 'TripController@single')->name('trip');
 

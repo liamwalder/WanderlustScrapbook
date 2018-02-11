@@ -34,15 +34,13 @@ class MediaController extends Controller {
             $thumbnail = $mediaService->generateThumbnail($file, $filename);
 
             $mediaFile = new \App\File();
-            $mediaFile->thumbnail = $thumbnail;
             $mediaFile->uuid = $request->get('uuid');
             $mediaFile->mime = $file->getClientMimeType();
-            $mediaFile->filename =  url('/').'/'.$filename;
             $mediaFile->original_filename = $file->getClientOriginalName();
+            $mediaFile->filename = route('media.single', ['filename' => $filename]);
+            $mediaFile->thumbnail = route('media.single', ['filename' => $thumbnail]);
 
             $mediaFile->save();
-
-            $mediaFile->thumbnail = url('/').'/'.$mediaFile->thumbnail;
 
             $mediaFiles[] = $mediaFile;
         }
