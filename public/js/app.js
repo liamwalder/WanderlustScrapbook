@@ -103231,6 +103231,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
 
 
 
@@ -103598,18 +103599,35 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("div", { staticClass: "form-group save-entry" }, [
-        _c(
-          "button",
-          {
-            staticClass: "btn button-primary",
-            on: {
-              click: function($event) {
-                _vm.saveEntry()
-              }
-            }
-          },
-          [_vm._v("Add entry")]
-        )
+        !_vm.editingEntry
+          ? _c(
+              "button",
+              {
+                staticClass: "btn button-primary",
+                on: {
+                  click: function($event) {
+                    _vm.saveEntry()
+                  }
+                }
+              },
+              [_vm._v("Add entry")]
+            )
+          : _vm._e(),
+        _vm._v(" "),
+        _vm.editingEntry
+          ? _c(
+              "button",
+              {
+                staticClass: "btn button-primary",
+                on: {
+                  click: function($event) {
+                    _vm.saveEntry()
+                  }
+                }
+              },
+              [_vm._v("Save entry")]
+            )
+          : _vm._e()
       ])
     ])
   ])
@@ -105549,6 +105567,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -105561,7 +105581,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            maximumImageCount: 4
+            maximumImageCount: 3
         };
     },
 
@@ -105628,7 +105648,7 @@ var render = function() {
   return _c("div", { staticClass: "location-images" }, [
     _vm.viewAll
       ? _c("h5", [
-          _vm._v("Gallery "),
+          _vm._v("\n        Gallery "),
           _c(
             "span",
             {
@@ -105643,7 +105663,64 @@ var render = function() {
               staticClass: "badge badge-pill badge-info"
             },
             [_vm._v(_vm._s(_vm.images.length))]
-          )
+          ),
+          _vm._v(" "),
+          _vm.viewAll
+            ? _c("div", { staticClass: "pull-right view-all" }, [
+                _vm.images.length > _vm.maximumImageCount
+                  ? _c("div", [
+                      _c(
+                        "div",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: !_vm.allImages,
+                              expression: "!allImages"
+                            }
+                          ]
+                        },
+                        [
+                          _c(
+                            "a",
+                            {
+                              staticClass: "pull-right",
+                              on: {
+                                click: function($event) {
+                                  _vm.toggleFileDisplay(true)
+                                }
+                              }
+                            },
+                            [_vm._v("Show all")]
+                          )
+                        ]
+                      ),
+                      _vm._v(" "),
+                      _c(
+                        "a",
+                        {
+                          directives: [
+                            {
+                              name: "show",
+                              rawName: "v-show",
+                              value: _vm.allImages,
+                              expression: "allImages"
+                            }
+                          ],
+                          staticClass: "pull-right",
+                          on: {
+                            click: function($event) {
+                              _vm.toggleFileDisplay(false)
+                            }
+                          }
+                        },
+                        [_vm._v("Show less")]
+                      )
+                    ])
+                  : _vm._e()
+              ])
+            : _vm._e()
         ])
       : _vm._e(),
     _vm._v(" "),
@@ -105662,10 +105739,7 @@ var render = function() {
               _c(
                 "b-tooltip",
                 {
-                  attrs: {
-                    target: _vm.imageCaptionId(image),
-                    placement: "bottom"
-                  }
+                  attrs: { target: _vm.imageCaptionId(image), placement: "top" }
                 },
                 [_vm._v(_vm._s(image.caption))]
               ),
@@ -105693,7 +105767,7 @@ var render = function() {
                       },
                       [
                         _c("span", { staticClass: "dropdown-item" }, [
-                          _c("label", [_vm._v("Caption")]),
+                          _c("label", [_vm._v("Edit Caption")]),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -105776,10 +105850,7 @@ var render = function() {
               _c(
                 "b-tooltip",
                 {
-                  attrs: {
-                    target: _vm.imageCaptionId(image),
-                    placement: "bottom"
-                  }
+                  attrs: { target: _vm.imageCaptionId(image), placement: "top" }
                 },
                 [_vm._v(_vm._s(image.caption))]
               ),
@@ -105807,7 +105878,7 @@ var render = function() {
                       },
                       [
                         _c("span", { staticClass: "dropdown-item" }, [
-                          _c("label", [_vm._v("Caption")]),
+                          _c("label", [_vm._v("Edit Caption")]),
                           _vm._v(" "),
                           _c("input", {
                             directives: [
@@ -105867,64 +105938,7 @@ var render = function() {
             ],
             1
           )
-        }),
-        _vm._v(" "),
-        _vm.viewAll
-          ? _c("div", { staticClass: "view-all" }, [
-              _vm.images.length > _vm.maximumImageCount
-                ? _c("div", [
-                    _c(
-                      "div",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: !_vm.allImages,
-                            expression: "!allImages"
-                          }
-                        ]
-                      },
-                      [
-                        _c(
-                          "a",
-                          {
-                            staticClass: "show-indicator",
-                            on: {
-                              click: function($event) {
-                                _vm.toggleFileDisplay(true)
-                              }
-                            }
-                          },
-                          [_vm._v("Show more")]
-                        )
-                      ]
-                    ),
-                    _vm._v(" "),
-                    _c(
-                      "a",
-                      {
-                        directives: [
-                          {
-                            name: "show",
-                            rawName: "v-show",
-                            value: _vm.allImages,
-                            expression: "allImages"
-                          }
-                        ],
-                        staticClass: "show-indicator",
-                        on: {
-                          click: function($event) {
-                            _vm.toggleFileDisplay(false)
-                          }
-                        }
-                      },
-                      [_vm._v("Show less")]
-                    )
-                  ])
-                : _vm._e()
-            ])
-          : _vm._e()
+        })
       ],
       2
     ),
@@ -106212,6 +106226,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -106250,10 +106266,54 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "entries" }, [
     _c("h5", [
-      _vm._v("Entries "),
+      _vm._v("\n        Entries "),
       _c("span", { staticClass: "badge badge-pill badge-info" }, [
         _vm._v(_vm._s(_vm.entries.length))
-      ])
+      ]),
+      _vm._v(" "),
+      _vm.entries.length > _vm.maximumEntriesCount
+        ? _c("div", { staticClass: "view-all pull-right" }, [
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: !_vm.allEntries,
+                    expression: "!allEntries"
+                  }
+                ],
+                on: {
+                  click: function($event) {
+                    _vm.toggleEntryDisplay(true)
+                  }
+                }
+              },
+              [_vm._v("Show all")]
+            ),
+            _vm._v(" "),
+            _c(
+              "a",
+              {
+                directives: [
+                  {
+                    name: "show",
+                    rawName: "v-show",
+                    value: _vm.allEntries,
+                    expression: "allEntries"
+                  }
+                ],
+                on: {
+                  click: function($event) {
+                    _vm.toggleEntryDisplay(false)
+                  }
+                }
+              },
+              [_vm._v("Show less")]
+            )
+          ])
+        : _vm._e()
     ]),
     _vm._v(" "),
     _c(
@@ -106283,53 +106343,7 @@ var render = function() {
             [_c("single-entry-preview", { attrs: { entry: entry } })],
             1
           )
-        }),
-        _vm._v(" "),
-        _vm.entries.length > _vm.maximumEntriesCount
-          ? _c("div", { staticClass: "view-all" }, [
-              _c(
-                "a",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: !_vm.allEntries,
-                      expression: "!allEntries"
-                    }
-                  ],
-                  staticClass: "show-indicator",
-                  on: {
-                    click: function($event) {
-                      _vm.toggleEntryDisplay(true)
-                    }
-                  }
-                },
-                [_vm._v("Show more")]
-              ),
-              _vm._v(" "),
-              _c(
-                "a",
-                {
-                  directives: [
-                    {
-                      name: "show",
-                      rawName: "v-show",
-                      value: _vm.allEntries,
-                      expression: "allEntries"
-                    }
-                  ],
-                  staticClass: "show-indicator",
-                  on: {
-                    click: function($event) {
-                      _vm.toggleEntryDisplay(false)
-                    }
-                  }
-                },
-                [_vm._v("Show less")]
-              )
-            ])
-          : _vm._e()
+        })
       ],
       2
     ),

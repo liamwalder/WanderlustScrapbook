@@ -1,9 +1,19 @@
 <template>
     <div class="location-images">
-        <h5 v-if="viewAll">Gallery <span class="badge badge-pill badge-info" v-show="viewAll">{{ images.length }}</span></h5>
+        <h5 v-if="viewAll">
+            Gallery <span class="badge badge-pill badge-info" v-show="viewAll">{{ images.length }}</span>
+            <div class="pull-right view-all" v-if="viewAll">
+                <div v-if="images.length > maximumImageCount">
+                    <div v-show="!allImages">
+                        <a v-on:click="toggleFileDisplay(true)" class="pull-right">Show all</a>
+                    </div>
+                    <a v-show="allImages" v-on:click="toggleFileDisplay(false)" class="pull-right">Show less</a>
+                </div>
+            </div>
+        </h5>
         <div class="images">
             <div v-for="image, imageIndex in images.slice(0, maximumImageCount)" class="image-holder">
-                <b-tooltip v-bind:target="imageCaptionId(image)" placement="bottom">{{ image.caption }}</b-tooltip>
+                <b-tooltip v-bind:target="imageCaptionId(image)" placement="top">{{ image.caption }}</b-tooltip>
                 <span class="caption" v-bind:id="imageCaptionId(image)" v-if="image.caption">
                     <i class="fa fa-info"></i>
                 </span>
@@ -13,7 +23,7 @@
                     </span>
                     <div class="dropdown-menu image-dropdown" aria-labelledby="dropdownMenuButton">
                         <span class="dropdown-item">
-                            <label>Caption</label>
+                            <label>Edit Caption</label>
                             <input
                                 class="form-control"
                                 placeholder="Caption"
@@ -33,7 +43,7 @@
             </div>
 
             <div v-for="image, imageIndex in images.slice(maximumImageCount)" v-show="allImages || !viewAll" class="image-holder">
-                <b-tooltip v-bind:target="imageCaptionId(image)" placement="bottom">{{ image.caption }}</b-tooltip>
+                <b-tooltip v-bind:target="imageCaptionId(image)" placement="top">{{ image.caption }}</b-tooltip>
                 <span class="caption" v-bind:id="imageCaptionId(image)" v-if="image.caption">
                     <i class="fa fa-info"></i>
                 </span>
@@ -43,7 +53,7 @@
                     </span>
                     <div class="dropdown-menu image-dropdown" aria-labelledby="dropdownMenuButton">
                         <span class="dropdown-item">
-                            <label>Caption</label>
+                            <label>Edit Caption</label>
                             <input
                                 class="form-control"
                                 placeholder="Caption"
@@ -60,14 +70,6 @@
                     @click="openGallery(vueGalleryFiles, imageIndex)"
                     :style="{ backgroundImage: 'url(' + image.thumbnail + ')' }"
                 ></div>
-            </div>
-            <div class="view-all" v-if="viewAll">
-                <div v-if="images.length > maximumImageCount">
-                    <div v-show="!allImages">
-                        <a v-on:click="toggleFileDisplay(true)" class="show-indicator">Show more</a>
-                    </div>
-                    <a v-show="allImages" v-on:click="toggleFileDisplay(false)" class="show-indicator">Show less</a>
-                </div>
             </div>
         </div>
         <p class="notice" v-if="images.length == 0">No files yet added to the gallery.</p>
@@ -86,7 +88,7 @@
 
         data () {
             return {
-                maximumImageCount: 4
+                maximumImageCount: 3
             }
         },
 

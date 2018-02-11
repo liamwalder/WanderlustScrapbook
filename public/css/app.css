@@ -693,35 +693,10 @@ body .content-sidebar h5 {
   margin-bottom: 10px;
 }
 
-body .content-sidebar .view-all {
-  text-align: center;
-  width: 100%;
-}
-
 body .content-sidebar .view-all a {
-  width: 100%;
-  padding: 10px 20px;
-  border-radius: 4px;
-  font-weight: normal;
-  margin-bottom: 20px;
-  display: inline-block;
-  border: 1px solid #e3e3e3;
-}
-
-body .content-sidebar .view-all .show-indicator {
-  width: 50%;
-  padding: 8px;
   color: #17a2b8;
-  margin-top: 20px;
-  margin-bottom: 0;
-  border-radius: 30px;
-  border: 2px solid #17a2b8;
-}
-
-body .content-sidebar .view-all .show-indicator:hover {
-  color: white;
-  text-decoration: none;
-  background-color: #17a2b8;
+  font-weight: normal;
+  font-size: initial;
 }
 
 body .content-sidebar .single-entry .entry-images {
@@ -784,7 +759,7 @@ body .content-sidebar .entry-images .image-holder {
   -webkit-box-flex: 1;
   -ms-flex-positive: 1;
   position: relative;
-  margin-bottom: 5px;
+  margin-top: 5px;
   width: calc(100% * (1/3) - 17px - 1px);
 }
 

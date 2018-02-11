@@ -60,12 +60,12 @@
                 EventBus.$emit('marker-reset');
                 switch(true) {
                     case self.contentSidebarState.viewingAllEntries && self.contentSidebarState.selectedEntry !== null:
-                        self.$store.commit('selectedEntry', {entry: null});
+                        self.$store.commit('selectedEntry', { entry: null });
                         break;
                     default:
-                        self.$store.commit('viewAllImages', {state: false});
-                        self.$store.commit('selectedEntry', {entry: null});
-                        self.$store.commit('viewAllEntries', {state: false});
+                        self.$store.commit('viewAllImages', { state: false });
+                        self.$store.commit('selectedEntry', { entry: null });
+                        self.$store.commit('viewAllEntries', { state: false });
                         break;
                 }
             },
@@ -78,7 +78,7 @@
                     axios.delete('/api/entry/' + entry.id)
                         .then(function (response) {
                             EventBus.$emit('refresh-trip');
-                            self.$store.commit('selectedEntry', {entry: null});
+                            self.$store.commit('selectedEntry', { entry: null });
                         })
                         .catch(function (error) {});
                 }

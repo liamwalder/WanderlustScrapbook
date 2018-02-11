@@ -58,7 +58,8 @@
             </div>
 
             <div class="form-group save-entry">
-                <button v-on:click="saveEntry()" class="btn button-primary">Add entry</button>
+                <button v-if="!editingEntry" v-on:click="saveEntry()" class="btn button-primary">Add entry</button>
+                <button v-if="editingEntry" v-on:click="saveEntry()" class="btn button-primary">Save entry</button>
             </div>
         </div>
     </div>
