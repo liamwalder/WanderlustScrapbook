@@ -98692,6 +98692,13 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             self.markers = [];
             self.renderMarkers(false);
         });
+
+        __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('map-set-center', function (data) {
+            self.center = {
+                lat: data.lat,
+                lng: data.lng
+            };
+        });
     },
 
 
@@ -103822,6 +103829,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             axios.post('/api/trip/' + self.tripId + '/location', postData).then(function (response) {
                 self.reset();
                 __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('refresh-trip');
+                __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('map-set-center', postData['location']);
             }).catch(function (error) {
                 self.errors = error.response.data;
             });
@@ -106327,9 +106335,7 @@ var render = function() {
     ),
     _vm._v(" "),
     _vm.entries.length == 0
-      ? _c("p", { staticClass: "notice" }, [
-          _vm._v("No entries yet added for this location.")
-        ])
+      ? _c("p", { staticClass: "notice" }, [_vm._v("No entries yet added.")])
       : _vm._e()
   ])
 }

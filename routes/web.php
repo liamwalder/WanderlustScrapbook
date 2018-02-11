@@ -13,19 +13,23 @@
 
 Auth::routes();
 
-Route::get('/trip/{hash}', 'TripController@single')->name('trip');
 
 Route::group(['middleware' => ['auth']], function () {
+
+    Route::get('/', function() {
+       return redirect('/trips');
+    });
 
     Route::get('/trips', 'TripController@index')->name('trip.index');
     Route::post('/trip/create', 'TripController@store')->name('trip.store');
     Route::get('/trip/create', 'TripController@create')->name('trip.create');
-
-    Route::get('/{filename}', 'MediaController@serve');
 
     Route::group(['middleware' => ['trip.user']], function() {
         Route::delete('/trip/{id}', 'TripController@delete')->name('trip.delete');
     });
 
 });
+
+Route::get('/media/view/{filename}', 'MediaController@serve');
+Route::get('/trip/{hash}', 'TripController@single')->name('trip');
 

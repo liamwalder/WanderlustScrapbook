@@ -13,7 +13,7 @@
                 <a v-show="allEntries" v-on:click="toggleEntryDisplay(false)" class="show-indicator">Show less</a>
             </div>
         </div>
-        <p class="notice" v-if="entries.length == 0">No entries yet added for this location.</p>
+        <p class="notice" v-if="entries.length == 0">No entries yet added.</p>
     </div>
 </template>
 

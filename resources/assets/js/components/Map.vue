@@ -120,6 +120,12 @@
                 self.renderMarkers(false);
             });
 
+            EventBus.$on('map-set-center', function(data) {
+                self.center = {
+                    lat: data.lat,
+                    lng: data.lng
+                }
+            });
         },
 
         mounted: function() {

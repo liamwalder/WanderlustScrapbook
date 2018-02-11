@@ -150,6 +150,7 @@
                     .then(function (response) {
                         self.reset();
                         EventBus.$emit('refresh-trip');
+                        EventBus.$emit('map-set-center', postData['location']);
                     })
                     .catch(function (error) {
                         self.errors = error.response.data;

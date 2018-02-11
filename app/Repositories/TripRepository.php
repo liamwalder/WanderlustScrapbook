@@ -77,6 +77,7 @@ class TripRepository {
     {
         return Trip::create([
             'name' => $data['name'],
+            'hash' => '',
             'user_id' => $this->authService->getUser()->id
         ]);
     }
