@@ -311,6 +311,10 @@ nav.margin-bottom {
   background-color: white !important;
 }
 
+.user-actions.navbar-nav a {
+  color: #17a2b8 !important;
+}
+
 body,
 #app {
   height: 100vh;

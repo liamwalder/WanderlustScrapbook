@@ -3,9 +3,9 @@
 @section('content')
     <div class="container" id="trip-create">
         <div class="row">
-            <div class="col-md-8 offset-md-3">
+            <div class="col-md-12">
                 <div class="col-md-12 content-block">
-                    <h1 class="heading">Add a trip</h1>
+                    <h2 class="heading">Add a trip</h2>
                     @include('shared.errors')
                     <form method="post" action="{{ route('trip.store') }}">
                         {{ csrf_field() }}

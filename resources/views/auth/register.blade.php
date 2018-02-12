@@ -3,9 +3,9 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 offset-md-3">
+        <div class="col-md-12">
             <div class="col-md-12 content-block">
-                <h1 class="heading">Register</h1>
+                <h2 class="heading">Register</h2>
                 <div>
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}
@@ -69,7 +69,7 @@
                         </div>
 
                         <div>
-                            <a href="{{ route('login') }}">Log in here</a>
+                            <a href="{{ route('login') }}">Log in</a>
                         </div>
                     </form>
                 </div>

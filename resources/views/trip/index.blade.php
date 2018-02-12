@@ -3,9 +3,9 @@
 @section('content')
     <div class="container" id="trip-index">
         <div class="row">
-            <div class="col-md-8 offset-md-3">
+            <div class="col-md-12">
                 <div class="col-md-12 content-block">
-                    <h1 class="heading">Your Trips</h1>
+                    <h2 class="heading">Your Trips</h2>
                     <div class="trips">
                         @if ($trips->count() !== 0)
                             @foreach($trips as $trip)

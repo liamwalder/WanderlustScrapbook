@@ -140,3 +140,9 @@ nav {
     background-color: white !important;
   }
 }
+
+.user-actions.navbar-nav {
+  a {
+    color: $trip-primary !important;
+  }
+}

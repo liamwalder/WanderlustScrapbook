@@ -3,16 +3,15 @@
 @section('content')
 <div class="container">
     <div class="row">
-        <div class="col-md-8 offset-md-3">
+        <div class="col-md-12">
             <div class="col-md-12 content-block">
-                <h1 class="heading">Login</h1>
+                <h2 class="heading">Login</h2>
                 <div>
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
                         {{ csrf_field() }}
 
                         <div class="form-group{{ $errors->has('email') ? ' has-error' : '' }}">
                             <label for="email" class="control-label">E-Mail Address</label>
-
                             <div>
                                 <input id="email" type="email" class="form-control" name="email" value="{{ old('email') }}" required autofocus>
 
@@ -26,7 +25,6 @@
 
                         <div class="form-group{{ $errors->has('password') ? ' has-error' : '' }}">
                             <label for="password" class="control-label">Password</label>
-
                             <div>
                                 <input id="password" type="password" class="form-control" name="password" required>
 
@@ -53,13 +51,11 @@
                                 <button type="submit" class="btn button-primary btn-block">
                                     Login
                                 </button>
-
-
                             </div>
                         </div>
 
                         <div>
-                            <a href="{{ route('register') }}">Sign up here</a>
+                            <a href="{{ route('register') }}">Register</a>
                             <a class="float-right" href="{{ route('password.request') }}">Forgot Your Password?</a>
                         </div>
 
