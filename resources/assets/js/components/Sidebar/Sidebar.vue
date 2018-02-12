@@ -5,8 +5,9 @@
             <h3>All Activity</h3>
             <hr>
             <single-location-gallery
-                :images="activityImages"
                 :view-all="true"
+                :images="activityImages"
+                gallery-id-prefix="activity"
                 v-show="!contentSidebarState.viewingAllEntries && contentSidebarState.selectedEntry == null"
             ></single-location-gallery>
             <single-location-entry-previews
@@ -32,8 +33,9 @@
                     <hr>
                 </div>
                 <single-location-gallery
-                    :images="location.files"
                     :view-all="true"
+                    :images="location.files"
+                    gallery-id-prefix="location"
                     v-show="!contentSidebarState.viewingAllEntries && contentSidebarState.selectedEntry == null"
                 ></single-location-gallery>
 

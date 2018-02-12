@@ -104156,6 +104156,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -104228,7 +104230,11 @@ var render = function() {
                   "!contentSidebarState.viewingAllEntries && contentSidebarState.selectedEntry == null"
               }
             ],
-            attrs: { images: _vm.activityImages, "view-all": true }
+            attrs: {
+              "view-all": true,
+              images: _vm.activityImages,
+              "gallery-id-prefix": "activity"
+            }
           }),
           _vm._v(" "),
           _c("single-location-entry-previews", {
@@ -104306,7 +104312,11 @@ var render = function() {
                       "!contentSidebarState.viewingAllEntries && contentSidebarState.selectedEntry == null"
                   }
                 ],
-                attrs: { images: location.files, "view-all": true }
+                attrs: {
+                  "view-all": true,
+                  images: location.files,
+                  "gallery-id-prefix": "location"
+                }
               }),
               _vm._v(" "),
               _c("single-location-entry-previews", {
@@ -105577,7 +105587,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     mixins: [__WEBPACK_IMPORTED_MODULE_1_vue_clickaway__["mixin"]],
 
-    props: ['images', 'viewAll'],
+    props: ['images', 'viewAll', 'galleryIdPrefix'],
 
     data: function data() {
         return {
@@ -105609,7 +105619,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     methods: {
         imageCaptionId: function imageCaptionId(image) {
-            return image.id + '-caption';
+            return this.galleryIdPrefix + '-' + image.id + '-caption';
         },
         saveCaption: function saveCaption(file) {
             axios.put('/api/media/' + file.id, { caption: file.caption }).then(function (response) {
@@ -105736,14 +105746,6 @@ var render = function() {
             "div",
             { staticClass: "image-holder" },
             [
-              _c(
-                "b-tooltip",
-                {
-                  attrs: { target: _vm.imageCaptionId(image), placement: "top" }
-                },
-                [_vm._v(_vm._s(image.caption))]
-              ),
-              _vm._v(" "),
               image.caption
                 ? _c(
                     "span",
@@ -105752,6 +105754,19 @@ var render = function() {
                       attrs: { id: _vm.imageCaptionId(image) }
                     },
                     [_c("i", { staticClass: "fa fa-info" })]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              image.caption
+                ? _c(
+                    "b-tooltip",
+                    {
+                      attrs: {
+                        target: _vm.imageCaptionId(image),
+                        placement: "top"
+                      }
+                    },
+                    [_vm._v(_vm._s(image.caption))]
                   )
                 : _vm._e(),
               _vm._v(" "),
@@ -105847,14 +105862,6 @@ var render = function() {
               staticClass: "image-holder"
             },
             [
-              _c(
-                "b-tooltip",
-                {
-                  attrs: { target: _vm.imageCaptionId(image), placement: "top" }
-                },
-                [_vm._v(_vm._s(image.caption))]
-              ),
-              _vm._v(" "),
               image.caption
                 ? _c(
                     "span",
@@ -105863,6 +105870,19 @@ var render = function() {
                       attrs: { id: _vm.imageCaptionId(image) }
                     },
                     [_c("i", { staticClass: "fa fa-info" })]
+                  )
+                : _vm._e(),
+              _vm._v(" "),
+              image.caption
+                ? _c(
+                    "b-tooltip",
+                    {
+                      attrs: {
+                        target: _vm.imageCaptionId(image),
+                        placement: "top"
+                      }
+                    },
+                    [_vm._v(_vm._s(image.caption))]
                   )
                 : _vm._e(),
               _vm._v(" "),

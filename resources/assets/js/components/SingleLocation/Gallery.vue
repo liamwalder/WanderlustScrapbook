@@ -13,10 +13,10 @@
         </h5>
         <div class="images">
             <div v-for="image, imageIndex in images.slice(0, maximumImageCount)" class="image-holder">
-                <b-tooltip v-bind:target="imageCaptionId(image)" placement="top">{{ image.caption }}</b-tooltip>
                 <span class="caption" v-bind:id="imageCaptionId(image)" v-if="image.caption">
                     <i class="fa fa-info"></i>
                 </span>
+                <b-tooltip v-bind:target="imageCaptionId(image)" placement="top" v-if="image.caption">{{ image.caption }}</b-tooltip>
                 <span class="option-dropdown dropdown" v-if="editMode">
                     <span  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
@@ -43,10 +43,10 @@
             </div>
 
             <div v-for="image, imageIndex in images.slice(maximumImageCount)" v-show="allImages || !viewAll" class="image-holder">
-                <b-tooltip v-bind:target="imageCaptionId(image)" placement="top">{{ image.caption }}</b-tooltip>
                 <span class="caption" v-bind:id="imageCaptionId(image)" v-if="image.caption">
                     <i class="fa fa-info"></i>
                 </span>
+                <b-tooltip v-bind:target="imageCaptionId(image)" placement="top" v-if="image.caption">{{ image.caption }}</b-tooltip>
                 <span class="option-dropdown dropdown" v-if="editMode">
                     <span  id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i class="fa fa-ellipsis-h" aria-hidden="true"></i>
@@ -84,7 +84,7 @@
 
         mixins: [ clickaway ],
 
-        props: ['images', 'viewAll'],
+        props: ['images', 'viewAll', 'galleryIdPrefix'],
 
         data () {
             return {
@@ -119,7 +119,7 @@
         methods: {
 
             imageCaptionId(image) {
-                return image.id + '-caption';
+                return this.galleryIdPrefix + '-' + image.id + '-caption';
             },
 
             saveCaption(file) {
