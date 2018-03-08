@@ -78,11 +78,8 @@
 
 <script>
     import { EventBus } from '../../event-bus';
-    import { mixin as clickaway } from 'vue-clickaway';
 
     export default {
-
-        mixins: [ clickaway ],
 
         props: ['images', 'viewAll', 'galleryIdPrefix'],
 

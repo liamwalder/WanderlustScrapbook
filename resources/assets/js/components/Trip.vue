@@ -47,7 +47,6 @@
 </template>
 
 <script>
-    import fab from 'vue-fab'
     import VueGallery from 'vue-gallery';
     import draggable from 'vuedraggable';
     import { EventBus } from '../event-bus';

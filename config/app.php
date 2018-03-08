@@ -167,7 +167,6 @@ return [
         /*
          * Package Service Providers...
          */
-        Lakshmaji\Thumbnail\ThumbnailServiceProvider::class,
 
         /*
          * Application Service Providers...
