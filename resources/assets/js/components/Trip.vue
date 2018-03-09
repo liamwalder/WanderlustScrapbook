@@ -3,17 +3,17 @@
         <navbar :trip="trip.trip"></navbar>
         <image-gallery></image-gallery>
 
-        <div class="row">
-            <div class="col-6">
+        <div class="row" id="trip">
+            <div class="col-sm-12 col-md-12 col-lg-8 col-xl-7 left-side">
                 <div class="sidebar">
                     <div class="row" v-show="!addingEntry && !addingLocation & !addingMedia">
-                        <div class="col-6 content divider">
+                        <div class="col content divider">
                             <locations-list
                                 :locations="locations"
                             ></locations-list>
                         </div>
 
-                        <div class="col-6 content">
+                        <div class="col content">
                             <sidebar
                                 :locations="locations"
                                 :selected-location="selectedLocation"
@@ -39,9 +39,7 @@
                     </div>
                 </div>
             </div>
-            <div class="col-6 map">
-                <travel-map v-if="trip.length !== 0" :trip="trip"></travel-map>
-            </div>
+            <travel-map class="d-none d-lg-flex d-xl-flex col-lg-4 col-xl-5 map" v-if="trip.length !== 0" :trip="trip"></travel-map>
         </div>
     </div>
 </template>

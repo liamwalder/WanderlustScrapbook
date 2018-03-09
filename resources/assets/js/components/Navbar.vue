@@ -3,7 +3,8 @@
         <span class="navbar-brand">
             <trip-name :trip="trip" v-if="trip"></trip-name>
         </span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+
+        <button  v-if="isAuthenticated" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
 
@@ -20,8 +21,7 @@
                 </li>
             </ul>
         </div>
-        <div class="form-inline my-2 my-lg-0 ml-auto">
-
+        <div class="form-inline my-2 my-lg-0 ml-auto d-none d-lg-flex">
             <div class="details" v-if="trip">
                 <span>{{ trip.countries }} countries</span>
                 <span class="circle-separator grey"></span>
@@ -29,7 +29,6 @@
                 <span class="circle-separator grey"></span>
                 <span>{{ trip.locationCount }} locations</span>
             </div>
-
             <toggle-button
                 v-if="isAuthenticated"
                 :cssColors="true"
@@ -39,6 +38,7 @@
                 :labels="{ checked: 'Edit mode enabled', unchecked: 'Edit mode disabled' }"
             />
         </div>
+
     </nav>
 </template>
 

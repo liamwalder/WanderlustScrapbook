@@ -1,11 +1,5 @@
 require('./bootstrap');
-require('blueimp-gallery/js/blueimp-gallery-video.js');
 
-window.Vue = require('vue');
-window.$ = require('jquery');
-window.axios = require('axios');
-
-axios.defaults.headers.common['Authorization'] = 'Bearer ' + $('meta[name="api-token"]').attr('content');
 
 import Vue from 'vue';
 import Vuex from 'vuex';
@@ -83,39 +77,39 @@ const store = new Vuex.Store({
         }
     },
     getters: {
-        contentSidebarState: state => {
+        contentSidebarState: function(state)  {
             return state.contentSidebar;
         },
-        editMode: state => {
+        editMode: function(state) {
             return state.editMode;
         },
-        selectedLocation: state => {
+        selectedLocation: function(state) {
             return state.contentSidebar.selectedLocation;
         },
-        authenticated: state => {
+        authenticated: function(state) {
             return state.authenticated;
         }
     },
     mutations: {
-        setAuthenticated (state, payload) {
+        setAuthenticated: function(state, payload) {
             state.authenticated = payload.authenticated;
         },
-        setEditMode(state, payload) {
+        setEditMode: function(state, payload) {
             state.editMode = payload.state;
         },
-        viewAllEntries (state, payload) {
+        viewAllEntries: function(state, payload) {
             state.contentSidebar.viewingAllEntries = payload.state;
         },
-        viewAllImages (state, payload) {
+        viewAllImages: function(state, payload) {
             state.contentSidebar.viewingAllImages = payload.state;
         },
-        selectedEntry(state, payload) {
+        selectedEntry: function(state, payload) {
             state.contentSidebar.selectedEntry = payload.entry;
         },
-        selectedLocation(state, payload) {
+        selectedLocation: function(state, payload) {
             state.contentSidebar.selectedLocation = payload.location;
         },
-        resetContentSidebar(state) {
+        resetContentSidebar: function(state) {
             state.contentSidebar.selectedEntry = null;
             state.contentSidebar.selectedLocation = null;
             state.contentSidebar.viewingAllImages = false;
