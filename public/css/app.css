@@ -11452,6 +11452,10 @@ body .left-side .sidebar .row .content {
   background-color: white;
 }
 
+body .left-side .sidebar .row .content .content-sidebar {
+  padding-bottom: 40px;
+}
+
 body .left-side .sidebar .row .divider {
   background-color: #F6F6F6;
 }

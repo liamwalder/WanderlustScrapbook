@@ -140,6 +140,9 @@ body {
           overflow: scroll;
           padding-bottom: 100px;
           background-color: white;
+          .content-sidebar {
+            padding-bottom: 40px;
+          }
         }
         .divider {
           background-color: #F6F6F6;

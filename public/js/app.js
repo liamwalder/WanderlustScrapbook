@@ -103388,7 +103388,7 @@ var render = function() {
           _vm.isAuthenticated
             ? _c("span", [
                 _vm._v(
-                  'You have not yet added any locations to your trip. Add your first by clicking "Add Location" above.'
+                  'You have not yet added any locations to your trip. Add your first by clicking "Add Location" from the menu.'
                 )
               ])
             : _vm._e()

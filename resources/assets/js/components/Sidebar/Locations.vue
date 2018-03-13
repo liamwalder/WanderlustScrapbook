@@ -24,7 +24,7 @@
             </draggable>
         </div>
         <p v-else class="notice col">
-            <span v-if="isAuthenticated">You have not yet added any locations to your trip. Add your first by clicking "Add Location" above.</span>
+            <span v-if="isAuthenticated">You have not yet added any locations to your trip. Add your first by clicking "Add Location" from the menu.</span>
         </p>
     </div>
 </template>
