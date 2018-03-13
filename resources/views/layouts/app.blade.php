@@ -16,6 +16,7 @@
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
 
         <link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
     </head>
@@ -23,7 +24,7 @@
         <div id="app">
             <nav class="navbar navbar-light navbar-expand-lg bg-faded margin-bottom main">
                 <div class="@yield('navbarClass', 'container')">
-                    <a class="navbar-brand" href="/">WanderlustScrapbook</a>
+                    <a class="navbar-brand" href="/" id="logo">WanderlustScrapbook</a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>

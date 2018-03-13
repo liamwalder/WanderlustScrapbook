@@ -11073,6 +11073,11 @@ a.text-dark:hover, a.text-dark:focus {
   margin-right: 15px;
 }
 
+.trip-single #logo {
+  font-size: 16px;
+  font-family: 'Rock Salt', cursive;
+}
+
 .trip-single .navbar-brand {
   font-weight: 600;
 }
