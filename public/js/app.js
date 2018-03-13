@@ -101804,7 +101804,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("p", { staticClass: "notice" }, [
+      _c("p", { staticClass: "notice d-none d-lg-block d-xl-block" }, [
         _vm._v(
           "\n            This entry will automatically assigned to the location selected. Right click on the map\n            to attach further locations to this entry.\n        "
         )
@@ -101904,39 +101904,43 @@ var render = function() {
       ]),
       _vm._v(" "),
       _vm.entryLocations.length !== 0
-        ? _c("div", { staticClass: "form-group" }, [
-            _c("label", [_vm._v("Markers")]),
-            _vm._v(" "),
-            _c("p", { staticClass: "notice" }, [
-              _vm._v(
-                "The numbers on the marker are only there to help manage them. The numbers will not be shown anywhere."
-              )
-            ]),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "markers" },
-              _vm._l(_vm.entryLocations, function(entryLocation, key) {
-                return _c("div", { staticClass: "marker" }, [
-                  _c("img", {
-                    attrs: { src: _vm.markerImageUrl(entryLocation) }
-                  }),
-                  _vm._v(" "),
-                  _c("div", { staticClass: "remove" }, [
-                    _c("i", {
-                      staticClass: "fa fa-times",
-                      attrs: { "aria-hidden": "true" },
-                      on: {
-                        click: function($event) {
-                          _vm.removeMarker(entryLocation)
+        ? _c(
+            "div",
+            { staticClass: "form-group d-none d-lg-block d-xl-block" },
+            [
+              _c("label", [_vm._v("Markers")]),
+              _vm._v(" "),
+              _c("p", { staticClass: "notice" }, [
+                _vm._v(
+                  "The numbers on the marker are only there to help manage them. The numbers will not be shown anywhere."
+                )
+              ]),
+              _vm._v(" "),
+              _c(
+                "div",
+                { staticClass: "markers" },
+                _vm._l(_vm.entryLocations, function(entryLocation, key) {
+                  return _c("div", { staticClass: "marker" }, [
+                    _c("img", {
+                      attrs: { src: _vm.markerImageUrl(entryLocation) }
+                    }),
+                    _vm._v(" "),
+                    _c("div", { staticClass: "remove" }, [
+                      _c("i", {
+                        staticClass: "fa fa-times",
+                        attrs: { "aria-hidden": "true" },
+                        on: {
+                          click: function($event) {
+                            _vm.removeMarker(entryLocation)
+                          }
                         }
-                      }
-                    })
+                      })
+                    ])
                   ])
-                ])
-              })
-            )
-          ])
+                })
+              )
+            ]
+          )
         : _vm._e(),
       _vm._v(" "),
       _c(

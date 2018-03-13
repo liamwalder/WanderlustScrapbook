@@ -8,7 +8,7 @@
                     <i class="fa fa-times" aria-hidden="true"></i>
                 </a>
             </div>
-            <p class="notice">
+            <p class="notice d-none d-lg-block d-xl-block">
                 This entry will automatically assigned to the location selected. Right click on the map
                 to attach further locations to this entry.
             </p>
@@ -30,7 +30,7 @@
                 <textarea class="form-control" rows="8" :class="{ 'is-invalid': errors.content }" v-model="content"></textarea>
             </div>
 
-            <div class="form-group" v-if="entryLocations.length !== 0">
+            <div class="form-group d-none d-lg-block d-xl-block" v-if="entryLocations.length !== 0">
                 <label>Markers</label>
                 <p class="notice">The numbers on the marker are only there to help manage them. The numbers will not be shown anywhere.</p>
                 <div class="markers">
