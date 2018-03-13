@@ -69717,8 +69717,9 @@ __WEBPACK_IMPORTED_MODULE_0_vue___default.a.component('single-entry-preview', __
  */
 var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
     state: {
-        authenticated: null,
         editMode: false,
+        authenticated: null,
+        viewingAllActivity: null,
         contentSidebar: {
             selectedEntry: null,
             selectedLocation: null,
@@ -69738,9 +69739,15 @@ var store = new __WEBPACK_IMPORTED_MODULE_1_vuex__["a" /* default */].Store({
         },
         authenticated: function authenticated(state) {
             return state.authenticated;
+        },
+        viewingAllActivity: function viewingAllActivity(state) {
+            return state.viewingAllActivity;
         }
     },
     mutations: {
+        setViewingAllActivity: function setViewingAllActivity(state, payload) {
+            state.viewingAllActivity = payload.viewingAllActivity;
+        },
         setAuthenticated: function setAuthenticated(state, payload) {
             state.authenticated = payload.authenticated;
         },
@@ -94427,6 +94434,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -94515,6 +94525,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     computed: {
         editMode: function editMode() {
             return this.$store.getters.editMode;
+        },
+        menuSelectedLocation: function menuSelectedLocation() {
+            return this.$store.getters.selectedLocation;
+        },
+        viewingAllActivity: function viewingAllActivity() {
+            return this.$store.getters.viewingAllActivity;
         }
     },
 
@@ -96326,7 +96342,17 @@ var render = function() {
                   [
                     _c(
                       "div",
-                      { staticClass: "col content divider" },
+                      {
+                        staticClass:
+                          "col-md-6 col-lg-6 col-xl-6 content divider",
+                        class: {
+                          "col-xs-12 col-sm-12":
+                            !_vm.menuSelectedLocation &&
+                            !_vm.viewingAllActivity,
+                          "d-none d-md-block":
+                            _vm.menuSelectedLocation || _vm.viewingAllActivity
+                        }
+                      },
                       [
                         _c("locations-list", {
                           attrs: { locations: _vm.locations }
@@ -96337,7 +96363,10 @@ var render = function() {
                     _vm._v(" "),
                     _c(
                       "div",
-                      { staticClass: "col content" },
+                      {
+                        staticClass:
+                          "col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 content"
+                      },
                       [
                         _c("sidebar", {
                           attrs: {
@@ -96557,6 +96586,22 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 
@@ -96581,8 +96626,27 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
-        toggleEditMode: function toggleEditMode(toggle) {
-            this.$store.commit('setEditMode', { state: toggle.value });
+
+        /**
+         * The reason toggle may be null is on the mobile button.
+         * If it is null, we check the current state of edit mode
+         * and set it as the opposite.
+         *
+         * @param toggle
+         */
+        toggleEditMode: function toggleEditMode() {
+            var toggle = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+            var toggledEditMode = null;
+            if (toggle == null) {
+                toggledEditMode = true;
+                if (this.editMode == true) {
+                    toggledEditMode = false;
+                }
+            } else {
+                toggledEditMode = toggle.value;
+            }
+            this.$store.commit('setEditMode', { state: toggledEditMode });
         },
         addLocation: function addLocation() {
             __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('marker-reset');
@@ -96616,9 +96680,50 @@ var render = function() {
     },
     [
       _c(
-        "span",
+        "div",
         { staticClass: "navbar-brand" },
-        [_vm.trip ? _c("trip-name", { attrs: { trip: _vm.trip } }) : _vm._e()],
+        [
+          _vm.trip ? _c("trip-name", { attrs: { trip: _vm.trip } }) : _vm._e(),
+          _vm._v(" "),
+          _vm._m(0),
+          _vm._v(" "),
+          _vm.trip
+            ? _c(
+                "b-tooltip",
+                { attrs: { target: "journey-details", placement: "bottom" } },
+                [
+                  _c("strong", [_vm._v(_vm._s(_vm.trip.countries))]),
+                  _vm._v(" countries"),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("strong", [_vm._v(_vm._s(_vm.trip.miles))]),
+                  _vm._v(" miles"),
+                  _c("br"),
+                  _vm._v(" "),
+                  _c("strong", [_vm._v(_vm._s(_vm.trip.locationCount))]),
+                  _vm._v(" locations\n        ")
+                ]
+              )
+            : _vm._e(),
+          _vm._v(" "),
+          _c(
+            "span",
+            {
+              staticClass: "badge badge-pill d-xs-inline-block d-lg-none",
+              class: {
+                "badge-secondary": !_vm.editMode,
+                "badge-warning": _vm.editMode
+              },
+              attrs: { id: "edit-trip" },
+              on: {
+                click: function($event) {
+                  _vm.toggleEditMode()
+                }
+              }
+            },
+            [_c("i", { staticClass: "fa fa-pencil" })]
+          )
+        ],
         1
       ),
       _vm._v(" "),
@@ -96741,7 +96846,21 @@ var render = function() {
     ]
   )
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c(
+      "span",
+      {
+        staticClass: "badge badge-pill badge-info d-xs-inline-block d-lg-none",
+        attrs: { id: "journey-details" }
+      },
+      [_c("i", { staticClass: "fa fa-info" })]
+    )
+  }
+]
 render._withStripped = true
 module.exports = { render: render, staticRenderFns: staticRenderFns }
 if (false) {
@@ -97421,7 +97540,7 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _vm.trip
-    ? _c("div", [
+    ? _c("div", { attrs: { id: "trip-name" } }, [
         _c(
           "div",
           {
@@ -102685,6 +102804,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -102710,7 +102834,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         showAllActivity: function showAllActivity() {
             __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('marker-reset');
             this.$store.commit('resetContentSidebar');
+            this.$store.commit('setViewingAllActivity', { viewingAllActivity: true });
             __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('location-selection-reset');
+        },
+        goToLocationList: function goToLocationList() {
+            this.$store.commit('selectedLocation', { location: null });
+            this.$store.commit('setViewingAllActivity', { viewingAllActivity: null });
         },
 
 
@@ -102917,9 +103046,27 @@ var render = function() {
             }
           },
           [_vm._v("Back")]
-        )
+        ),
+        _vm._v(" "),
+        _c("span", { staticClass: "circle-separator" })
       ]
-    )
+    ),
+    _vm._v(" "),
+    _c("div", { staticClass: "d-md-none d-lg-none d-xl-none" }, [
+      _c(
+        "a",
+        {
+          on: {
+            click: function($event) {
+              _vm.goToLocationList()
+            }
+          }
+        },
+        [_vm._v("Location List")]
+      ),
+      _vm._v(" "),
+      _c("span", { staticClass: "circle-separator" })
+    ])
   ])
 }
 var staticRenderFns = []

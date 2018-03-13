@@ -1,8 +1,23 @@
 <template>
     <nav class="navbar navbar-expand-lg navbar-light bg-light" id="single-trip-navbar">
-        <span class="navbar-brand">
+        <div class="navbar-brand">
             <trip-name :trip="trip" v-if="trip"></trip-name>
-        </span>
+            <span class="badge badge-pill badge-info d-xs-inline-block d-lg-none" id="journey-details">
+                <i class="fa fa-info"></i>
+            </span>
+            <b-tooltip target="journey-details" placement="bottom" v-if="trip">
+                <strong>{{ trip.countries }}</strong> countries<br>
+                <strong>{{ trip.miles }}</strong> miles<br>
+                <strong>{{ trip.locationCount }}</strong> locations
+            </b-tooltip>
+            <span id="edit-trip"
+                  v-on:click="toggleEditMode()"
+                  class="badge badge-pill d-xs-inline-block d-lg-none"
+                  v-bind:class="{ 'badge-secondary': !editMode, 'badge-warning': editMode }"
+            >
+                <i class="fa fa-pencil"></i>
+            </span>
+        </div>
 
         <button  v-if="isAuthenticated" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -21,6 +36,7 @@
                 </li>
             </ul>
         </div>
+
         <div class="form-inline my-2 my-lg-0 ml-auto d-none d-lg-flex">
             <div class="details" v-if="trip">
                 <span>{{ trip.countries }} countries</span>
@@ -66,8 +82,24 @@
 
         methods: {
 
-            toggleEditMode(toggle) {
-                this.$store.commit('setEditMode', { state: toggle.value });
+            /**
+             * The reason toggle may be null is on the mobile button.
+             * If it is null, we check the current state of edit mode
+             * and set it as the opposite.
+             *
+             * @param toggle
+             */
+            toggleEditMode(toggle = null) {
+                let toggledEditMode = null;
+                if (toggle == null) {
+                    toggledEditMode = true;
+                    if (this.editMode == true) {
+                        toggledEditMode = false;
+                    }
+                } else {
+                    toggledEditMode = toggle.value;
+                }
+                this.$store.commit('setEditMode', { state: toggledEditMode });
             },
 
             addLocation() {

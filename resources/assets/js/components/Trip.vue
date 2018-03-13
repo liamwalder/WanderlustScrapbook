@@ -7,13 +7,16 @@
             <div class="col-sm-12 col-md-12 col-lg-8 col-xl-7 left-side">
                 <div class="sidebar">
                     <div class="row" v-show="!addingEntry && !addingLocation & !addingMedia">
-                        <div class="col content divider">
+                        <div
+                            v-bind:class="{ 'col-xs-12 col-sm-12': !menuSelectedLocation && !viewingAllActivity, 'd-none d-md-block': menuSelectedLocation || viewingAllActivity }"
+                            class="col-md-6 col-lg-6 col-xl-6 content divider"
+                        >
                             <locations-list
                                 :locations="locations"
                             ></locations-list>
                         </div>
 
-                        <div class="col content">
+                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 content">
                             <sidebar
                                 :locations="locations"
                                 :selected-location="selectedLocation"
@@ -133,6 +136,14 @@
         computed: {
             editMode() {
                 return this.$store.getters.editMode;
+            },
+
+            menuSelectedLocation() {
+                return this.$store.getters.selectedLocation;
+            },
+
+            viewingAllActivity() {
+                return this.$store.getters.viewingAllActivity;
             }
         },
 

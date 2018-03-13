@@ -280,6 +280,7 @@ body {
 
     .sub-menu {
       display: flex;
+      flex-wrap: wrap;
       margin-bottom: 10px;
       a {
         color: grey;

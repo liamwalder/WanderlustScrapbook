@@ -67,8 +67,9 @@ Vue.component('single-entry-preview', require('./components/Entry/Preview.vue'))
  */
 const store = new Vuex.Store({
     state: {
-        authenticated: null,
         editMode: false,
+        authenticated: null,
+        viewingAllActivity: null,
         contentSidebar: {
             selectedEntry: null,
             selectedLocation: null,
@@ -88,9 +89,15 @@ const store = new Vuex.Store({
         },
         authenticated: function(state) {
             return state.authenticated;
+        },
+        viewingAllActivity: function(state) {
+            return state.viewingAllActivity
         }
     },
     mutations: {
+        setViewingAllActivity: function (state, payload) {
+            state.viewingAllActivity = payload.viewingAllActivity;
+        },
         setAuthenticated: function(state, payload) {
             state.authenticated = payload.authenticated;
         },

@@ -1,5 +1,5 @@
 <template>
-    <div v-if="trip">
+    <div v-if="trip" id="trip-name">
         <div v-show="!editMode">
             {{ trip.name }}
         </div>

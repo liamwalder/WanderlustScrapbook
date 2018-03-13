@@ -18,6 +18,11 @@
         </div>
         <div v-show="contentSidebarState.viewingAllImages || contentSidebarState.viewingAllEntries || contentSidebarState.selectedEntry !== null">
             <a v-on:click="back()">Back</a>
+            <span class="circle-separator"></span>
+        </div>
+        <div class="d-md-none d-lg-none d-xl-none">
+            <a v-on:click="goToLocationList()">Location List</a>
+            <span class="circle-separator"></span>
         </div>
     </div>
 
@@ -48,7 +53,13 @@
             showAllActivity() {
                 EventBus.$emit('marker-reset');
                 this.$store.commit('resetContentSidebar');
+                this.$store.commit('setViewingAllActivity', { viewingAllActivity: true });
                 EventBus.$emit('location-selection-reset');
+            },
+
+            goToLocationList() {
+                this.$store.commit('selectedLocation', { location: null });
+                this.$store.commit('setViewingAllActivity', { viewingAllActivity: null });
             },
 
             /**

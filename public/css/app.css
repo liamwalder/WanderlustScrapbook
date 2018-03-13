@@ -10980,6 +10980,11 @@ a.text-dark:hover, a.text-dark:focus {
   margin-top: 40px;
 }
 
+.trip-single .navbar-toggler {
+  padding: 0;
+  border: none;
+}
+
 .trip-single #trip {
   border-top: 1px solid #e4e4e4;
 }
@@ -11070,6 +11075,15 @@ a.text-dark:hover, a.text-dark:focus {
 
 .trip-single .navbar-brand {
   font-weight: 600;
+}
+
+.trip-single .navbar-brand .badge {
+  margin-left: 10px;
+}
+
+.trip-single .navbar-brand #trip-name {
+  display: inline-block;
+  float: left;
 }
 
 .trip-single #map {
@@ -11622,6 +11636,8 @@ body .content-sidebar .sub-menu {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   margin-bottom: 10px;
 }
 
