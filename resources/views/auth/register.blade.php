@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Register')
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -68,9 +70,6 @@
                             </div>
                         </div>
 
-                        <div>
-                            <a href="{{ route('login') }}">Log in</a>
-                        </div>
                     </form>
                 </div>
             </div>

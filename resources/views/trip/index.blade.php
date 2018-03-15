@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Trips')
+
 @section('content')
     <div class="container" id="trip-index">
         <div class="row">

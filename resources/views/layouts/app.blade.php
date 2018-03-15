@@ -11,12 +11,11 @@
             <meta name="api-token" content="{{ Auth::user()->api_token }}">
         @endif
 
-        <title>{{ config('app.name', 'Laravel') }}</title>
+        <title>@yield('title') - WanderlustScrapbook</title>
 
         <!-- Fonts -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,600" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css?family=Rock+Salt" rel="stylesheet">
 
         <link href="{{ asset('/css/app.css') }}" rel="stylesheet" type="text/css">
     </head>
@@ -66,8 +65,6 @@
 
         <!-- Scripts -->
         <script src="{{ asset('js/app.js') }}"></script>
-        {{--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>--}}
-        {{--<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>--}}
         @yield('footer-scripts')
     </body>
 </html>

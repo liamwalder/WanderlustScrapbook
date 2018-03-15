@@ -15,7 +15,7 @@ class User extends Authenticatable
      * @var array
      */
     protected $fillable = [
-        'name', 'email', 'password', 'api_token'
+        'name', 'email', 'password', 'api_token', 'authenticated'
     ];
 
     /**
@@ -33,5 +33,13 @@ class User extends Authenticatable
     public function trips()
     {
         return $this->hasMany(Trip::class);
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasOne
+     */
+    public function verifyUser()
+    {
+        return $this->hasOne(VerifyUser::class);
     }
 }

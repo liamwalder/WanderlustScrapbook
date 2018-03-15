@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', 'Login')
+
 @section('content')
 <div class="container">
     <div class="row">
@@ -7,6 +9,9 @@
             <div class="col-md-12 content-block">
                 <h2 class="heading">Login</h2>
                 <div>
+
+                    @include('shared.messages')
+
                     <form class="form-horizontal" method="POST" action="{{ route('login') }}">
 
                         {!! csrf_field() !!}
@@ -56,7 +61,6 @@
                         </div>
 
                         <div>
-                            <a href="{{ route('register') }}">Register</a>
                             <a class="float-right" href="{{ route('password.request') }}">Forgot Your Password?</a>
                         </div>
 

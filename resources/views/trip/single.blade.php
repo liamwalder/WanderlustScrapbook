@@ -1,5 +1,7 @@
 @extends('layouts.app')
 
+@section('title', $trip->name)
+
 @section('bodyClass', 'trip-single')
 @section('navbarClass', 'container-fluid')
 

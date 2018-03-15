@@ -13,6 +13,9 @@
 
 Auth::routes();
 
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+Route::get('/user/verify/{token}', 'Auth\RegisterController@verifyUser');
+
 Route::group(['middleware' => ['auth']], function () {
 
     Route::get('/', function() {
