@@ -9,6 +9,9 @@
             <div class="col-md-12 content-block">
                 <h2 class="heading">Reset Password</h2>
                 <div>
+
+                    @include('shared.messages')
+
                     <form class="form-horizontal" method="POST" action="{{ route('password.request') }}">
                         {{ csrf_field() }}
 
@@ -19,7 +22,6 @@
 
                             <div>
                                 <input id="email" type="email" class="form-control" name="email" value="{{ $email or old('email') }}" required autofocus>
-
                                 @if ($errors->has('email'))
                                     <span class="help-block">
                                         <strong>{{ $errors->first('email') }}</strong>

@@ -53,7 +53,7 @@ class TripController extends Controller
     /**
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function create()
+    public function create(Request $request)
     {
         return view('trip.create');
     }

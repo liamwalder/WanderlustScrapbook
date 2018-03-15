@@ -11290,6 +11290,12 @@ body label {
   font-family: 'Montserrat', sans-serif !important;
 }
 
+body ul.errors {
+  padding: 0;
+  list-style: none;
+  margin-bottom: 0;
+}
+
 body a.instruction,
 body span.instruction {
   color: #17a2b8 !important;

@@ -8,7 +8,7 @@
         <div class="col-md-12">
             <div class="col-md-12 content-block">
                 <h2 class="heading">Reset Password</h2>
-                <div class="panel-body">
+                <div>
 
                     @include('shared.messages')
 

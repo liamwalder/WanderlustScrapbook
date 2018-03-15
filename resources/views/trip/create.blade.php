@@ -9,7 +9,7 @@
                 <div class="col-md-12 content-block">
                     <h2 class="heading">Add a trip</h2>
 
-                    @include('shared.errors')
+                    @include('shared.messages')
 
                     <form method="post" action="{{ route('trip.store') }}">
                         {{ csrf_field() }}
