@@ -16,7 +16,10 @@
                             ></locations-list>
                         </div>
 
-                        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 content">
+                        <div
+                            v-bind:class="{ 'col-xs-12 col-sm-12': menuSelectedLocation || viewingAllActivity, 'd-none d-md-block': !menuSelectedLocation && !viewingAllActivity }"
+                            class="col-md-6 col-lg-6 col-xl-6 content"
+                        >
                             <sidebar
                                 :locations="locations"
                                 :selected-location="selectedLocation"

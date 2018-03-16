@@ -94437,6 +94437,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -96364,8 +96367,13 @@ var render = function() {
                     _c(
                       "div",
                       {
-                        staticClass:
-                          "col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6 content"
+                        staticClass: "col-md-6 col-lg-6 col-xl-6 content",
+                        class: {
+                          "col-xs-12 col-sm-12":
+                            _vm.menuSelectedLocation || _vm.viewingAllActivity,
+                          "d-none d-md-block":
+                            !_vm.menuSelectedLocation && !_vm.viewingAllActivity
+                        }
                       },
                       [
                         _c("sidebar", {
