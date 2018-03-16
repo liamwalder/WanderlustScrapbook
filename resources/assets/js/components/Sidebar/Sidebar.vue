@@ -2,7 +2,7 @@
     <div class="content-sidebar">
         <div v-show="selectedLocation.length == 0">
             <navigation></navigation>
-            <h3>All Activity</h3>
+            <h4>All Activity</h4>
             <hr>
             <single-location-gallery
                 :view-all="true"

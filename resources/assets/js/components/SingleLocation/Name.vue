@@ -1,6 +1,6 @@
 <template>
     <div class="location-name">
-        <h3 v-show="!editMode">{{ location.name }}</h3>
+        <h4 v-show="!editMode">{{ location.name }}</h4>
         <div v-show="editMode">
             <label>Name</label>
             <input type="text" class="form-control" v-model="name" v-on:blur="saveName()" />
