@@ -10,13 +10,15 @@
                 <strong>{{ trip.miles }}</strong> miles<br>
                 <strong>{{ trip.locationCount }}</strong> locations
             </b-tooltip>
-            <span id="edit-trip"
-                  v-on:click="toggleEditMode()"
-                  class="badge badge-pill d-xs-inline-block d-lg-none"
-                  v-bind:class="{ 'badge-secondary': !editMode, 'badge-warning': editMode }"
-            >
-                <i class="fa fa-pencil"></i>
-            </span>
+            <toggle-button
+                :cssColors="true"
+                :value="editMode"
+                :width="toggleWidth"
+                v-if="isAuthenticated"
+                @change="toggleEditMode"
+                class="d-xs-inline-block d-lg-none mobile-edit-toggle"
+                :labels="{ checked: 'Edit', unchecked: 'Edit' }"
+            />
         </div>
 
         <button  v-if="isAuthenticated" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,7 +53,7 @@
                 :value="editMode"
                 :width="toggleWidth"
                 @change="toggleEditMode"
-                :labels="{ checked: 'Edit mode enabled', unchecked: 'Edit mode disabled' }"
+                :labels="{ checked: 'Edit', unchecked: 'Edit' }"
             />
         </div>
 
@@ -67,7 +69,7 @@
 
         data () {
             return {
-                toggleWidth: 135
+                toggleWidth: 55
             }
         },
 

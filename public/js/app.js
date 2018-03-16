@@ -96610,6 +96610,8 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
 
 
 
@@ -96619,7 +96621,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
     data: function data() {
         return {
-            toggleWidth: 135
+            toggleWidth: 55
         };
     },
 
@@ -96714,23 +96716,18 @@ var render = function() {
               )
             : _vm._e(),
           _vm._v(" "),
-          _c(
-            "span",
-            {
-              staticClass: "badge badge-pill d-xs-inline-block d-lg-none",
-              class: {
-                "badge-secondary": !_vm.editMode,
-                "badge-warning": _vm.editMode
-              },
-              attrs: { id: "edit-trip" },
-              on: {
-                click: function($event) {
-                  _vm.toggleEditMode()
-                }
-              }
-            },
-            [_c("i", { staticClass: "fa fa-pencil" })]
-          )
+          _vm.isAuthenticated
+            ? _c("toggle-button", {
+                staticClass: "d-xs-inline-block d-lg-none mobile-edit-toggle",
+                attrs: {
+                  cssColors: true,
+                  value: _vm.editMode,
+                  width: _vm.toggleWidth,
+                  labels: { checked: "Edit", unchecked: "Edit" }
+                },
+                on: { change: _vm.toggleEditMode }
+              })
+            : _vm._e()
         ],
         1
       ),
@@ -96840,10 +96837,7 @@ var render = function() {
                   cssColors: true,
                   value: _vm.editMode,
                   width: _vm.toggleWidth,
-                  labels: {
-                    checked: "Edit mode enabled",
-                    unchecked: "Edit mode disabled"
-                  }
+                  labels: { checked: "Edit", unchecked: "Edit" }
                 },
                 on: { change: _vm.toggleEditMode }
               })
