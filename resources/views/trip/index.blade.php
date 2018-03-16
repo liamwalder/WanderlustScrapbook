@@ -7,7 +7,7 @@
         <div class="row">
             <div class="col-md-12">
                 <div class="col-md-12 content-block">
-                    <h2 class="heading">Your Trips</h2>
+                    <h3 class="heading">Your Trips</h3>
                     <div class="trips">
                         @if ($trips->count() !== 0)
                             @foreach($trips as $trip)
