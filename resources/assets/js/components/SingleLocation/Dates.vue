@@ -70,6 +70,13 @@
         },
 
         methods: {
+
+
+            confirmed() {
+                console.log('ere');
+            },
+
+
             saveDates() {
                 let self = this;
                 let toDate = new Date(this.to);

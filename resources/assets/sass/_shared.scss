@@ -31,10 +31,10 @@
  color: black;
   .mx-calendar-table {
     td.current {
-      background-color: $trip-primary;
+      background-color: $trip-primary !important;
     }
     .today {
-      color: $trip-primary;
+      color: $trip-primary !important;
     }
   }
 }
@@ -151,4 +151,9 @@ nav {
   a {
     color: $trip-primary !important;
   }
+}
+
+.mx-datepicker-popup {
+  right: auto !important;
+  bottom: auto !important;
 }

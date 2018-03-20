@@ -103713,6 +103713,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     },
 
     methods: {
+        confirmed: function confirmed() {
+            console.log('ere');
+        },
         saveDates: function saveDates() {
             var self = this;
             var toDate = new Date(this.to);

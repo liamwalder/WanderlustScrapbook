@@ -11140,11 +11140,11 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .mx-datepicker-popup .mx-calendar-table td.current {
-  background-color: #17a2b8;
+  background-color: #17a2b8 !important;
 }
 
 .mx-datepicker-popup .mx-calendar-table .today {
-  color: #17a2b8;
+  color: #17a2b8 !important;
 }
 
 nav.main .container-fluid {
@@ -11269,6 +11269,11 @@ nav.margin-bottom {
 
 .user-actions.navbar-nav a {
   color: #17a2b8 !important;
+}
+
+.mx-datepicker-popup {
+  right: auto !important;
+  bottom: auto !important;
 }
 
 body,
