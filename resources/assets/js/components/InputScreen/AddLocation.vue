@@ -26,29 +26,27 @@
             </div>
 
             <div class="form-group">
-                <label>From</label>
-                <date-picker
-                        input-class="form-control"
-                        v-model="from"
-                        lang="en"
-                        placeholder="12/07/2017"
-                        format="dd/MM/yyyy"
-                        :not-after="notAfterDate == null ? '' : notAfterDate"
-                        width="0"
-                ></date-picker>
+                <label>From*</label>
+                <datepicker
+                    :limit="fromLimit"
+                    class="form-control"
+                    :date="{ time: from }"
+                    :default-date="fromDefault"
+                    @change="fromDateChanged"
+                    :option="datepickerOptions"
+                ></datepicker>
             </div>
 
             <div class="form-group">
-                <label>To</label>
-                <date-picker
-                        input-class="form-control"
-                        v-model="to"
-                        lang="en"
-                        format="dd/MM/yyyy"
-                        placeholder="19/07/2017"
-                        :not-before="notBeforeDate"
-                        :width="0"
-                ></date-picker>
+                <label>To*</label>
+                <datepicker
+                    :limit="toLimit"
+                    class="form-control"
+                    :date="{ time: to }"
+                    @change="toDateChanged"
+                    :default-date="toDefault"
+                    :option="datepickerOptions"
+                ></datepicker>
             </div>
 
             <div class="form-group save-entry">
@@ -59,25 +57,49 @@
 </template>
 
 <script>
+
+    import myDatepicker from 'vue-datepicker';
     import { EventBus } from '../../event-bus';
-    import DatePicker from 'vue2-datepicker';
 
     export default {
 
         props: ['tripId', 'locations'],
 
-        components: { DatePicker },
+        components: {
+            'datepicker': myDatepicker
+        },
 
         data () {
             return {
-                to: null,
-                from: null,
                 name: null,
                 errors: [],
                 place: null,
                 country: null,
-                notAfterDate: null,
-                notBeforeDate: null
+
+                to: moment().add(1, 'days').format('DD/MM/YYYY'),
+                from: moment().format('DD/MM/YYYY'),
+
+                toDefault: moment().add(1, 'days').format('YYYY-MM-DD'),
+                fromDefault: moment().format('YYYY-MM-DD'),
+
+                fromLimit: [{
+                    type: 'fromto',
+                    from: '1970-01-01',
+                    to: this.toDefault
+                }],
+
+                toLimit: [{
+                    type: 'fromto',
+                    from: this.fromDefault,
+                    to: '2099-12-30'
+                }],
+
+                datepickerOptions: {
+                    type: 'day',
+                    month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    format: 'DD/MM/YYYY',
+                    placeholder: 'Select your date'
+                },
             }
         },
 
@@ -86,37 +108,53 @@
         },
 
         watch: {
-
             locations: function(locations) {
                 if (locations !== null && locations.length !== 0) {
                     let lastLocation = locations.slice(-1)[0];
-                    let lastLocationToDate = new Date(lastLocation.to);
-                    this.from = lastLocationToDate.getFullYear() + '-' + (lastLocationToDate.getMonth() + 1) + '-' + lastLocationToDate.getDate();
+                    this.from = moment(lastLocation.to).format('DD/MM/YYYY');
+                    this.fromDefault = moment(lastLocation.to).format('YYYY-MM-DD');
+
+                    this.to = moment(lastLocation.to).add(1, 'days').format('DD/MM/YYYY');
+                    this.toDefault = moment(lastLocation.to).add(1, 'days').format('YYYY-MM-DD');
+
+                    this.fromLimit[0].to = this.toDefault;
+                    this.toLimit[0].from = this.fromDefault;
                 }
-            },
-
-            from: function (from) {
-                let fromDate = new Date(from);
-                this.notBeforeDate = fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate();
-
-                let toDate = new Date(from);
-                let toDateAddOneDay = new Date(toDate.setDate(toDate.getDate() + 1));
-
-                this.to = toDateAddOneDay.getFullYear() + '-' + (toDateAddOneDay.getMonth() + 1) + '-' + toDateAddOneDay.getDate();
-            },
-            to: function (to) {
-                let toDate = new Date(to);
-                this.notAfterDate = toDate.getFullYear() + '-' + (toDate.getMonth() + 1) + '-' + toDate.getDate();
             }
         },
 
         methods: {
 
+            /**
+             * @param date
+             */
+            fromDateChanged(date) {
+                this.from = moment(date, 'DD/MM/YYYY').format('DD/MM/YYYY');
+                this.fromDefault = moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                this.toLimit[0].from = this.fromDefault;
+            },
+
+            /**
+             *
+             * @param date
+             */
+            toDateChanged(date) {
+                this.to = moment(date, 'DD/MM/YYYY').format('DD/MM/YYYY');
+                this.toDefault = moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                this.fromLimit[0].to = this.toDefault;
+            },
+
+            /**
+             *
+             */
             cancel () {
                 this.reset();
                 EventBus.$emit('input-screen-cancelled');
             },
 
+            /**
+             *
+             */
             reset() {
                 this.to = null;
                 this.from = null;
@@ -127,15 +165,16 @@
                 $('#autocomplete input').val('');
             },
 
+            /**
+             *
+             */
             addLocation() {
                 let self = this;
-                let toDate = new Date(this.to);
-                let fromDate = new Date(this.from);
 
                 let postData = {
                     name: this.name,
-                    to: toDate.getFullYear() + '-' + (toDate.getMonth() + 1) + '-' + toDate.getDate(),
-                    from: fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate()
+                    to: this.toDefault,
+                    from: this.fromDefault
                 };
 
                 if (this.place) {

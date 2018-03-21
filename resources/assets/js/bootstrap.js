@@ -11,6 +11,7 @@ try {
     window.$ = window.jQuery = require('jquery');
     window.Vue = require('vue');
     window.axios = require('axios');
+    window.moment = require('moment');
 
     require('bootstrap');
     require('blueimp-gallery/js/blueimp-gallery-video.js');

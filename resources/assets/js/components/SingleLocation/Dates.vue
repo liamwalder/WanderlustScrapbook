@@ -7,46 +7,71 @@
         <div class="location-add"  v-show="editMode">
             <div class="datepicker">
                 <label>From</label>
-                <date-picker
-                    lang="en"
-                    v-model="from"
-                    format="dd/MM/yyyy"
-                    placeholder="12/07/2017"
-                    :not-after="notAfterDate == null ? '' : notAfterDate"
-                ></date-picker>
+                <datepicker
+                    :limit="fromLimit"
+                    class="form-control"
+                    :date="{ time: from }"
+                    :default-date="fromDefault"
+                    @change="fromDateChanged"
+                    :option="datepickerOptions"
+                ></datepicker>
             </div>
             <div class="datepicker">
                 <label>To</label>
-                <date-picker
-                    lang="en"
-                    v-model="to"
-                    format="dd/MM/yyyy"
-                    placeholder="19/07/2017"
-                    :not-before="notBeforeDate"
-                ></date-picker>
+                <datepicker
+                    :limit="toLimit"
+                    class="form-control"
+                    :date="{ time: to }"
+                    @change="toDateChanged"
+                    :default-date="toDefault"
+                    :option="datepickerOptions"
+                ></datepicker>
             </div>
         </div>
-
     </div>
 </template>
 
 <script>
 
+
+    import myDatepicker from 'vue-datepicker';
     import DatePicker from 'vue2-datepicker';
     import { EventBus } from '../../event-bus';
 
     export default {
 
-        components: { DatePicker },
+        components: {
+            'datepicker': myDatepicker
+        },
 
         props: ['location'],
 
         data () {
             return {
-                to: this.location.to ? this.location.to : null,
-                from: this.location.from ? this.location.from : null,
-                notAfterDate: this.location.to ? this.location.to : null,
-                notBeforeDate: this.location.from ? this.location.from : null
+                to: this.location.to ? moment(this.location.to).format('DD/MM/YYYY') : null,
+                toDefault: this.location.to ? moment(this.location.to).format('YYYY-MM-DD') : null,
+
+                from: this.location.from ? moment(this.location.from).format('DD/MM/YYYY') : null,
+                fromDefault: this.location.from ? moment(this.location.from).format('YYYY-MM-DD') : null,
+
+                fromLimit: [{
+                    type: 'fromto',
+                    from: '1970-01-01',
+                    to: this.location.to ? moment(this.location.to).format('YYYY-MM-DD') : null
+                }],
+
+                toLimit: [{
+                    type: 'fromto',
+                    from: this.location.from ? moment(this.location.from).format('YYYY-MM-DD') : null,
+                    to: '2099-12-30'
+                }],
+
+                datepickerOptions: {
+                    type: 'day',
+                    month: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+                    format: 'DD/MM/YYYY',
+                    placeholder: 'when?'
+                },
             }
         },
 
@@ -56,35 +81,36 @@
             }
         },
 
-        watch: {
-            from: function(from) {
-                let fromDate = new Date(from);
-                this.notBeforeDate = fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate();
-                this.saveDates();
-            },
-            to: function(to) {
-                let toDate = new Date(to);
-                this.notAfterDate = toDate.getFullYear() + '-' + (toDate.getMonth() + 1) + '-' + toDate.getDate();
-                this.saveDates();
-            }
-        },
-
         methods: {
 
+            /**
+             * @param date
+             */
+            fromDateChanged(date) {
+                this.from = moment(date, 'DD/MM/YYYY').format('DD/MM/YYYY');
+                this.fromDefault = moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                this.toLimit[0].from = this.fromDefault;
 
-            confirmed() {
-                console.log('ere');
+                this.saveDates(this.toDefault, this.fromDefault);
+            },
+
+            /**
+             *
+             * @param date
+             */
+            toDateChanged(date) {
+                this.to = moment(date, 'DD/MM/YYYY').format('DD/MM/YYYY');
+                this.toDefault = moment(date, 'DD/MM/YYYY').format('YYYY-MM-DD');
+                this.fromLimit[0].to = this.toDefault;
+
+                this.saveDates(this.toDefault, this.fromDefault);
             },
 
 
-            saveDates() {
-                let self = this;
-                let toDate = new Date(this.to);
-                let fromDate = new Date(this.from);
-
+            saveDates(toDate, fromDate) {
                 let postData = {
-                    to: toDate.getFullYear() + '-' + (toDate.getMonth() + 1) + '-' + toDate.getDate(),
-                    from: fromDate.getFullYear() + '-' + (fromDate.getMonth() + 1) + '-' + fromDate.getDate()
+                    to: toDate,
+                    from: fromDate
                 };
 
                 axios.put('/api/location/' + this.location.id, postData)
