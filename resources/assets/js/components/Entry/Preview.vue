@@ -10,7 +10,7 @@
                     {{ entry.files.length }} <i class="fa fa-file-image-o" aria-hidden="true"></i>
                     {{ entry.entry_locations.length }} <i class="fa fa-map-marker" aria-hidden="true"></i>
                 </span>
-                <span class="float-right">{{ entry.created_at | moment("Do MMMM YYYY, HH:mmA") }}</span>
+                <span class="float-right">{{ entry.created_at | moment("DD/MM/YYYY, HH:mmA") }}</span>
             </p>
         </div>
     </div>
