@@ -10,20 +10,23 @@
                 <strong>{{ trip.miles }}</strong> miles<br>
                 <strong>{{ trip.locationCount }}</strong> locations
             </b-tooltip>
-            <toggle-button
-                :cssColors="true"
-                :value="editMode"
-                :width="toggleWidth"
-                v-if="isAuthenticated"
-                @change="toggleEditMode"
-                class="d-xs-inline-block d-lg-none mobile-edit-toggle"
-                :labels="{ checked: 'Edit', unchecked: 'Edit' }"
-            />
+
         </div>
 
-        <button  v-if="isAuthenticated" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+        <div class="ml-auto mobile-actions">
+            <toggle-button
+                    :cssColors="true"
+                    :value="editMode"
+                    :width="toggleWidth"
+                    v-if="isAuthenticated"
+                    @change="toggleEditMode"
+                    :labels="{ checked: 'Edit', unchecked: 'Edit' }"
+                    class="d-xs-inline-block d-lg-none mobile-edit-toggle"
+            />
+            <button  v-if="isAuthenticated" class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent" v-if="isAuthenticated">
             <ul class="navbar-nav mr-auto">

@@ -10996,6 +10996,10 @@ a.text-dark:hover, a.text-dark:focus {
   padding-right: 0;
 }
 
+.trip-single #single-trip-navbar .mobile-actions .vue-js-switch {
+  margin-right: 10px;
+}
+
 .trip-single .v-switch-core {
   background-color: grey !important;
 }
@@ -11077,7 +11081,7 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .trip-single .navbar-brand .badge {
-  margin-left: 10px;
+  margin-left: 5px;
 }
 
 .trip-single .navbar-brand #trip-name {
@@ -11269,11 +11273,6 @@ nav.margin-bottom {
 
 .user-actions.navbar-nav a {
   color: #17a2b8 !important;
-}
-
-.mx-datepicker-popup {
-  right: auto !important;
-  bottom: auto !important;
 }
 
 body,
@@ -11542,10 +11541,6 @@ body .edit-trip-name {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-}
-
-body .edit-trip-name input {
-  margin-right: 10px;
 }
 
 body .add-entry {

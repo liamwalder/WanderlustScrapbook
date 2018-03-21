@@ -96612,6 +96612,9 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
@@ -96714,8 +96717,15 @@ var render = function() {
                   _vm._v(" locations\n        ")
                 ]
               )
-            : _vm._e(),
-          _vm._v(" "),
+            : _vm._e()
+        ],
+        1
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "ml-auto mobile-actions" },
+        [
           _vm.isAuthenticated
             ? _c("toggle-button", {
                 staticClass: "d-xs-inline-block d-lg-none mobile-edit-toggle",
@@ -96727,28 +96737,28 @@ var render = function() {
                 },
                 on: { change: _vm.toggleEditMode }
               })
+            : _vm._e(),
+          _vm._v(" "),
+          _vm.isAuthenticated
+            ? _c(
+                "button",
+                {
+                  staticClass: "navbar-toggler",
+                  attrs: {
+                    type: "button",
+                    "data-toggle": "collapse",
+                    "data-target": "#navbarSupportedContent",
+                    "aria-controls": "navbarSupportedContent",
+                    "aria-expanded": "false",
+                    "aria-label": "Toggle navigation"
+                  }
+                },
+                [_c("span", { staticClass: "navbar-toggler-icon" })]
+              )
             : _vm._e()
         ],
         1
       ),
-      _vm._v(" "),
-      _vm.isAuthenticated
-        ? _c(
-            "button",
-            {
-              staticClass: "navbar-toggler",
-              attrs: {
-                type: "button",
-                "data-toggle": "collapse",
-                "data-target": "#navbarSupportedContent",
-                "aria-controls": "navbarSupportedContent",
-                "aria-expanded": "false",
-                "aria-label": "Toggle navigation"
-              }
-            },
-            [_c("span", { staticClass: "navbar-toggler-icon" })]
-          )
-        : _vm._e(),
       _vm._v(" "),
       _vm.isAuthenticated
         ? _c(

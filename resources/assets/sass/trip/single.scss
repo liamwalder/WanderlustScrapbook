@@ -13,6 +13,11 @@
     box-shadow: none;
     padding-left: 0;
     padding-right: 0;
+    .mobile-actions {
+      .vue-js-switch {
+        margin-right: 10px;
+      }
+    }
   }
 
   .v-switch-core {
@@ -95,7 +100,7 @@
   .navbar-brand {
     font-weight: 600;
     .badge {
-      margin-left: 10px;
+      margin-left: 5px;
     }
     #trip-name {
       display: inline-block;
