@@ -97075,6 +97075,11 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 self.removeLocationFromMap(location);
                 self.addLocationToMap(location, false, 'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue' + (key + 1) + '.png', { entry: entry });
             });
+            self.center = {
+                lat: parseFloat(entry.location.latitude),
+                lng: parseFloat(entry.location.longitude)
+            };
+            self.zoom = 9;
         });
 
         __WEBPACK_IMPORTED_MODULE_3__event_bus__["a" /* EventBus */].$on('marker-reset', function () {
@@ -106168,11 +106173,20 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 //
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['entry'],
+
+    computed: {
+        selectedLocation: function selectedLocation() {
+            return this.$store.getters.selectedLocation;
+        }
+    },
 
     methods: {
         selectEntry: function selectEntry(entry) {
@@ -106201,7 +106215,12 @@ var render = function() {
           }
         }
       },
-      [_vm._v(_vm._s(_vm.entry.title))]
+      [
+        _vm._v("\n        " + _vm._s(_vm.entry.title) + "\n        "),
+        !_vm.selectedLocation
+          ? _c("small", [_vm._v(_vm._s(_vm.entry.location.name))])
+          : _vm._e()
+      ]
     ),
     _vm._v(" "),
     _c("p", { staticClass: "entry-content" }, [

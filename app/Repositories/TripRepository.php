@@ -36,6 +36,7 @@ class TripRepository {
             $query->with(['entries' => function($query) {
                 $query->orderBy('created_at', 'DESC');
                 $query->with('files');
+                $query->with('location');
                 $query->with(['entryLocations' => function($query) {
                     $query->with(['entry' => function($query) {
                             $query->with('entryLocations');

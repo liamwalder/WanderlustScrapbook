@@ -90,7 +90,12 @@
                         'https://raw.githubusercontent.com/Concept211/Google-Maps-Markers/master/images/marker_blue' + (key + 1) + '.png',
                         { entry: entry }
                     );
-                })
+                });
+                self.center = {
+                    lat: parseFloat(entry.location.latitude),
+                    lng: parseFloat(entry.location.longitude)
+                }
+                self.zoom = 9;
             });
 
             EventBus.$on('marker-reset', function() {

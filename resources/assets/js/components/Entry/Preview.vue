@@ -1,6 +1,9 @@
 <template>
     <div class="entry">
-        <h6 class="entry-title" v-on:click="selectEntry(entry)">{{ entry.title }}</h6>
+        <h6 class="entry-title" v-on:click="selectEntry(entry)">
+            {{ entry.title }}
+            <small v-if="!selectedLocation">{{ entry.location.name }}</small>
+        </h6>
         <p class="entry-content">
             {{ entry.content | truncate(200) }}
         </p>
@@ -21,6 +24,12 @@
 
     export default {
         props: ['entry'],
+
+        computed: {
+            selectedLocation() {
+                return this.$store.getters.selectedLocation;
+            }
+        },
 
         methods: {
             selectEntry(entry) {
