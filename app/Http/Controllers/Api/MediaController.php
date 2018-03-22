@@ -10,6 +10,7 @@ use App\Services\MediaService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Validator;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 use Symfony\Component\HttpFoundation\Request;
 
 /**
@@ -20,18 +21,22 @@ class MediaController extends Controller {
 
     /**
      * @param Request $request
+     * @param MediaService $mediaService
+     * @return \Illuminate\Http\JsonResponse
      */
     public function store(Request $request, MediaService $mediaService)
     {
         $mediaFiles = [];
 
         foreach ($request->files->all() as $file) {
+
             $extension = $file->getClientOriginalExtension();
             $filename = md5($file->getFilename().time()).'.'.$extension;
 
             Storage::disk('local')->put($filename,  File::get($file));
 
             $thumbnail = $mediaService->generateThumbnail($file, $filename);
+            $mediaService->compressImage(storage_path() . '/app/' . $filename);
 
             $mediaFile = new \App\File();
             $mediaFile->uuid = $request->get('uuid');
@@ -43,6 +48,7 @@ class MediaController extends Controller {
             $mediaFile->save();
 
             $mediaFiles[] = $mediaFile;
+
         }
 
         return response()->json($mediaFiles, 200);

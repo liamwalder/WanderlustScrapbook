@@ -8,6 +8,13 @@ RUN apt-get install -y libmcrypt-dev ffmpeg gnupg
 RUN curl -sL https://deb.nodesource.com/setup_9.x | bash
 RUN apt-get install -y nodejs
 
+# Install compression tools
+RUN apt-get install optipng
+RUN apt-get install pngquant
+RUN apt-get install gifsicle
+RUN npm install -g svgo
+RUN apt-get install -y jpegoptim --no-install-recommends
+
 RUN docker-php-ext-install pdo_mysql
 
 ## Installing Yarn

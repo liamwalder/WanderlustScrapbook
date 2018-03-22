@@ -7,6 +7,7 @@ use App\Location;
 use App\Repositories\FileRepository;
 use App\Trip;
 use Lakshmaji\Thumbnail\Facade\Thumbnail;
+use Spatie\LaravelImageOptimizer\Facades\ImageOptimizer;
 
 
 /**
@@ -35,6 +36,14 @@ class MediaService {
         }
 
         return $filename;
+    }
+
+    /**
+     * @param $filePath
+     */
+    public function compressImage($filePath)
+    {
+        ImageOptimizer::optimize($filePath);
     }
 
 }
