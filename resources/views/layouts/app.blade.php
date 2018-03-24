@@ -24,7 +24,9 @@
         <div id="app">
             <nav class="navbar navbar-light navbar-expand-lg bg-faded margin-bottom main">
                 <div class="@yield('navbarClass', 'container')">
-                    <a class="navbar-brand" href="/" id="logo">WanderlustScrapbook</a>
+                    <a class="navbar-brand" href="/" id="logo">
+                        <img src="{{ asset('images/logo.png') }}" width="230px">
+                    </a>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
                     </button>
