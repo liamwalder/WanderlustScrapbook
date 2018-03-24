@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-12 content-block">
-                <h2 class="heading">Register</h2>
+                <h3 class="heading">Register</h3>
                 <div>
                     <form class="form-horizontal" method="POST" action="{{ route('register') }}">
                         {{ csrf_field() }}

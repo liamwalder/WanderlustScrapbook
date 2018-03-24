@@ -7,7 +7,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="col-md-12 content-block">
-                <h2 class="heading">Login</h2>
+                <h3 class="heading">Login</h3>
                 <div>
 
                     @include('shared.messages')
