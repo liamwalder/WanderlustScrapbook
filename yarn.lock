@@ -7506,6 +7506,10 @@ vue-loader@^13.7.0:
     vue-style-loader "^3.0.0"
     vue-template-es2015-compiler "^1.6.0"
 
+vue-loading-overlay@^2.0.4:
+  version "2.0.4"
+  resolved "https://registry.yarnpkg.com/vue-loading-overlay/-/vue-loading-overlay-2.0.4.tgz#856431b40ad6c3ce44c240f9c7bdf9b0c5e88f49"
+
 vue-moment@^3.2.0:
   version "3.2.0"
   resolved "https://registry.yarnpkg.com/vue-moment/-/vue-moment-3.2.0.tgz#28cd2b313831ae83953f646ac4785a2cc724e412"

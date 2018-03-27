@@ -5,10 +5,12 @@ import Vue from 'vue';
 import Vuex from 'vuex';
 import { EventBus } from './event-bus';
 import BootstrapVue from 'bootstrap-vue';
+import Loading from 'vue-loading-overlay';
 import ToggleButton from 'vue-js-toggle-button';
 import * as VueGoogleMaps from 'vue2-google-maps';
 
 Vue.use(Vuex);
+Vue.use(Loading);
 Vue.use(ToggleButton);
 Vue.use(BootstrapVue);
 Vue.use(require('vue-moment'));
@@ -21,7 +23,6 @@ Vue.use(VueGoogleMaps, {
         // (as you require)
     }
 });
-
 
 /**
  * Filters

@@ -108,7 +108,12 @@
                 formData.append('uuid', file.upload.uuid);
             },
 
+            /**
+             * Save media
+             */
             saveMedia() {
+                let loader = this.$loading.show();
+
                 let captions = [];
                 this.$refs.mediaUpload.getAcceptedFiles().forEach(function(file) {
                     captions.push({
@@ -130,9 +135,11 @@
                         EventBus.$emit('refresh-trip');
                         $('.file-upload-row').remove();
                         $('.vue-dropzone .dz-default').show();
+                        loader.hide();
                     })
                     .catch(function (error) {
                         self.errors = error.response.data;
+                        loader.hide();
                     });
             },
 

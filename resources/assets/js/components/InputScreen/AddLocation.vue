@@ -166,9 +166,12 @@
             },
 
             /**
-             *
+             * Add location
              */
             addLocation() {
+
+                let loader = this.$loading.show();
+
                 let self = this;
 
                 let postData = {
@@ -190,9 +193,11 @@
                         self.reset();
                         EventBus.$emit('refresh-trip');
                         EventBus.$emit('map-set-center', postData['location']);
+                        loader.hide();
                     })
                     .catch(function (error) {
                         self.errors = error.response.data;
+                        loader.hide();
                     });
 
             },

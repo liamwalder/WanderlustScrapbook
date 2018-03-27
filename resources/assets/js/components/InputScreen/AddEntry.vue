@@ -175,6 +175,9 @@
             },
 
             saveEntry() {
+
+                let loader = this.$loading.show();
+
                 let captions = [];
                 this.$refs.mediaUpload.getAcceptedFiles().forEach(function(file) {
                     captions.push({
@@ -200,9 +203,11 @@
                             EventBus.$emit('refresh-trip');
                             $('.file-upload-row').remove();
                             $('.vue-dropzone .dz-default').show();
+                            loader.hide();
                         })
                         .catch(function (error) {
                             self.errors = error.response.data;
+                            loader.hide();
                         });
                 } else {
                     axios.post('/api/entry', postData)
@@ -211,9 +216,11 @@
                             EventBus.$emit('refresh-trip');
                             $('.file-upload-row').remove();
                             $('.vue-dropzone .dz-default').show();
+                            loader.hide();
                         })
                         .catch(function (error) {
                             self.errors = error.response.data;
+                            loader.hide();
                         });
                 }
 
