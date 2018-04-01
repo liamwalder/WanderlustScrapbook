@@ -445,3 +445,19 @@ body {
     }
   }
 }
+
+.twitter-icon {
+  color: white;
+  background-color: #1da1f2;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+}
+
+.navbar-content {
+  display: flex;
+  align-items: baseline;
+}
