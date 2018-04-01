@@ -52,6 +52,7 @@
         data () {
             return {
                 errors: [],
+                fileUploadingSpinner: null,
                 title: null,
                 location: [],
                 filesAttachedToLocation: [],
@@ -105,6 +106,7 @@
             },
 
             sendingFile(file, xhr, formData) {
+                this.fileUploadingSpinner = this.$loading.show();
                 formData.append('uuid', file.upload.uuid);
             },
 
@@ -146,6 +148,7 @@
             successUpload(file, response) {
                 file.previewElement.querySelector("img").src = response[0].thumbnail;
                 this.filesAttachedToLocation.push(response[0].filename);
+                this.fileUploadingSpinner.hide();
             },
 
             removeFile(file) {

@@ -98194,6 +98194,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
     data: function data() {
         return {
             errors: [],
+            fileUploadingSpinner: null,
             title: null,
             location: [],
             filesAttachedToLocation: [],
@@ -98245,6 +98246,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             __WEBPACK_IMPORTED_MODULE_0__event_bus__["a" /* EventBus */].$emit('input-screen-cancelled');
         },
         sendingFile: function sendingFile(file, xhr, formData) {
+            this.fileUploadingSpinner = this.$loading.show();
             formData.append('uuid', file.upload.uuid);
         },
 
@@ -98284,6 +98286,7 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
         successUpload: function successUpload(file, response) {
             file.previewElement.querySelector("img").src = response[0].thumbnail;
             this.filesAttachedToLocation.push(response[0].filename);
+            this.fileUploadingSpinner.hide();
         },
         removeFile: function removeFile(file) {
             axios.delete('/api/files/uuid/' + file.upload.uuid).then(function (response) {}).catch(function (error) {});
