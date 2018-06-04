@@ -28,9 +28,6 @@
                         <a class="navbar-brand" href="/" id="logo">
                             <img src="{{ asset('images/logo.png') }}" width="230px">
                         </a>
-                        <a href="https://twitter.com/WanderScrapbook" target="_blank" class="twitter-icon">
-                            <i class="fa fa-twitter"></i>
-                        </a>
                     </div>
                     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                         <span class="navbar-toggler-icon"></span>
