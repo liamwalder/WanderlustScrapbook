@@ -4669,9 +4669,9 @@ moment-timezone@^0.5.14:
   dependencies:
     moment ">= 2.9.0"
 
-"moment@>= 2.9.0", moment@^2.11.1, moment@^2.21.0:
-  version "2.21.0"
-  resolved "https://registry.yarnpkg.com/moment/-/moment-2.21.0.tgz#2a114b51d2a6ec9e6d83cf803f838a878d8a023a"
+"moment@>= 2.9.0", moment@^2.11.1, moment@^2.19.2, moment@^2.21.0:
+  version "2.27.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.27.0.tgz#8bff4e3e26a236220dfe3e36de756b6ebaa0105d"
 
 move-concurrently@^1.0.1:
   version "1.0.1"
@@ -7510,11 +7510,11 @@ vue-loading-overlay@^2.0.4:
   version "2.0.4"
   resolved "https://registry.yarnpkg.com/vue-loading-overlay/-/vue-loading-overlay-2.0.4.tgz#856431b40ad6c3ce44c240f9c7bdf9b0c5e88f49"
 
-vue-moment@^3.2.0:
-  version "3.2.0"
-  resolved "https://registry.yarnpkg.com/vue-moment/-/vue-moment-3.2.0.tgz#28cd2b313831ae83953f646ac4785a2cc724e412"
+vue-moment@^4.1.0:
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/vue-moment/-/vue-moment-4.1.0.tgz#092a8ff723a96c6f85a0a8e23ad30f0bf320f3b0"
   dependencies:
-    moment "^2.11.1"
+    moment "^2.19.2"
 
 vue-resize@^0.4.3:
   version "0.4.4"
